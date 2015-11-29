@@ -1,7 +1,9 @@
 var TruxCollection = function (name, modelClass) {
+    'use strict';
+    
     Trux.call(this);
     this.prototype = Trux;
-    
+
     this.collectionName = name;
     this.modelClass = modelClass;
     this.models = [];

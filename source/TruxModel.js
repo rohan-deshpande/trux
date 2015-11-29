@@ -1,4 +1,6 @@
 var TruxModel = function (name) {
+    'use strict';
+    
     Trux.call(this);
     this.prototype = Trux;
 

@@ -1,4 +1,6 @@
 var Trux = function () {
+    'use strict';
+    
     var _this = this;
     var proto = this.prototype;
     var ls = localStorage;
