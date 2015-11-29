@@ -1,8 +1,7 @@
 var Trux = function () {
     'use strict';
-    
+
     var _this = this;
-    var proto = this.prototype;
     var ls = localStorage;
 
     this.components = {};
@@ -25,17 +24,17 @@ var Trux = function () {
         }
     }
 
-    proto.bindComponent = function (component) {
+    this.bindComponent = function (component) {
         _this.components[component.componentId] = component;
     };
 
-    proto.unbindComponent = function (component) {
+    this.unbindComponent = function (component) {
         if (typeof _this.components[component.componentId] === 'undefined') return;
 
         delete _this.components[component.componentId];
     };
 
-    proto.emitChangeEvent = function () {
+    this.emitChangeEvent = function () {
         _this.emitter.emitEvent('change');
     };
 };
