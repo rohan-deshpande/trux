@@ -1,0 +1,26 @@
+{
+  "name": "trux",
+  "description": "A micro data framework for ReactJS",
+  "main": "dist/Trux.js",
+  "moduleType": [],
+  "keywords": [
+    "reactjs"
+  ],
+  "authors": [
+    "Rohan Deshpande"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "eventEmitter": "~4.3.0",
+    "qwest": "~2.2.3"
+  }
+}
