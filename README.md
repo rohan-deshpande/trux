@@ -1,8 +1,6 @@
 # Trux
 ## A micro data framework for ReactJS
 
-### !NOTE this is WIP and is no where ready for use in any way at all!
-
 Trux is a simple yet effective way of managing data for your React app. It comes packed with two data store types, `TruxModel` and `TruxCollection` which you are encouraged to extend for your own use cases.
 
 Trux is based on the concept of inheritance, which means any `new TruxModel` or `new TruxCollection` you instantiate will have access to the base methods of those objects, but will also be extendible with custom methods.
