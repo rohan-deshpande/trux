@@ -5,6 +5,8 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var order = require('gulp-order');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 var paths = {
     'vendor':[
         'bower_components/qwest/qwest.min.js',
@@ -40,8 +42,17 @@ gulp.task('build', ['app'], function () {
     .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('watch', function () {
-    gulp.watch([paths.app], ['build']);
+gulp.task('uglify', ['build'], function () {
+    return gulp.src(paths.dist + 'trux.js')
+    .pipe(uglify())
+    .pipe(rename({
+        extname:'.min.js'
+    }))
+    .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('watch', function () {
+    gulp.watch([paths.app], ['build', 'uglify']);
+});
+
+gulp.task('default', ['build', 'uglify', 'watch']);

@@ -6,11 +6,20 @@
  * @preserve
  */
 (function(){"use strict";function t(){}function i(t,n){for(var e=t.length;e--;)if(t[e].listener===n)return e;return-1}function n(e){return function(){return this[e].apply(this,arguments)}}var e=t.prototype,r=this,s=r.EventEmitter;e.getListeners=function(n){var r,e,t=this._getEvents();if(n instanceof RegExp){r={};for(e in t)t.hasOwnProperty(e)&&n.test(e)&&(r[e]=t[e])}else r=t[n]||(t[n]=[]);return r},e.flattenListeners=function(t){var e,n=[];for(e=0;e<t.length;e+=1)n.push(t[e].listener);return n},e.getListenersAsObject=function(n){var e,t=this.getListeners(n);return t instanceof Array&&(e={},e[n]=t),e||t},e.addListener=function(r,e){var t,n=this.getListenersAsObject(r),s="object"==typeof e;for(t in n)n.hasOwnProperty(t)&&-1===i(n[t],e)&&n[t].push(s?e:{listener:e,once:!1});return this},e.on=n("addListener"),e.addOnceListener=function(e,t){return this.addListener(e,{listener:t,once:!0})},e.once=n("addOnceListener"),e.defineEvent=function(e){return this.getListeners(e),this},e.defineEvents=function(t){for(var e=0;e<t.length;e+=1)this.defineEvent(t[e]);return this},e.removeListener=function(r,s){var n,e,t=this.getListenersAsObject(r);for(e in t)t.hasOwnProperty(e)&&(n=i(t[e],s),-1!==n&&t[e].splice(n,1));return this},e.off=n("removeListener"),e.addListeners=function(e,t){return this.manipulateListeners(!1,e,t)},e.removeListeners=function(e,t){return this.manipulateListeners(!0,e,t)},e.manipulateListeners=function(r,t,i){var e,n,s=r?this.removeListener:this.addListener,o=r?this.removeListeners:this.addListeners;if("object"!=typeof t||t instanceof RegExp)for(e=i.length;e--;)s.call(this,t,i[e]);else for(e in t)t.hasOwnProperty(e)&&(n=t[e])&&("function"==typeof n?s.call(this,e,n):o.call(this,e,n));return this},e.removeEvent=function(e){var t,r=typeof e,n=this._getEvents();if("string"===r)delete n[e];else if(e instanceof RegExp)for(t in n)n.hasOwnProperty(t)&&e.test(t)&&delete n[t];else delete this._events;return this},e.removeAllListeners=n("removeEvent"),e.emitEvent=function(t,u){var n,e,r,i,o,s=this.getListenersAsObject(t);for(i in s)if(s.hasOwnProperty(i))for(n=s[i].slice(0),r=n.length;r--;)e=n[r],e.once===!0&&this.removeListener(t,e.listener),o=e.listener.apply(this,u||[]),o===this._getOnceReturnValue()&&this.removeListener(t,e.listener);return this},e.trigger=n("emitEvent"),e.emit=function(e){var t=Array.prototype.slice.call(arguments,1);return this.emitEvent(e,t)},e.setOnceReturnValue=function(e){return this._onceReturnValue=e,this},e._getOnceReturnValue=function(){return this.hasOwnProperty("_onceReturnValue")?this._onceReturnValue:!0},e._getEvents=function(){return this._events||(this._events={})},t.noConflict=function(){return r.EventEmitter=s,t},"function"==typeof define&&define.amd?define(function(){return t}):"object"==typeof module&&module.exports?module.exports=t:r.EventEmitter=t}).call(this);
+/**
+ * Trux - the base object for any TruxModel or TruxCollection.
+ *
+ * @var object {_this} - private reference to this instance.
+ * @property object {components} - object reference for bound React components.
+ * @property object {emitter} - the model's event emitter.
+ * @property string {GET} - the GET route for this instance.
+ * @property string {POST} - the POST route for this instance.
+ * @property string {PUT} - the PUT route for this instance.
+ */
 var Trux = function () {
     'use strict';
 
     var _this = this;
-    var ls = localStorage;
 
     this.components = {};
     this.emitter = new EventEmitter();
@@ -22,6 +31,10 @@ var Trux = function () {
 
     this.emitter.addListener('change', broadcast);
 
+    /**
+     * Broadcast changes to all bound React components.
+     * @return void
+     */
     function broadcast() {
         if (!Object.keys(_this.components).length) return;
 
@@ -32,34 +45,97 @@ var Trux = function () {
         }
     }
 
+    /**
+     * Bind a React component to this Trux instance.
+     * Bound components receive updates via this.broadcast.
+     * Each component is required to have a unique truxId property set.
+     * Should be called within the component's componentWillMount or componentDidMount methods.
+     * @param React class {component} - the React class to bind to this instance
+     * @return void
+     */
     this.bindComponent = function (component) {
-        _this.components[component.componentId] = component;
+        _this.components[component.truxId] = component;
     };
 
+    /**
+     * Unbinds a React component from this Trux instance.
+     * Stops the component from receiving updates.
+     * Should be called within the component's componentWillUnmount method.
+     * @param React class {component} - the React class to unbind from this instance
+     * @return void
+     */
     this.unbindComponent = function (component) {
-        if (typeof _this.components[component.componentId] === 'undefined') return;
+        if (typeof _this.components[component.truxId] === 'undefined') return;
 
-        delete _this.components[component.componentId];
+        delete _this.components[component.truxId];
     };
 
+    /**
+     * Emits a change event from this Trux instance.
+     * @implements EventEmitter.emitEvent
+     * @return void
+     */
     this.emitChangeEvent = function () {
         _this.emitter.emitEvent('change');
     };
 };
 
+/**
+ * TruxCollection - a collection of TruxModels
+ * Trux Collections are stores for groups of related models.
+ *
+ * @var object {_this} - private reference to this TruxCollection instance.
+ * @property string {_name} - the name of this collection.
+ * @property object {modelClass} - the TruxModel class for the models contained within this collection.
+ * @property array {models} - an array of TruxModels.
+ * @property string {className} - easy way of determining what kind of class this is.
+ */
 var TruxCollection = function (name, modelClass) {
     'use strict';
 
+    var _this = this;
+
     Trux.call(this);
 
-    this.collectionName = name;
+    this._name = name;
     this.modelClass = modelClass;
     this.models = [];
+    this.className = 'TruxCollection';
 
+    /**
+     * Requests a collection from a remote store.
+     * @implements qwest.get
+     * @param object {options} - optional options containing possible onDone and onFail methods
+     * @return void
+     */
+    this.request = function(options) {
+        qwest.get(this.GET)
+        .then(function (xhr, response) {
+            _this.setModels(response);
+
+            if (options && typeof options.onDone === 'function') {
+                options.onDone();
+            }
+
+        })
+        .catch(function (xhr, response, e) {
+            if (options && typeof options.onFail === 'function') {
+                options.onFail(xhr, response, e);
+            }
+        });
+    };
+
+    /**
+     * Sets the models for this collection.
+     * Instantiates a TruxModel for each data item contained with in the models param.
+     * Appends these models into the data property of this TruxCollection instance.
+     * @param array {models} - an array of JSON objects, each object must have an id property
+     * @return object {_this} - object instance
+     */
     this.setModels = function (models) {
         if(!Array.isArray(models)) return;
 
-        _this.purge();
+        _this.purgeModels();
 
         var length = models.length;
         var i;
@@ -72,47 +148,123 @@ var TruxCollection = function (name, modelClass) {
         return _this;
     };
 
+    /**
+     * Finds a model contained within this collection via its unique id.
+     * @param mixed {id} - a unique id which corresponds to a model stored in this collection
+     * @return mixed {object|bool} - an object if the model was found, false if not
+     */
+    this.findById = function (id) {
+        var length = this.models.length;
+        var i;
+        var model = false;
+
+        for(i = 0 ; i < length ; i ++) {
+            if(this.models[i].data.id == id || this.models[i].data.id == parseInt(id, 10)) {
+                model = this.models[i];
+            }
+        }
+
+        return model;
+    };
+
+    /**
+     * Appends a model to the data property of this TruxCollection instance.
+     * @param object {model} - a TruxModel instance
+     * @return void
+     */
     this.append = function (model) {
         model.collection = this;
         _this.models.push(model);
     };
 
+    /**
+     * Prepends a model to the data property of this TruxCollection instance.
+     * @param object {model} - a TruxModel instance
+     * @return void
+     */
     this.prepend = function (model) {
         model.collection = _this;
         _this.models.unshift(model);
     };
 
+    /**
+     * Caches the models for this collection in local storage.
+     * @return void
+     */
     this.cacheModels = function () {
-        ls.setItem(_this.collectionName, JSON.stringify(_this.models));
+        localStorage.setItem(_this._name, JSON.stringify(_this.models));
     };
 
+    /**
+     * Removes the collection's models from this instance and from local storage.
+     * @return void
+     */
     this.purgeModels = function () {
         this.models = [];
-        ls.removeItem(_this.collectionName);
+        localStorage.removeItem(_this._name);
     };
 };
 
+/**
+ * TruxModel - a collection of TruxModels
+ * Trux Models are client side interfaces for remote data models.
+ * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+ *
+ * @var object {_this} - private reference to this TruxModel instance.
+ * @var mixed {_backup} - private backup of the model's data, initially null.
+ * @property mixed {data} - the data which defines this model, initially null.
+ * @property mixed {backup} - a public backup of this model's data, initially null.
+ * @property string {_name} - the name of this model.
+ * @property mixed {collection} - the collection this model belongs to, if it does belong to one. Initially false.
+ * @property string {className} - easy way of determining what kind of class this is.
+ */
 var TruxModel = function (name) {
     'use strict';
 
-    Trux.call(this);
-
+    var _this = this;
     var _backup = null;
+
+    Trux.call(this);
 
     this.data = null;
     this.backup = null;
-    this.modelName = name;
+    this._name = name;
     this.collection = false;
+    this.className = 'TruxModel';
 
+    /**
+     * Set the data for this TruxModel instance.
+     * Also sets the private _backup for this instance.
+     * @param object {data} - the data that defines this model
+     * @return void
+     */
     this.setData = function (data) {
         this.data = data;
         _backup = JSON.parse(JSON.stringify(data));
     };
 
+    /**
+     * Restores the model's data from the privately stored _backup.
+     * @return void
+     */
     this.restoreData = function () {
         this.data = JSON.parse(JSON.stringify(_backup));
     };
 
+    /**
+     * Gets the id for this model.
+     * @return mixed {id} - the model's unique id
+     */
+    this.getId = function () {
+        return this.data.id;
+    };
+
+    /**
+     * Requests the remote data for the model, then sets the TruxModel data with the response
+     * @implements qwest.get
+     * @param object {options} - optional onDone and onFail methods to run when promises are resolved
+     * @return void
+     */
     this.fetch = function (options) {
         qwest.get(this.GET)
         .then(function (xhr, response) {
@@ -131,6 +283,13 @@ var TruxModel = function (name) {
         });
     };
 
+    /**
+     * Creates a new instance of this model in the remote data store.
+     * @implements qwest.post
+     * @param object {data} - the data for the new model
+     * @param object {options} - optional onDone and onFail methods to run once promises are resolved
+     * @return void
+     */
     this.create = function (data, options) {
         qwest.post(this.POST, data)
         .then(function (xhr, response) {
@@ -149,6 +308,14 @@ var TruxModel = function (name) {
         });
     };
 
+    /**
+     * Updates this model in the remote data store.
+     * @implements qwest.put
+     * @implements EventEmitter.emitEvent
+     * @param object {data} - the new data for the model
+     * @param object {options} - optional onDone and onFail methods to run once promises are resolved
+     * @return void
+     */
     this.update = function (data, options) {
         qwest.put(this.PUT, data)
         .then(function (xhr, response) {
@@ -181,11 +348,20 @@ var TruxModel = function (name) {
         });
     };
 
+    /**
+     * Caches this model's data in local storage.
+     * @return void
+     */
     this.cache = function () {
-
+        localStorage.setItem(_this._name, JSON.stringify(_this.data));
     };
 
+    /**
+     * Clears this model's data property and removes the data from local storage.
+     * @return void
+     */
     this.purge = function () {
-
+        this.data = null;
+        localStorage.removeItem(_this._name);
     };
 };

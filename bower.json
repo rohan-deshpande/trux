@@ -1,7 +1,7 @@
 {
   "name": "trux",
   "description": "A micro data framework for ReactJS",
-  "main": "dist/Trux.js",
+  "main": "dist/trux.js",
   "moduleType": [],
   "keywords": [
     "reactjs"

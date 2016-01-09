@@ -8,3 +8,5 @@ Trux is based on the concept of inheritance, which means any `new TruxModel` or 
 Checkout the examples to get an idea of how to use Trux.
 
 Trux was developed for my project analytics application, `Trakktion`. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+
+# Documentation
