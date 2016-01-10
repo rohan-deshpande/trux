@@ -7,7 +7,7 @@ Trux is all about inheritance, which means any `new TruxModel` or `new TruxColle
 
 Checkout the examples to get an idea of how to use Trux.
 
-Trux was developed for my project management & analytics application, `Trakktion`. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+Trux was developed for my project management & analytics application, `Trakktion` and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
 # Documentation
 
