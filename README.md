@@ -1,7 +1,7 @@
 # Trux
 ## A micro data framework for ReactJS
 
-Trux is a simple yet effective way of managing data for your React app. It comes packed with a parent object `Trux` and two data store objects, `TruxModel` and `TruxCollection` which you are meant to extend for your own use cases.
+Trux is a simple yet effective way of managing data for your React app. It comes packed with a parent object `Trux` and two data store objects, `TruxModel` and `TruxCollection` which you are meant to extend for your own use cases. In order for your React components to receive updates from the data stores they are related to, they will need to have an `appDataDidChange` method defined.
 
 Trux is all about inheritance, which means any `new TruxModel` or `new TruxCollection` you instantiate will have access to the base methods of those objects, but will also be extendible with custom methods.
 
@@ -11,4 +11,4 @@ Trux was developed for my project management & analytics application, **Trakktio
 
 # Documentation
 
-todo.
+Coming soon!
