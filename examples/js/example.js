@@ -1,28 +1,46 @@
 var Library = React.createClass({
 
+    /**
+     * Pass the collection to the component via its props.
+     */
     propTypes:{
         collection:React.PropTypes.object.isRequired
     },
 
+    /**
+     * Set a reference to the collection in the component's state.
+     */
     getInitialState:function () {
         return {
             collection:this.props.collection
         };
     },
 
+    /**
+     * Set the component's truxId and bind it to the collection
+     */
     componentDidMount:function () {
         this.truxId = 'Library';
         this.state.collection.bindComponent(this);
     },
 
+    /**
+     * Make sure to unbind the component when the component unmounts.
+     */
     componentWillUnmount:function () {
         this.state.collection.unbindComponent(this);
     },
 
+    /**
+     * Method required to re render the component when the data store emits a change event
+     */
     appDataDidChange:function () {
         this.forceUpdate();
     },
 
+    /**
+     * Render the component
+     */
     render:function () {
         var _this = this;
 
@@ -49,38 +67,62 @@ var Library = React.createClass({
 
 var Book = React.createClass({
 
+    /**
+     * Pass the model and index property to the component via its props
+     */
     propTypes:{
         model:React.PropTypes.object.isRequired,
         index:React.PropTypes.number.isRequired
     },
 
+    /**
+     * Set a reference to the model in the component's state
+     */
     getInitialState:function () {
         return {
             model:this.props.model
         };
     },
 
+    /**
+     * Set the component's truxId and bind it to the model
+     */
     componentDidMount:function () {
         this.truxId = 'Book ' + this.props.index;
         this.state.model.bindComponent(this);
     },
 
+    /**
+     * Make sure to unbind the component when the component unmounts.
+     */
     componentWillUnmount:function () {
         this.state.model.unbindComponent();
     },
 
+    /**
+     * Handles the change event for the input fields.
+     * @param {string} key - the data key to change
+     * @param {object} e - event object
+     */
     handleDataChange:function (key, e) {
         e.preventDefault();
 
         this.state.model.data[key] = e.target.value;
     },
 
+    /**
+     * Handles the submit event for the form
+     * @param {object} e - event object
+     */
     handleSubmit:function (e) {
         e.preventDefault();
 
         this.state.model.updateLocal();
     },
 
+    /**
+     * Render the component
+     */
     render:function () {
         var model = this.props.model;
 
