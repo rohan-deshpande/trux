@@ -10,6 +10,8 @@
  * @property string {_name} - the name of this model.
  * @property mixed {collection} - the collection this model belongs to, if it does belong to one. Initially false.
  * @property string {className} - easy way of determining what kind of class this is.
+ * @property boolean {poll} - a boolean value to decide whether to poll remote data or not.
+ * @property int {wait} - the time to wait to poll the remote data.
  */
 var TruxModel = function (name) {
     'use strict';
@@ -24,24 +26,28 @@ var TruxModel = function (name) {
     this._name = name;
     this.collection = false;
     this.className = 'TruxModel';
+    this.poll = false;
+    this.wait = 5000;
 
     /**
      * Set the data for this TruxModel instance.
      * Also sets the private _backup for this instance.
      * @param object {data} - the data that defines this model
-     * @return void
+     * @return object {this} - this TruxModel
      */
     this.setData = function (data) {
         this.data = data;
         _backup = JSON.parse(JSON.stringify(data));
+        return this;
     };
 
     /**
      * Restores the model's data from the privately stored _backup.
-     * @return void
+     * @return object {this} - this TruxModel
      */
     this.restoreData = function () {
         this.data = JSON.parse(JSON.stringify(_backup));
+        return this;
     };
 
     /**
@@ -52,6 +58,16 @@ var TruxModel = function (name) {
         return this.data.id;
     };
 
+    this.persist = function () {
+        if (this.collection) {
+            this.collection.emitChangeEvent();
+        } else {
+            this.emitChangeEvent();
+        }
+
+        return this;
+    };
+
     /**
      * Requests the remote data for the model, then sets the TruxModel data with the response
      * @implements qwest.get
@@ -60,20 +76,20 @@ var TruxModel = function (name) {
      */
     this.fetch = function (options) {
         qwest.get(this.GET)
-        .then(function (xhr, response) {
-            if (typeof response !== 'object') return;
+            .then(function (xhr, response) {
+                if (typeof response !== 'object') return;
 
-            _this.setData(response);
+                _this.setData(response);
 
-            if (typeof options.onDone === 'function') {
-                options.onDone();
-            }
-        })
-        .catch(function (xhr, response, e) {
-            if (typeof options.onFail === 'function') {
-                options.onFail(xhr, response, e);
-            }
-        });
+                if (typeof options.onDone === 'function') {
+                    options.onDone();
+                }
+            })
+            .catch(function (xhr, response, e) {
+                if (typeof options.onFail === 'function') {
+                    options.onFail(xhr, response, e);
+                }
+            });
     };
 
     /**
@@ -85,20 +101,20 @@ var TruxModel = function (name) {
      */
     this.create = function (data, options) {
         qwest.post(this.POST, data)
-        .then(function (xhr, response) {
-            if (typeof response !== 'object') return;
+            .then(function (xhr, response) {
+                if (typeof response !== 'object') return;
 
-            _this.setData(response);
+                _this.setData(response);
 
-            if (typeof options.onDone === 'function') {
-                options.onDone();
-            }
-        })
-        .catch(function (xhr, response, e) {
-            if (typeof options.onFail === 'function') {
-                options.onFail(xhr, response, e);
-            }
-        });
+                if (typeof options.onDone === 'function') {
+                    options.onDone();
+                }
+            })
+            .catch(function (xhr, response, e) {
+                if (typeof options.onFail === 'function') {
+                    options.onFail(xhr, response, e);
+                }
+            });
     };
 
     /**
@@ -111,50 +127,67 @@ var TruxModel = function (name) {
      */
     this.update = function (data, options) {
         qwest.put(this.PUT, data)
-        .then(function (xhr, response) {
-            if (typeof response !== 'object') return;
+            .then(function (xhr, response) {
+                if (typeof response !== 'object') return;
 
-            _this.setData(response);
+                _this.setData(response).persist();
 
-            if (_this.collection) {
-                _this.collection.emitChangeEvent();
-            } else {
-                _this.emitChangeEvent();
-            }
+                if (typeof options.onDone === 'function') {
+                    options.onDone();
+                }
+            })
+            .catch(function (xhr, response, e) {
+                _this.restoreData().persist();
 
-            if (typeof options.onDone === 'function') {
-                options.onDone();
-            }
-        })
-        .catch(function (xhr, response, e) {
-            _this.restoreData();
-
-            if (_this.collection) {
-                _this.collection.emitChangeEvent();
-            } else {
-                _this.emitChangeEvent();
-            }
-
-            if (typeof options.onFail === 'function') {
-                options.onFail();
-            }
-        });
+                if (typeof options.onFail === 'function') {
+                    options.onFail();
+                }
+            });
     };
 
     /**
-     * Caches this model's data in local storage.
+     * Polls the remote data store.
+     * @implements qwest.get
+     * @param {boolean|undefined} poll - true when first starting to poll, undefined while in recursion
      * @return void
      */
-    this.cache = function () {
-        localStorage.setItem(_this._name, JSON.stringify(_this.data));
+    this.startPolling = function (poll) {
+        if (poll === true) this.poll = true;
+
+        (function () {
+            if (this.poll === false) return;
+
+            setTimeout(function () {
+                qwest.get(this.GET)
+                    .then(function (xhr, response) {
+                        _this.setData(response)
+                        .persist()
+                        .startPolling();
+                    })
+                    .catch(function (xhr, response, e) {
+                        _this.restoreData()
+                        .persist();
+                    });
+            }, _this.wait);
+        })();
     };
 
     /**
-     * Clears this model's data property and removes the data from local storage.
+     * Sets this.poll to false so that the next time startPolling runs it will cancel the recursion.
+     * @return {object} this - this TruxModel
+     */
+    this.stopPolling = function () {
+        this.poll = false;
+        return this;
+    };
+
+    /**
+     * Clears this model's data property.
      * @return void
      */
     this.purge = function () {
         this.data = null;
-        localStorage.removeItem(_this._name);
     };
+
+    return this;
 };

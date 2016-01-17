@@ -19,11 +19,14 @@ Checkout the examples and documentation to get an idea of how to use Trux.
 
 Kicking off with Trux is super simple. The following code illustrates a very basic example of how to use Trux.
 
-First, let's define some data, a `TruxModel` and a React component. We will then render the component to the DOM.
+First, let's define a `TruxModel`, set its data then define a React component. We will then render the component to the DOM.
 
 ```javascript
+/**
+ * Set our variables.
+ */
 var myData = {'thing':"Keep on truxin'"};
-var myModel = new TruxModel('myModel');
+var myModel = new TruxModel('myModel').setData(myData);
 var MyComponent = React.createClass({
 
     /**
@@ -78,7 +81,7 @@ var MyComponent = React.createClass({
 ReactDOM.render(<MyComponent model={myModel} />, document.getElementById('my-view'));
 ```
 
-In a normal use case, to change the data stored in `myModel`, we'd call its `update` method, but for this example we can just edit the data directly, then call the model's `emitChangeEvent` method.
+Now we can change the Model's data and call the model's `emitChangeEvent` method.
 
 ```
 setTimeout(function() {
