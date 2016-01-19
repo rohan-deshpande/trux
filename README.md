@@ -52,6 +52,10 @@ var MyComponent = React.createClass({
 
 You're now set up to interact with `MyModel` and have its changes reflected in the `MyComponent`.
 
+## Working with remote data
+
+Trux was designed to work with a RESTful API.
+
 
 # Documentation
 
