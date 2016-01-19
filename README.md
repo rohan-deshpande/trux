@@ -15,6 +15,44 @@ Checkout the examples and documentation to get an idea of how to use Trux.
 
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
+## Usage
+
+Include `trux.js` before your closing `<body>` tag;
+
+```
+<script type="text/javascript" src="/js/trux.js"></script>
+```
+
+In your app, declare a new `TruxModel` and bind a component to it, remembering to set the component's `appDataDidChange` method.
+
+```
+var MyModel = new TruxModel('myModel').setData({'message':'hello world'});
+var MyComponent = React.createClass({
+
+    getInitialState:function () {
+        return {
+            model:this.props.model
+        };
+    },
+
+    componentDidMount:function () {
+        this.truxId = 'MyComponent'
+        myModel.bindComponent(this);
+    },
+
+    appDataDidChange:function () {
+        this.forceUpdate();
+    },
+
+    render:function() {
+        return <div>{this.state.model.data.message}</div>
+    }
+});
+```
+
+You're now set up to interact with `MyModel` and have its changes reflected in the `MyComponent`.
+
+
 # Documentation
 
 ## Getting Started
