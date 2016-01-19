@@ -5,7 +5,7 @@ Trux is a simple, lightweight and effective way of managing data for your client
 
 Trux allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as data interfaces between your remote data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.
 
-In Trux, your Trux data stores, which are designed to have a direct connection to your remote data, are the single source of truth for your app's front end.
+In Trux, your Trux data stores are the single source of truth for your app's data dependent React components.
 
 Trux comes packed with a parent object `Trux` and two data store objects, `TruxModel` and `TruxCollection` which are designed to be extended for your own use cases.
 
