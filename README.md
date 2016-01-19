@@ -19,13 +19,13 @@ Checkout the examples and documentation to get an idea of how to use Trux.
 
 Include `trux.js` before your closing `<body>` tag;
 
-```
+```html
 <script type="text/javascript" src="/js/trux.js"></script>
 ```
 
 In your app, declare a new `TruxModel` and bind a component to it, remembering to set the component's `appDataDidChange` method.
 
-```
+```javascript
 var MyModel = new TruxModel('myModel').setData({'message':'hello world'});
 var MyComponent = React.createClass({
 
