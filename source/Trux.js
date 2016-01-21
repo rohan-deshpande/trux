@@ -69,6 +69,7 @@ var Trux = function () {
     /**
      * Broadcast changes to all bound React components.
      *
+     * @implements component.appDataDidChange
      * @return void
      */
     function broadcast() {
@@ -112,6 +113,7 @@ var Trux = function () {
      * Emits a change event from this Trux instance.
      *
      * @implements EventEmitter.emitEvent
+     * @fires this.emitter.change
      * @return void
      */
     this.emitChangeEvent = function () {
