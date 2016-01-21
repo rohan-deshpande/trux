@@ -1,30 +1,74 @@
-/**
- * Trux - the base object for any TruxModel or TruxCollection.
- *
- * @var object {_this} - private reference to this instance.
- * @property object {components} - object reference for bound React components.
- * @property object {emitter} - the model's event emitter.
- * @property string {GET} - the GET route for this instance.
- * @property string {POST} - the POST route for this instance.
- * @property string {PUT} - the PUT route for this instance.
- */
+ /**
+  * The base object for any TruxModel or TruxCollection.
+  *
+  * @global
+  * @class
+  */
 var Trux = function () {
     'use strict';
 
+    /**
+     * Private reference to this instance
+     *
+     * @prop {Object} _this - Private reference to this instance
+     * @private
+     */
     var _this = this;
 
+    /**
+     * Reference for bound React components
+     *
+     * @prop {Object} components - reference for bound React components
+     */
     this.components = {};
+
+    /**
+     * The model's Event Emitter
+     *
+     * @prop {Object} emitter - the model's Event Emitter
+     */
     this.emitter = new EventEmitter();
+
+    /**
+     * The GET route for this object
+     *
+     * @prop {String} GET - the GET route for this object
+     */
     this.GET = false;
+
+    /**
+     * The POST route for this object
+     *
+     * @prop {String} POST - the POST route for this object
+     */
     this.POST = false;
+
+    /**
+     * The PUT route for this object
+     * @prop {String} PUT - the PUT route for this object
+     *
+     */
     this.PUT = false;
+
+    /**
+     * The PATCH route for this object
+     *
+     * @prop {String} PATCH - the PATCH route for this object
+     */
     this.PATCH = false;
+
+    /**
+     * The DELETE route for this object
+     *
+     * @prop {String} DELETE - the DELETE route for this object
+     */
     this.DELETE = false;
 
     this.emitter.addListener('change', broadcast);
 
     /**
      * Broadcast changes to all bound React components.
+     *
      * @return void
      */
     function broadcast() {
@@ -42,7 +86,8 @@ var Trux = function () {
      * Bound components receive updates via this.broadcast.
      * Each component is required to have a unique truxId property set.
      * Should be called within the component's componentWillMount or componentDidMount methods.
-     * @param React class {component} - the React class to bind to this instance
+     *
+     * @param {Object} component - the React class to bind to this instance
      * @return void
      */
     this.bindComponent = function (component) {
@@ -53,7 +98,8 @@ var Trux = function () {
      * Unbinds a React component from this Trux instance.
      * Stops the component from receiving updates.
      * Should be called within the component's componentWillUnmount method.
-     * @param React class {component} - the React class to unbind from this instance
+     *
+     * @param {Object} component - the React class to unbind from this instance
      * @return void
      */
     this.unbindComponent = function (component) {
@@ -64,6 +110,7 @@ var Trux = function () {
 
     /**
      * Emits a change event from this Trux instance.
+     *
      * @implements EventEmitter.emitEvent
      * @return void
      */

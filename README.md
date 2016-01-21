@@ -57,8 +57,6 @@ You're now set up to interact with `MyModel` and have its changes reflected in t
 Trux was designed to work with a RESTful API.
 
 
-# Documentation
-
 ## Getting Started
 
 Kicking off with Trux is super simple. The following code illustrates a very basic example of how to use Trux.
