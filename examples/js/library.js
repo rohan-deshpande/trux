@@ -90,6 +90,7 @@ var Book = React.createClass({
     componentDidMount:function () {
         this.truxId = 'Book ' + this.props.index;
         this.state.model.bindComponent(this);
+        console.log(this.state.model);
     },
 
     /**
@@ -223,10 +224,10 @@ var Editor = React.createClass({
 
         setupBook:function () {
             this.trux.models.Book = function (data) {
-                TruxModel.call(this, data.title);
+                TruxModel.call(this);
                 this.prototype = TruxModel;
 
-                this.setData(data);
+                this.setData(data).setName(data.title);
 
                 this.getTitle = function () {
                     return this.data.title;
@@ -267,8 +268,8 @@ var Editor = React.createClass({
         setupGenre:function () {
             var _this = this;
 
-            this.trux.collections.Genre =  function(name) {
-                TruxCollection.call(this, name, _this.trux.models.Book);
+            this.trux.collections.Genre =  function() {
+                TruxCollection.call(this, _this.trux.models.Book);
                 this.prototype = TruxCollection;
 
                 this.requestLocal = function (key) {
@@ -287,16 +288,16 @@ var Editor = React.createClass({
             .setupBook()
             .setupGenre();
 
-            var genre = new app.trux.collections.Genre('fantasy');
-            genre.requestLocal('truxExampleData');
+            var fantasy = new app.trux.collections.Genre();
+            fantasy.requestLocal('truxExampleData');
 
             ReactDOM.render(
                 <div>
                     <div>
-                        <Library collection={genre} />
+                        <Library collection={fantasy} />
                     </div>
                     <div>
-                        <Editor collection={genre} />
+                        <Editor collection={fantasy} />
                     </div>
                 </div>, document.getElementById('app')
             );

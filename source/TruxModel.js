@@ -25,7 +25,7 @@
     }
   * @class
   */
-var TruxModel = function (name) {
+var TruxModel = function () {
     'use strict';
 
     /**
@@ -63,9 +63,9 @@ var TruxModel = function (name) {
     /**
      * The name of this model.
      *
-     * @prop {String} _name - this name of this model
+     * @prop {String} name - this name of this model
      */
-    this._name = name;
+    this.name = '';
 
     /**
      * The collection this model belongs to, if it does belong to one. Initially false.
@@ -94,6 +94,16 @@ var TruxModel = function (name) {
      * @prop {Integer} wait - the time to wait to poll the remote data
      */
     this.wait = 5000;
+
+    /**
+     * Set the name of this model.
+     *
+     * @prop {String} name - the name of this model
+     */
+    this.setName = function (name) {
+        this.name = name;
+        return this;
+    };
 
     /**
      * Set the data for this TruxModel instance.
@@ -177,8 +187,10 @@ var TruxModel = function (name) {
      * @return void
      */
     this.create = function (data, options) {
+        console.log('creating...');
         qwest.post(this.POST, data)
             .then(function (xhr, response) {
+                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);

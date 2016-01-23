@@ -10,7 +10,7 @@
     var MyCollection = new TruxCollection('My Collection', MyModel);
   * @class
   */
-var TruxCollection = function (name, modelClass) {
+var TruxCollection = function (modelClass) {
     'use strict';
 
     /**
@@ -22,13 +22,6 @@ var TruxCollection = function (name, modelClass) {
     var _this = this;
 
     Trux.call(this);
-
-    /**
-     * The name of this collection.
-     *
-     * @prop {String} _name - this name of this collection
-     */
-    this._name = name;
 
     /**
      * The TruxModel class for the models contained within this collection.
@@ -66,6 +59,16 @@ var TruxCollection = function (name, modelClass) {
     this.wait = 5000;
 
     /**
+     * Sets the options for the request.
+     *
+     * @param {Object} requestOptions - the options for all requests
+     * @return void
+     */
+    this.setRequestOptions = function (requestOptions) {
+        this.requestOptions = requestOptions;
+    };
+
+    /**
      * Requests a collection from a remote store.
      *
      * @implements qwest.get
@@ -73,7 +76,7 @@ var TruxCollection = function (name, modelClass) {
      * @return void
      */
     this.request = function(options) {
-        qwest.get(this.GET)
+        qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response).emitChangeEvent();
 

@@ -1,30 +1,83 @@
-/**
- * Trux - the base object for any TruxModel or TruxCollection.
- *
- * @var object {_this} - private reference to this instance.
- * @property object {components} - object reference for bound React components.
- * @property object {emitter} - the model's event emitter.
- * @property string {GET} - the GET route for this instance.
- * @property string {POST} - the POST route for this instance.
- * @property string {PUT} - the PUT route for this instance.
- */
+ /**
+  * The base object for any TruxModel or TruxCollection.
+  *
+  * @global
+  * @class
+  */
 var Trux = function () {
     'use strict';
 
+    /**
+     * Private reference to this instance
+     *
+     * @prop {Object} _this - Private reference to this instance
+     * @private
+     */
     var _this = this;
 
+    /**
+     * Reference for bound React components
+     *
+     * @prop {Object} components - reference for bound React components
+     */
     this.components = {};
+
+    /**
+     * The model's Event Emitter
+     *
+     * @prop {Object} emitter - the model's Event Emitter
+     */
     this.emitter = new EventEmitter();
+
+    /**
+     * Request options which align with the qwest options argument for requests.
+     *
+     * @see https://github.com/pyrsmk/qwest#basics
+     * @prop {Object} requestOptions - options to be set for the request
+     */
+    this.requestOptions = {};
+
+    /**
+     * The GET route for this object
+     *
+     * @prop {String} GET - the GET route for this object
+     */
     this.GET = false;
+
+    /**
+     * The POST route for this object
+     *
+     * @prop {String} POST - the POST route for this object
+     */
     this.POST = false;
+
+    /**
+     * The PUT route for this object
+     * @prop {String} PUT - the PUT route for this object
+     *
+     */
     this.PUT = false;
+
+    /**
+     * The PATCH route for this object
+     *
+     * @prop {String} PATCH - the PATCH route for this object
+     */
     this.PATCH = false;
+
+    /**
+     * The DELETE route for this object
+     *
+     * @prop {String} DELETE - the DELETE route for this object
+     */
     this.DELETE = false;
 
     this.emitter.addListener('change', broadcast);
 
     /**
      * Broadcast changes to all bound React components.
+     *
+     * @implements component.appDataDidChange
      * @return void
      */
     function broadcast() {
@@ -42,7 +95,8 @@ var Trux = function () {
      * Bound components receive updates via this.broadcast.
      * Each component is required to have a unique truxId property set.
      * Should be called within the component's componentWillMount or componentDidMount methods.
-     * @param React class {component} - the React class to bind to this instance
+     *
+     * @param {Object} component - the React class to bind to this instance
      * @return void
      */
     this.bindComponent = function (component) {
@@ -53,7 +107,8 @@ var Trux = function () {
      * Unbinds a React component from this Trux instance.
      * Stops the component from receiving updates.
      * Should be called within the component's componentWillUnmount method.
-     * @param React class {component} - the React class to unbind from this instance
+     *
+     * @param {Object} component - the React class to unbind from this instance
      * @return void
      */
     this.unbindComponent = function (component) {
@@ -64,7 +119,9 @@ var Trux = function () {
 
     /**
      * Emits a change event from this Trux instance.
+     *
      * @implements EventEmitter.emitEvent
+     * @fires this.emitter.change
      * @return void
      */
     this.emitChangeEvent = function () {
@@ -72,38 +129,87 @@ var Trux = function () {
     };
 };
 
-/**
- * TruxCollection - a collection of TruxModels
- * Trux Collections are stores for groups of related models.
- *
- * @var object {_this} - private reference to this TruxCollection instance.
- * @property string {_name} - the name of this collection.
- * @property object {modelClass} - the TruxModel class for the models contained within this collection.
- * @property array {models} - an array of TruxModels.
- * @property string {className} - easy way of determining what kind of class this is.
- */
-var TruxCollection = function (name, modelClass) {
+ /**
+  * A store for an array of models.
+  *
+  * @param {String} name - the name of this TruxCollection
+  * @param {Object} modelClass - the TruxModel class this TruxCollection will store
+  * @return {Object} this - this TruxCollection
+  * @example
+    //basic usage
+    var MyModel = new TruxModel('My Model');
+    var MyCollection = new TruxCollection('My Collection', MyModel);
+  * @class
+  */
+var TruxCollection = function (modelClass) {
     'use strict';
 
+    /**
+     * Private reference to this TruxModel instance.
+     *
+     * @prop {Object} _this - private reference to this instance
+     * @private
+     */
     var _this = this;
 
     Trux.call(this);
 
-    this._name = name;
+    /**
+     * The TruxModel class for the models contained within this collection.
+     *
+     * @prop {Object} modelClass - the TruxModel class for the models contained within this collection
+     */
     this.modelClass = modelClass;
+
+    /**
+     * The array of TruxModels stored in this TruxCollection.
+     *
+     * @prop {Array} models - an array of TruxModels
+     */
     this.models = [];
+
+    /**
+     * An easy way of determining what kind of class this is.
+     *
+     * @prop {String} className -  easy way of determining what kind of class this is
+     */
     this.className = 'TruxCollection';
 
     /**
+     * A boolean value to decide whether to poll remote data or not.
+     *
+     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
+     */
+    this.poll = false;
+
+    /**
+     * The time to wait to poll the remote data.
+     *
+     * @prop {Integer} wait - the time to wait to poll the remote data
+     */
+    this.wait = 5000;
+
+    /**
+     * Sets the options for the request.
+     *
+     * @param {Object} requestOptions - the options for all requests
+     * @return void
+     */
+    this.setRequestOptions = function (requestOptions) {
+        this.requestOptions = requestOptions;
+    };
+
+    /**
      * Requests a collection from a remote store.
+     *
      * @implements qwest.get
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
     this.request = function(options) {
-        qwest.get(this.GET)
+        qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
-            _this.setModels(response);
+            _this.setModels(response).emitChangeEvent();
 
             if (options && typeof options.onDone === 'function') {
                 options.onDone();
@@ -121,8 +227,9 @@ var TruxCollection = function (name, modelClass) {
      * Sets the models for this collection.
      * Instantiates a TruxModel for each data item contained with in the models param.
      * Appends these models into the data property of this TruxCollection instance.
-     * @param array {models} - an array of JSON objects, each object must have an id property
-     * @return object {_this} - object instance
+     *
+     * @param {Array} models - an array of JSON objects, each object must have an id property
+     * @return {Object} _this - object instance
      */
     this.setModels = function (models) {
         if(!Array.isArray(models)) return;
@@ -142,8 +249,9 @@ var TruxCollection = function (name, modelClass) {
 
     /**
      * Finds a model contained within this collection via its unique id.
-     * @param mixed {id} - a unique id which corresponds to a model stored in this collection
-     * @return mixed {object|bool} - an object if the model was found, false if not
+     *
+     * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
+     * @return {Object|Boolean} model - an object if the model was found, false if not
      */
     this.findById = function (id) {
         var length = this.models.length;
@@ -161,7 +269,8 @@ var TruxCollection = function (name, modelClass) {
 
     /**
      * Appends a model to the data property of this TruxCollection instance.
-     * @param object {model} - a TruxModel instance
+     *
+     * @param {Object} model - a TruxModel instance
      * @return void
      */
     this.append = function (model) {
@@ -171,7 +280,8 @@ var TruxCollection = function (name, modelClass) {
 
     /**
      * Prepends a model to the data property of this TruxCollection instance.
-     * @param object {model} - a TruxModel instance
+     *
+     * @param {Object} model - a TruxModel instance
      * @return void
      */
     this.prepend = function (model) {
@@ -180,59 +290,130 @@ var TruxCollection = function (name, modelClass) {
     };
 
     /**
-     * Caches the models for this collection in local storage.
-     * @return void
-     */
-    this.cacheModels = function () {
-        localStorage.setItem(_this._name, JSON.stringify(_this.models));
-    };
-
-    /**
-     * Removes the collection's models from this instance and from local storage.
+     * Removes the collection's models from this instance.
+     *
      * @return void
      */
     this.purgeModels = function () {
         this.models = [];
-        localStorage.removeItem(_this._name);
     };
+
+    return this;
 };
 
-/**
- * TruxModel - a collection of TruxModels
- * Trux Models are client side interfaces for remote data models.
- * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
- *
- * @var object {_this} - private reference to this TruxModel instance.
- * @var mixed {_backup} - private backup of the model's data, initially null.
- * @property mixed {data} - the data which defines this model, initially null.
- * @property mixed {backup} - a public backup of this model's data, initially null.
- * @property string {_name} - the name of this model.
- * @property mixed {collection} - the collection this model belongs to, if it does belong to one. Initially false.
- * @property string {className} - easy way of determining what kind of class this is.
- * @property boolean {poll} - a boolean value to decide whether to poll remote data or not.
- * @property int {wait} - the time to wait to poll the remote data.
- */
-var TruxModel = function (name) {
+ /**
+  * A client side interface for a remote data model.
+  * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+  *
+  * @param {String} name - the name of this TruxModel
+  * @return {Object} this - this TruxModel
+  * @example
+    //basic usage
+    var MyModel = new TruxModel('My Model');
+  * @example
+    //expected usage
+    var UserModel = function(data) {
+        TruxModel.call(this, data.name);
+
+        this.prototype = TruxModel;
+        this.setData(data);
+
+        this.getName = function () {
+            return this.data.name;
+        }
+
+        this.setName = function (name) {
+            this.data.name = name;
+        }
+    }
+  * @class
+  */
+var TruxModel = function () {
     'use strict';
 
+    /**
+     * Private reference to this TruxModel instance.
+     *
+     * @prop {Object} _this - private reference to this instance
+     * @private
+     */
     var _this = this;
+
+    /**
+     * Private backup of the model's data, initially null.
+     *
+     * @prop {Null|Object} _this -  private backup of the model's data, initially null
+     * @private
+     */
     var _backup = null;
 
     Trux.call(this);
 
+    /**
+     * The data which defines this model, initially null.
+     *
+     * @prop {Null|Object} data - the data which defines this model, initially null
+     */
     this.data = null;
+
+    /**
+     * A public backup of this model's data, initially null.
+     *
+     * @prop {Null|Object} backup - a public backup of this model's data, initially null
+     */
     this.backup = null;
-    this._name = name;
+
+    /**
+     * The name of this model.
+     *
+     * @prop {String} name - this name of this model
+     */
+    this.name = '';
+
+    /**
+     * The collection this model belongs to, if it does belong to one. Initially false.
+     *
+     * @prop {Boolean|Object} collection - the collection this model belongs to
+     */
     this.collection = false;
+
+    /**
+     * Easy way of determining what kind of class this is.
+     *
+     * @prop {String} className - easy way of determining what kind of class this is
+     */
     this.className = 'TruxModel';
+
+    /**
+     * A boolean value to decide whether to poll remote data or not.
+     *
+     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
+     */
     this.poll = false;
+
+    /**
+     * The time to wait to poll the remote data.
+     *
+     * @prop {Integer} wait - the time to wait to poll the remote data
+     */
     this.wait = 5000;
+
+    /**
+     * Set the name of this model.
+     *
+     * @prop {String} name - the name of this model
+     */
+    this.setName = function (name) {
+        this.name = name;
+        return this;
+    };
 
     /**
      * Set the data for this TruxModel instance.
      * Also sets the private _backup for this instance.
-     * @param object {data} - the data that defines this model
-     * @return object {this} - this TruxModel
+     *
+     * @param {Object} data - the data that defines this model
+     * @return {Object} this - this TruxModel
      */
     this.setData = function (data) {
         this.data = data;
@@ -242,7 +423,8 @@ var TruxModel = function (name) {
 
     /**
      * Restores the model's data from the privately stored _backup.
-     * @return object {this} - this TruxModel
+     *
+     * @return {Object} this - this TruxModel
      */
     this.restoreData = function () {
         this.data = JSON.parse(JSON.stringify(_backup));
@@ -251,12 +433,19 @@ var TruxModel = function (name) {
 
     /**
      * Gets the id for this model.
-     * @return mixed {id} - the model's unique id
+     *
+     * @return {Integer|String} id - the model's unique id
      */
     this.getId = function () {
         return this.data.id;
     };
 
+    /**
+     * Persits the model's data throughout its bound components.
+     * Emits the model's change event.
+     *
+     * @return {Object} this - this TruxModel
+     */
     this.persist = function () {
         if (this.collection) {
             this.collection.emitChangeEvent();
@@ -268,9 +457,10 @@ var TruxModel = function (name) {
     };
 
     /**
-     * Requests the remote data for the model, then sets the TruxModel data with the response
+     * Requests the remote data for the model, then sets the TruxModel data with the response.
+     *
      * @implements qwest.get
-     * @param object {options} - optional onDone and onFail methods to run when promises are resolved
+     * @param {Object} options - optional onDone and onFail methods to run when promises are resolved
      * @return void
      */
     this.fetch = function (options) {
@@ -293,14 +483,17 @@ var TruxModel = function (name) {
 
     /**
      * Creates a new instance of this model in the remote data store.
+     *
      * @implements qwest.post
-     * @param object {data} - the data for the new model
-     * @param object {options} - optional onDone and onFail methods to run once promises are resolved
+     * @param {Object} data - the data for the new model
+     * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
      * @return void
      */
     this.create = function (data, options) {
+        console.log('creating...');
         qwest.post(this.POST, data)
             .then(function (xhr, response) {
+                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
@@ -318,10 +511,11 @@ var TruxModel = function (name) {
 
     /**
      * Updates this model in the remote data store.
+     *
      * @implements qwest.put
      * @implements EventEmitter.emitEvent
-     * @param object {data} - the new data for the model
-     * @param object {options} - optional onDone and onFail methods to run once promises are resolved
+     * @param {Object} data - the new data for the model
+     * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
      * @return void
      */
     this.update = function (data, options) {
@@ -346,8 +540,9 @@ var TruxModel = function (name) {
 
     /**
      * Polls the remote data store.
+     *
      * @implements qwest.get
-     * @param {boolean|undefined} poll - true when first starting to poll, undefined while in recursion
+     * @param {Boolean|Undefined} poll - true when first starting to poll, undefined while in recursion
      * @return void
      */
     this.startPolling = function (poll) {
@@ -360,12 +555,12 @@ var TruxModel = function (name) {
                 qwest.get(this.GET)
                     .then(function (xhr, response) {
                         _this.setData(response)
-                        .persist()
-                        .startPolling();
+                            .persist()
+                            .startPolling();
                     })
                     .catch(function (xhr, response, e) {
                         _this.restoreData()
-                        .persist();
+                            .persist();
                     });
             }, _this.wait);
         })();
@@ -373,7 +568,8 @@ var TruxModel = function (name) {
 
     /**
      * Sets this.poll to false so that the next time startPolling runs it will cancel the recursion.
-     * @return {object} this - this TruxModel
+     *
+     * @return {Object} this - this TruxModel
      */
     this.stopPolling = function () {
         this.poll = false;
@@ -382,6 +578,7 @@ var TruxModel = function (name) {
 
     /**
      * Clears this model's data property.
+     *
      * @return void
      */
     this.purge = function () {

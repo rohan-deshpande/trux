@@ -30,6 +30,14 @@ var Trux = function () {
     this.emitter = new EventEmitter();
 
     /**
+     * Request options which align with the qwest options argument for requests.
+     *
+     * @see https://github.com/pyrsmk/qwest#basics
+     * @prop {Object} requestOptions - options to be set for the request
+     */
+    this.requestOptions = {};
+
+    /**
      * The GET route for this object
      *
      * @prop {String} GET - the GET route for this object
