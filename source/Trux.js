@@ -72,6 +72,30 @@ var Trux = function () {
      */
     this.DELETE = false;
 
+    /**
+     * Sets the options for the request.
+     *
+     * @param {Object} requestOptions - the options for all requests
+     * @return void
+     */
+    this.setRequestOptions = function (requestOptions) {
+        this.requestOptions = requestOptions;
+    };
+
+    /**
+     * A boolean value to decide whether to poll remote data or not.
+     *
+     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
+     */
+    this.poll = false;
+
+    /**
+     * The time to wait to poll the remote data.
+     *
+     * @prop {Integer} wait - the time to wait to poll the remote data
+     */
+    this.wait = 5000;
+
     this.emitter.addListener('change', broadcast);
 
     /**

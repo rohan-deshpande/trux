@@ -2,7 +2,7 @@
   * A store for an array of models.
   *
   * @param {String} name - the name of this TruxCollection
-  * @param {Object} modelClass - the TruxModel class this TruxCollection will store
+  * @param {Function} modelConstructor - a constructor for a TruxModel
   * @return {Object} this - this TruxCollection
   * @example
     //basic usage
@@ -10,8 +10,10 @@
     var MyCollection = new TruxCollection('My Collection', MyModel);
   * @class
   */
-var TruxCollection = function (modelClass) {
+var TruxCollection = function (modelConstructor) {
     'use strict';
+
+    Trux.call(this);
 
     /**
      * Private reference to this TruxModel instance.
@@ -21,14 +23,12 @@ var TruxCollection = function (modelClass) {
      */
     var _this = this;
 
-    Trux.call(this);
-
     /**
      * The TruxModel class for the models contained within this collection.
      *
-     * @prop {Object} modelClass - the TruxModel class for the models contained within this collection
+     * @prop {Object} modelConstructor - the TruxModel class for the models contained within this collection
      */
-    this.modelClass = modelClass;
+    this.modelConstructor = modelConstructor;
 
     /**
      * The array of TruxModels stored in this TruxCollection.
@@ -45,30 +45,6 @@ var TruxCollection = function (modelClass) {
     this.className = 'TruxCollection';
 
     /**
-     * A boolean value to decide whether to poll remote data or not.
-     *
-     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
-     */
-    this.poll = false;
-
-    /**
-     * The time to wait to poll the remote data.
-     *
-     * @prop {Integer} wait - the time to wait to poll the remote data
-     */
-    this.wait = 5000;
-
-    /**
-     * Sets the options for the request.
-     *
-     * @param {Object} requestOptions - the options for all requests
-     * @return void
-     */
-    this.setRequestOptions = function (requestOptions) {
-        this.requestOptions = requestOptions;
-    };
-
-    /**
      * Requests a collection from a remote store.
      *
      * @implements qwest.get
@@ -78,12 +54,11 @@ var TruxCollection = function (modelClass) {
     this.request = function(options) {
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
-            _this.setModels(response).emitChangeEvent();
+            _this.setModels(response);
 
             if (options && typeof options.onDone === 'function') {
-                options.onDone();
+                options.onDone(response);
             }
-
         })
         .catch(function (xhr, response, e) {
             if (options && typeof options.onFail === 'function') {
@@ -108,8 +83,9 @@ var TruxCollection = function (modelClass) {
         var length = models.length;
         var i;
 
+
         for (i = 0 ; i < length ; i++) {
-            var model = new _this.modelClass(models[i]);
+            var model = new _this.modelConstructor(models[i]);
             _this.append(model);
         }
 

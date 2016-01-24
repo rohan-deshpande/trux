@@ -46,9 +46,9 @@ var Library = React.createClass({
 
         return (
             <div>
-                <h3>
+                <h5>
                     This will get printed to the library catalogue:
-                </h3>
+                </h5>
                 <ul> {
                     this.state.collection.models.map(function (model) {
                         return (
@@ -128,34 +128,42 @@ var Book = React.createClass({
         var model = this.props.model;
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <h4>
-                    {'Book ' + this.props.index}
-                </h4>
-                <p>
-                    <label>
-                        Title
-                    </label>
-                    <input
-                        type='text'
-                        defaultValue={model.getTitle()}
-                        onChange={this.handleDataChange.bind(null, 'title')}
-                    />
-                </p>
-                <p>
-                    <label>
-                        Author
-                    </label>
-                    <input
-                        type='text'
-                        defaultValue={model.getAuthor()}
-                        onChange={this.handleDataChange.bind(null, 'author')}
-                    />
-                </p>
-                <button type='submit'>
-                    Save
-                </button>
-            </form>
+            <div className='card-panel'>
+                <form onSubmit={this.handleSubmit}>
+                    <h4>
+                        {'Book ' + this.props.index}
+                    </h4>
+                    <div className='row'>
+                        <div className='col s6'>
+                            <p>
+                                <label>
+                                    Title
+                                </label>
+                                <input
+                                    type='text'
+                                    defaultValue={model.getTitle()}
+                                    onChange={this.handleDataChange.bind(null, 'title')}
+                                />
+                            </p>
+                        </div>
+                        <div className='col s6'>
+                            <p>
+                                <label>
+                                    Author
+                                </label>
+                                <input
+                                    type='text'
+                                    defaultValue={model.getAuthor()}
+                                    onChange={this.handleDataChange.bind(null, 'author')}
+                                />
+                            </p>
+                        </div>
+                    </div>
+                    <button type='submit'>
+                        Save
+                    </button>
+                </form>
+            </div>
         );
     }
 });
@@ -225,7 +233,6 @@ var Editor = React.createClass({
         setupBook:function () {
             this.trux.models.Book = function (data) {
                 TruxModel.call(this);
-                this.prototype = TruxModel;
 
                 this.setData(data).setName(data.title);
 
@@ -270,7 +277,6 @@ var Editor = React.createClass({
 
             this.trux.collections.Genre =  function() {
                 TruxCollection.call(this, _this.trux.models.Book);
-                this.prototype = TruxCollection;
 
                 this.requestLocal = function (key) {
                     var models = JSON.parse(localStorage.getItem(key));
@@ -292,7 +298,7 @@ var Editor = React.createClass({
             fantasy.requestLocal('truxExampleData');
 
             ReactDOM.render(
-                <div>
+                <div className='container'>
                     <div>
                         <Library collection={fantasy} />
                     </div>

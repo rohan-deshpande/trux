@@ -25,8 +25,10 @@
     }
   * @class
   */
-var TruxModel = function () {
+var TruxModel = function (data) {
     'use strict';
+
+    Trux.call(this);
 
     /**
      * Private reference to this TruxModel instance.
@@ -44,14 +46,12 @@ var TruxModel = function () {
      */
     var _backup = null;
 
-    Trux.call(this);
-
     /**
      * The data which defines this model, initially null.
      *
      * @prop {Null|Object} data - the data which defines this model, initially null
      */
-    this.data = null;
+    this.data = data;
 
     /**
      * A public backup of this model's data, initially null.
@@ -80,20 +80,6 @@ var TruxModel = function () {
      * @prop {String} className - easy way of determining what kind of class this is
      */
     this.className = 'TruxModel';
-
-    /**
-     * A boolean value to decide whether to poll remote data or not.
-     *
-     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
-     */
-    this.poll = false;
-
-    /**
-     * The time to wait to poll the remote data.
-     *
-     * @prop {Integer} wait - the time to wait to poll the remote data
-     */
-    this.wait = 5000;
 
     /**
      * Set the name of this model.
@@ -161,14 +147,14 @@ var TruxModel = function () {
      * @return void
      */
     this.fetch = function (options) {
-        qwest.get(this.GET)
+        qwest.get(this.GET, null, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
@@ -187,8 +173,7 @@ var TruxModel = function () {
      * @return void
      */
     this.create = function (data, options) {
-        console.log('creating...');
-        qwest.post(this.POST, data)
+        qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
                 console.log(response);
                 if (typeof response !== 'object') return;
@@ -196,7 +181,7 @@ var TruxModel = function () {
                 _this.setData(response);
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
@@ -216,14 +201,14 @@ var TruxModel = function () {
      * @return void
      */
     this.update = function (data, options) {
-        qwest.put(this.PUT, data)
+        qwest.put(this.PUT, data, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
                 _this.setData(response).persist();
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
@@ -249,7 +234,7 @@ var TruxModel = function () {
             if (this.poll === false) return;
 
             setTimeout(function () {
-                qwest.get(this.GET)
+                qwest.get(this.GET, null, this.requestOptions)
                     .then(function (xhr, response) {
                         _this.setData(response)
                             .persist()
