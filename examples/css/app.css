@@ -14,7 +14,7 @@ button.small {
 }
 
 .container {
-    padding-top:50px;
     max-width: 960px;
+    padding:50px;
     margin:auto;
 }
