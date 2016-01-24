@@ -73,7 +73,11 @@ setInterval(function() {
         "Don't trux on me",
         "Keep on truxin'",
         "See you later, trux cowboy",
-        "Samurai Truxploo",
+        "Truxflower Samurai",
+        "Don't trux me, trux yourself",
+        "Ain't no party like trux app party cuz a trux app party don't stop!",
+        "Let's talk about trux baby",
+        "I like big trux and I cannot lie"
     ];
     myModel.data.thing = things[Math.floor(Math.random() * things.length)];
     myModel.emitChangeEvent();

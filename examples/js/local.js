@@ -298,7 +298,7 @@ var Editor = React.createClass({
             fantasy.requestLocal('truxExampleData');
 
             ReactDOM.render(
-                <div className='container'>
+                <div>
                     <div>
                         <Library collection={fantasy} />
                     </div>

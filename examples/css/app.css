@@ -1,0 +1,20 @@
+.hide {
+    display:none;
+}
+
+.card {
+    padding:20px;
+}
+
+button.small {
+    font-size: .75em;
+
+    float:right;
+    clear:right;
+}
+
+.container {
+    padding-top:50px;
+    max-width: 960px;
+    margin:auto;
+}

@@ -66,7 +66,7 @@ Movies.request({
         Movies.setModels(response.results);
 
         ReactDOM.render(
-            <div className='container'>
+            <div>
                 <List collection={Movies} />
             </div>, document.getElementById('app')
         );
@@ -126,24 +126,22 @@ var Item = React.createClass({
 
     render:function () {
         return (
-            <div className='card-panel blue-text'>
+            <div className='card'>
                 <h4>
                     {this.state.model.getTitle()}
                     <small>
                         &nbsp;({this.state.model.getGenre()})
                     </small>
-                    <a className='btn-floating waves-effect waves-light red right' onClick={this.handleEdit}>
-                        <i className="material-icons">
-                            {(this.state.edit === false) ? 'edit' : 'close'}
-                        </i>
-                    </a>
+                    <button className={(this.state.edit) ? 'error small' : 'small'} onClick={this.handleEdit}>
+                        {(this.state.edit === false) ? 'edit' : 'close'}
+                    </button>
                 </h4>
                 <form
                     className={(this.state.edit === false) ? 'hide' : 'col s12'}
                     onSubmit={this.handleSubmit}
                 >
                     <div className='row'>
-                        <div className='col s6'>
+                        <div>
                             <label>Title</label>
                             <input
                                 ref='title'
@@ -152,7 +150,7 @@ var Item = React.createClass({
                                 onChange={this.handleTitleChange}
                             />
                         </div>
-                        <div className='col s6'>
+                        <div>
                             <label>Genre</label>
                             <input
                                 ref='genre'
@@ -164,7 +162,6 @@ var Item = React.createClass({
                     </div>
                     <button className='btn' type='submit'>
                         Update
-                        <i className="material-icons left">cloud</i>
                     </button>
                 </form>
             </div>
@@ -195,14 +192,19 @@ var List = React.createClass({
 
     render:function () {
         return (
-            <div className='cards'>
-            <h3>My Favourite Movies</h3> {
-                this.state.collection.models.map(function (item, i) {
-                    return (
-                        <Item model={item} key={item.id} />
-                    );
-                })
-            }
+            <div>
+                <h3>
+                    My Favourite Movies
+                    <button className='small success'>+</button>
+                </h3>
+                <div className='cards'> {
+                    this.state.collection.models.map(function (item, i) {
+                        return (
+                            <Item model={item} key={item.id} />
+                        );
+                    })
+                }
+                </div>
             </div>
         );
     }
