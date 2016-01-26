@@ -145,7 +145,7 @@ var Item = React.createClass({
         // Parse doesn't do this, instead it only sends back the updatedAt value.
         // To ensure our data is consistent, we'll request the model once again from Parse.
 
-        // model.update(JSON.stringify(data), {
+        // model.update(data, {
         //     onDone:function (u) {
         //         // logs the updatedAt value
         //         console.log(u);
