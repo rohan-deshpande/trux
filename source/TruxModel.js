@@ -215,7 +215,7 @@ var TruxModel = function (data) {
                 _this.restoreData().persist();
 
                 if (typeof options.onFail === 'function') {
-                    options.onFail();
+                    options.onFail(xhr, response, e);
                 }
             });
     };

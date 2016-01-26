@@ -1,7 +1,7 @@
 
 // Set some constants we'll be using in this example.
 
-var API = 'https://api.parse.com/1/classes/';
+var PARSE_API = 'https://api.parse.com/1/classes/';
 var PARSE_HEADERS = {
     'X-Parse-Application-Id':'hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk',
     'X-Parse-REST-API-Key':'wTkqGReVql0lwym2vjObCpMElaGn3nK9v4aeSkCp',
@@ -18,6 +18,8 @@ Parse.initialize("hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk", "4bhdnwddpjR0yVKzbM
 
 var Movie = function (data) {
     TruxModel.call(this, data);
+
+    var _this = this;
 
     // set the model's id, parse uses the `objectId` key.
 
@@ -41,8 +43,32 @@ var Movie = function (data) {
 
     // set the REST routes for the model.
 
-    this.PUT = API + 'Movies/' + this.id;
-    this.GET = API + 'Movies/' + this.id;
+    this.PUT = PARSE_API + 'Movies/' + this.id;
+    this.GET = PARSE_API + 'Movies/' + this.id;
+
+    this.updateParseModel = function (data) {
+        var Movies = Parse.Object.extend("Movies");
+        var query = new Parse.Query(Movies);
+
+        query.get(_this.id, {
+            success: function (movie) {
+                movie.set("title", data.title);
+                movie.set("genre", data.genre);
+                movie.save({
+                    success:function () {
+                        _this.fetch({
+                            onDone:function (response) {
+                                _this.setData(response).persist();
+                            }
+                        });
+                    }
+                });
+            },
+            error: function (object, error) {
+                console.log(error);
+            }
+        });
+    };
 };
 
 // Create a new TruxCollection.
@@ -57,7 +83,7 @@ Movies.setRequestOptions({
 
 // Set the GET route for the collection.
 
-Movies.GET = API + 'Movies';
+Movies.GET = PARSE_API + 'Movies';
 
 // Request its data and then render the List component to the DOM.
 
@@ -109,19 +135,33 @@ var Item = React.createClass({
 
         var model = this.state.model;
         var data = {
-            title:this.state.title,
-            genre:this.state.genre
+            "title":this.state.title,
+            "genre":this.state.genre
         };
 
-        model.update(JSON.stringify(data), {
-            onDone:function (updateResponse) {
-                model.fetch({
-                    onDone:function (fetchResponse) {
-                        model.setData(fetchResponse).persist();
-                    }
-                });
-            }
-        });
+        model.updateParseModel(data);
+
+        // A TruxModel's update method expects the model to be returned from the server to ensure data consistency.
+        // Parse doesn't do this, instead it only sends back the updatedAt value.
+        // To ensure our data is consistent, we'll request the model once again from Parse.
+
+        // model.update(JSON.stringify(data), {
+        //     onDone:function (u) {
+        //         // logs the updatedAt value
+        //         console.log(u);
+        //         model.fetch({
+        //             onDone:function (f) {
+        //                 // logs the full model from the remote data store
+        //                 console.log(f);
+        //                 // sets the TruxModel's data and persists it across bound components
+        //                 model.setData(f).persist();
+        //             }
+        //         });
+        //     },
+        //     onFail:function (xhr, response, e) {
+        //         console.log(response);
+        //     }
+        // });
     },
 
     render:function () {
@@ -195,7 +235,6 @@ var List = React.createClass({
             <div>
                 <h3>
                     My Favourite Movies
-                    <button className='small success'>+</button>
                 </h3>
                 <div className='cards'> {
                     this.state.collection.models.map(function (item, i) {
