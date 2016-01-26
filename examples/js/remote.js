@@ -25,9 +25,12 @@ var Movie = function (data) {
 
     this.id = data.objectId;
 
-    // set the request headers for the model.
+    // set the headers and dataType for the model's request options.
 
-    this.setRequestOptions({'headers':PARSE_HEADERS});
+    this.setRequestOptions({
+        'headers':PARSE_HEADERS,
+        'dataType':'json'
+    });
 
     // custom method for getting the movie title.
 
@@ -45,30 +48,6 @@ var Movie = function (data) {
 
     this.PUT = PARSE_API + 'Movies/' + this.id;
     this.GET = PARSE_API + 'Movies/' + this.id;
-
-    this.updateParseModel = function (data) {
-        var Movies = Parse.Object.extend("Movies");
-        var query = new Parse.Query(Movies);
-
-        query.get(_this.id, {
-            success: function (movie) {
-                movie.set("title", data.title);
-                movie.set("genre", data.genre);
-                movie.save({
-                    success:function () {
-                        _this.fetch({
-                            onDone:function (response) {
-                                _this.setData(response).persist();
-                            }
-                        });
-                    }
-                });
-            },
-            error: function (object, error) {
-                console.log(error);
-            }
-        });
-    };
 };
 
 // Create a new TruxCollection.
@@ -139,29 +118,29 @@ var Item = React.createClass({
             "genre":this.state.genre
         };
 
-        model.updateParseModel(data);
+        // model.updateParseModel(data);
 
         // A TruxModel's update method expects the model to be returned from the server to ensure data consistency.
         // Parse doesn't do this, instead it only sends back the updatedAt value.
         // To ensure our data is consistent, we'll request the model once again from Parse.
 
-        // model.update(data, {
-        //     onDone:function (u) {
-        //         // logs the updatedAt value
-        //         console.log(u);
-        //         model.fetch({
-        //             onDone:function (f) {
-        //                 // logs the full model from the remote data store
-        //                 console.log(f);
-        //                 // sets the TruxModel's data and persists it across bound components
-        //                 model.setData(f).persist();
-        //             }
-        //         });
-        //     },
-        //     onFail:function (xhr, response, e) {
-        //         console.log(response);
-        //     }
-        // });
+        model.update(data, {
+            onDone:function (u) {
+                // logs the updatedAt value
+                console.log(u);
+                model.fetch({
+                    onDone:function (f) {
+                        // logs the full model from the remote data store
+                        console.log(f);
+                        // sets the TruxModel's data and persists it across bound components
+                        model.setData(f).persist();
+                    }
+                });
+            },
+            onFail:function (xhr, response, e) {
+                console.log(response);
+            }
+        });
     },
 
     render:function () {
