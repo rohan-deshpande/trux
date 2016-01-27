@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#request">request</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#fetch">fetch</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#setId">setId</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -62,7 +62,7 @@
 
 <div class="description">
     A client side interface for a remote data model.
-NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+<p>Each TruxModel is expected to have a unique <em>id</em> property.</p>
 </div>
 
 
@@ -155,7 +155,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line28">line 28</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -207,11 +207,10 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     <pre class="prettyprint"><code>//basic usage
     var MyModel = new TruxModel('My Model');</code></pre>
 
-    <pre class="prettyprint"><code>//expected usage
+    <pre class="prettyprint"><code>//advanced usage
     var UserModel = function(data) {
-        TruxModel.call(this, data.name);
+        TruxModel.call(this);
 
-        this.prototype = TruxModel;
         this.setData(data);
 
         this.getName = function () {
@@ -240,120 +239,6 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="_name"><span class="type-signature"></span>_name<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The name of this model.
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">this name of this model</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line68">line 68</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -456,7 +341,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line61">line 61</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -570,7 +455,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line82">line 82</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -687,7 +572,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line75">line 75</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -804,7 +689,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line54">line 54</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -822,13 +707,13 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
         
             
-<h4 class="name" id="poll"><span class="type-signature"></span>poll<span class="type-signature"></span></h4>
+<h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    A boolean value to decide whether to poll remote data or not.
+    The model's unique id.
 </div>
 
 
@@ -863,13 +748,19 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
         <tr>
             
-                <td class="name"><code>poll</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">Null</span>
+|
+
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Number</span>
 
 
             
@@ -879,7 +770,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
             
 
-            <td class="description last">a boolean value to decide whether to poll remote data or not</td>
+            <td class="description last">the model's unique id</td>
         </tr>
 
     
@@ -918,7 +809,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line89">line 89</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -936,13 +827,13 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
         
             
-<h4 class="name" id="wait"><span class="type-signature"></span>wait<span class="type-signature"></span></h4>
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    The time to wait to poll the remote data.
+    The name of this model.
 </div>
 
 
@@ -977,13 +868,13 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
         <tr>
             
-                <td class="name"><code>wait</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Integer</span>
+<span class="param-type">String</span>
 
 
             
@@ -993,7 +884,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
 
             
 
-            <td class="description last">the time to wait to poll the remote data</td>
+            <td class="description last">this name of this model</td>
         </tr>
 
     
@@ -1032,7 +923,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line96">line 96</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -1189,7 +1080,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line179">line 179</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line183">line 183</a>
     </li></ul></dd>
     
 
@@ -1337,7 +1228,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line153">line 153</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -1429,7 +1320,7 @@ NOTE Trux Models assume that the remote data each model mirrors has a unique `id
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line126">line 126</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -1537,7 +1428,7 @@ Emits the model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line136">line 136</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -1641,7 +1532,7 @@ Emits the model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line269">line 269</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -1733,7 +1624,7 @@ Emits the model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line116">line 116</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -1887,7 +1778,166 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line105">line 105</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    this - this TruxModel
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setId"><span class="type-signature"></span>setId<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set the id for the model.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of this model</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -2050,7 +2100,7 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line233">line 233</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -2142,7 +2192,7 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line259">line 259</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -2327,7 +2377,7 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line206">line 206</a>
+        <a href="TruxModel.js.html">TruxModel.js</a>, <a href="TruxModel.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -2381,7 +2431,7 @@ Also sets the private _backup for this instance.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 21 2016 22:27:08 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 27 2016 20:28:10 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

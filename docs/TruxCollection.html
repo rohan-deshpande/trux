@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#request">request</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#fetch">fetch</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#setId">setId</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -54,7 +54,7 @@
 
     
 
-    <h4 class="name" id="TruxCollection"><span class="type-signature"></span>new TruxCollection<span class="signature">(name, modelClass)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="TruxCollection"><span class="type-signature"></span>new TruxCollection<span class="signature">(name, modelConstructor)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -120,13 +120,13 @@
 
         <tr>
             
-                <td class="name"><code>modelClass</code></td>
+                <td class="name"><code>modelConstructor</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">function</span>
 
 
             
@@ -136,7 +136,7 @@
 
             
 
-            <td class="description last">the TruxModel class this TruxCollection will store</td>
+            <td class="description last">a constructor for a TruxModel</td>
         </tr>
 
     
@@ -177,7 +177,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line13">line 13</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -224,11 +224,25 @@
     
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
     <pre class="prettyprint"><code>//basic usage
-    var MyModel = new TruxModel('My Model');
-    var MyCollection = new TruxCollection('My Collection', MyModel);</code></pre>
+    var MyCollection = new TruxCollection('My Collection', TruxModel);</code></pre>
+
+    <pre class="prettyprint"><code>//advanced usage
+    var MyCollection = function () {
+        TruxCollection.call(this);
+
+        this.getCategories = function () {
+            categories = [];
+
+            this.models.forEach(function (item) {
+                categories.push(item.data.category);
+            });
+
+            return categories;
+        };
+    };</code></pre>
 
 
 
@@ -247,120 +261,6 @@
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="_name"><span class="type-signature"></span>_name<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The name of this collection.
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">this name of this collection</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -460,7 +360,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line52">line 52</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -478,7 +378,7 @@
 
         
             
-<h4 class="name" id="modelClass"><span class="type-signature"></span>modelClass<span class="type-signature"></span></h4>
+<h4 class="name" id="modelConstructor"><span class="type-signature"></span>modelConstructor<span class="type-signature"></span></h4>
 
 
 
@@ -519,7 +419,7 @@
 
         <tr>
             
-                <td class="name"><code>modelClass</code></td>
+                <td class="name"><code>modelConstructor</code></td>
             
 
             <td class="type">
@@ -574,7 +474,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line38">line 38</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -688,235 +588,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line45">line 45</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="poll"><span class="type-signature"></span>poll<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    A boolean value to decide whether to poll remote data or not.
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>poll</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a boolean value to decide whether to poll remote data or not</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line59">line 59</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="wait"><span class="type-signature"></span>wait<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The time to wait to poll the remote data.
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>wait</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the time to wait to poll the remote data</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line66">line 66</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -1043,7 +715,155 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line142">line 142</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line135">line 135</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    void
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="fetch"><span class="type-signature"></span>fetch<span class="signature">(object)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Requests a collection from a remote store.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>object</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">options</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">optional options containing possible onDone and onFail methods</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li>qwest.get</li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -1187,7 +1007,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line122">line 122</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -1343,7 +1163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line153">line 153</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1435,155 +1255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line163">line 163</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    void
-</div>
-
-
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="request"><span class="type-signature"></span>request<span class="signature">(object)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Requests a collection from a remote store.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>object</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">options</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">optional options containing possible onDone and onFail methods</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="implements">Implements:</dt>
-    <dd class="implements"><ul>
-        
-            <li>qwest.get</li>
-        
-    </ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line75">line 75</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -1726,7 +1398,7 @@ Appends these models into the data property of this TruxCollection instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line100">line 100</a>
+        <a href="TruxCollection.js.html">TruxCollection.js</a>, <a href="TruxCollection.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -1792,7 +1464,7 @@ Appends these models into the data property of this TruxCollection instance.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 21 2016 22:27:08 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 27 2016 20:28:10 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

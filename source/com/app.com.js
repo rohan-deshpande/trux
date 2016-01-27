@@ -161,8 +161,22 @@ var Trux = function () {
   * @return {Object} this - this TruxCollection
   * @example
     //basic usage
-    var MyModel = new TruxModel('My Model');
-    var MyCollection = new TruxCollection('My Collection', MyModel);
+    var MyCollection = new TruxCollection('My Collection', TruxModel);
+  * @example
+    //advanced usage
+    var MyCollection = function () {
+        TruxCollection.call(this);
+
+        this.getCategories = function () {
+            categories = [];
+
+            this.models.forEach(function (item) {
+                categories.push(item.data.category);
+            });
+
+            return categories;
+        };
+    };
   * @class
   */
 var TruxCollection = function (modelConstructor) {
@@ -206,7 +220,7 @@ var TruxCollection = function (modelConstructor) {
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
-    this.request = function(options) {
+    this.fetch = function(options) {
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response);
@@ -303,7 +317,7 @@ var TruxCollection = function (modelConstructor) {
 
  /**
   * A client side interface for a remote data model.
-  * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+  * <p>Each TruxModel is expected to have a unique <em>id</em> property.</p>
   *
   * @param {String} name - the name of this TruxModel
   * @return {Object} this - this TruxModel
@@ -311,11 +325,10 @@ var TruxCollection = function (modelConstructor) {
     //basic usage
     var MyModel = new TruxModel('My Model');
   * @example
-    //expected usage
+    //advanced usage
     var UserModel = function(data) {
-        TruxModel.call(this, data.name);
+        TruxModel.call(this);
 
-        this.prototype = TruxModel;
         this.setData(data);
 
         this.getName = function () {
@@ -348,6 +361,13 @@ var TruxModel = function (data) {
      * @private
      */
     var _backup = null;
+
+    /**
+     * The model's unique id.
+     *
+     * @prop {Null|String|Number} id - the model's unique id
+     */
+    this.id = null;
 
     /**
      * The data which defines this model, initially null.
@@ -385,14 +405,16 @@ var TruxModel = function (data) {
     this.className = 'TruxModel';
 
     /**
-     * Set the name of this model.
+     * Set the id for the model.
      *
-     * @prop {String} name - the name of this model
+     * @prop {String|Number} id - the id of this model
+     * @return {Object} this - this TruxModel
      */
-    this.setName = function (name) {
-        this.name = name;
-        return this;
-    };
+     this.setId = function (id) {
+         this.id = id;
+         return this;
+     };
+
 
     /**
      * Set the data for this TruxModel instance.
@@ -518,7 +540,7 @@ var TruxModel = function (data) {
                 _this.restoreData().persist();
 
                 if (typeof options.onFail === 'function') {
-                    options.onFail();
+                    options.onFail(xhr, response, e);
                 }
             });
     };

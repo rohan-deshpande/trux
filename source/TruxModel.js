@@ -1,6 +1,6 @@
  /**
   * A client side interface for a remote data model.
-  * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+  * <p>Each TruxModel is expected to have a unique <em>id</em> property.</p>
   *
   * @param {String} name - the name of this TruxModel
   * @return {Object} this - this TruxModel
@@ -8,11 +8,10 @@
     //basic usage
     var MyModel = new TruxModel('My Model');
   * @example
-    //expected usage
+    //advanced usage
     var UserModel = function(data) {
-        TruxModel.call(this, data.name);
+        TruxModel.call(this);
 
-        this.prototype = TruxModel;
         this.setData(data);
 
         this.getName = function () {
@@ -45,6 +44,13 @@ var TruxModel = function (data) {
      * @private
      */
     var _backup = null;
+
+    /**
+     * The model's unique id.
+     *
+     * @prop {Null|String|Number} id - the model's unique id
+     */
+    this.id = null;
 
     /**
      * The data which defines this model, initially null.
@@ -82,14 +88,16 @@ var TruxModel = function (data) {
     this.className = 'TruxModel';
 
     /**
-     * Set the name of this model.
+     * Set the id for the model.
      *
-     * @prop {String} name - the name of this model
+     * @prop {String|Number} id - the id of this model
+     * @return {Object} this - this TruxModel
      */
-    this.setName = function (name) {
-        this.name = name;
-        return this;
-    };
+     this.setId = function (id) {
+         this.id = id;
+         return this;
+     };
+
 
     /**
      * Set the data for this TruxModel instance.

@@ -23,7 +23,7 @@ var Movie = function (data) {
 
     // set the model's id, parse uses the `objectId` key.
 
-    this.id = data.objectId;
+    this.setId(data.objectId);
 
     // set the headers and dataType for the model's request options.
 
@@ -44,7 +44,7 @@ var Movie = function (data) {
         return this.data.genre;
     };
 
-    // set the REST routes for the model.
+    // set the RESTful routes for the model that we'll be using for this example.
 
     this.PUT = PARSE_API + 'Movies/' + this.id;
     this.GET = PARSE_API + 'Movies/' + this.id;
@@ -66,8 +66,9 @@ Movies.GET = PARSE_API + 'Movies';
 
 // Request its data and then render the List component to the DOM.
 
-Movies.request({
+Movies.fetch({
     onDone:function (response) {
+        // Get the Parse models array from the results object.
         Movies.setModels(response.results);
 
         ReactDOM.render(
@@ -78,7 +79,11 @@ Movies.request({
     }
 });
 
+// Create an Item component.
+
 var Item = React.createClass({
+
+    // Initial state for the Item component.
 
     getInitialState:function () {
         return {
@@ -89,9 +94,7 @@ var Item = React.createClass({
         };
     },
 
-    componentDidMount:function () {
-        console.log(this.state.model);
-    },
+    // Handle the edit state of the component.
 
     handleEdit:function (e) {
         e.preventDefault();
@@ -101,24 +104,29 @@ var Item = React.createClass({
         this.setState({edit:edit});
     },
 
+    // Handle the movie's title change.
+
     handleTitleChange:function (e) {
         this.setState({title:e.target.value});
     },
+
+    // Handle the movie's genre change.
 
     handleGenreChange:function (e) {
         this.setState({genre:e.target.value});
     },
 
+    // Handle the submit event for each Item.
+
     handleSubmit:function (e) {
         e.preventDefault();
 
+        var _this = this;
         var model = this.state.model;
         var data = {
             "title":this.state.title,
             "genre":this.state.genre
         };
-
-        // model.updateParseModel(data);
 
         // A TruxModel's update method expects the model to be returned from the server to ensure data consistency.
         // Parse doesn't do this, instead it only sends back the updatedAt value.
@@ -126,14 +134,11 @@ var Item = React.createClass({
 
         model.update(data, {
             onDone:function (u) {
-                // logs the updatedAt value
-                console.log(u);
                 model.fetch({
                     onDone:function (f) {
-                        // logs the full model from the remote data store
-                        console.log(f);
                         // sets the TruxModel's data and persists it across bound components
                         model.setData(f).persist();
+                        _this.setState({edit:false});
                     }
                 });
             },
@@ -142,6 +147,8 @@ var Item = React.createClass({
             }
         });
     },
+
+    // Render the Item component.
 
     render:function () {
         return (
@@ -188,7 +195,11 @@ var Item = React.createClass({
     }
 });
 
+// Create a List component.
+
 var List = React.createClass({
+
+    // Initial state for the List component.
 
     getInitialState:function () {
         return {
@@ -196,18 +207,26 @@ var List = React.createClass({
         };
     },
 
+    // Set the component's truxId and bind it to its data store.
+
     componentDidMount:function () {
         this.truxId = 'List';
         this.state.collection.bindComponent(this);
     },
 
+    // Unbind the component when it unmounts.
+
     componentWillUnmount:function () {
         this.state.collection.unbindComponent(this);
     },
 
+    // Called from the data store List is bound to
+
     appDataDidChange:function () {
         this.forceUpdate();
     },
+
+    // Render the component.
 
     render:function () {
         return (

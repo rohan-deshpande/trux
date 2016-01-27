@@ -6,8 +6,22 @@
   * @return {Object} this - this TruxCollection
   * @example
     //basic usage
-    var MyModel = new TruxModel('My Model');
-    var MyCollection = new TruxCollection('My Collection', MyModel);
+    var MyCollection = new TruxCollection('My Collection', TruxModel);
+  * @example
+    //advanced usage
+    var MyCollection = function () {
+        TruxCollection.call(this);
+
+        this.getCategories = function () {
+            categories = [];
+
+            this.models.forEach(function (item) {
+                categories.push(item.data.category);
+            });
+
+            return categories;
+        };
+    };
   * @class
   */
 var TruxCollection = function (modelConstructor) {
@@ -51,7 +65,7 @@ var TruxCollection = function (modelConstructor) {
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
-    this.request = function(options) {
+    this.fetch = function(options) {
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response);

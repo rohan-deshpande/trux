@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#request">request</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#fetch">fetch</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#setId">setId</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -40,7 +40,7 @@
         <article>
             <pre class="prettyprint source linenums"><code> /**
   * A client side interface for a remote data model.
-  * NOTE Trux Models assume that the remote data each model mirrors has a unique `id` property.
+  * &lt;p>Each TruxModel is expected to have a unique &lt;em>id&lt;/em> property.&lt;/p>
   *
   * @param {String} name - the name of this TruxModel
   * @return {Object} this - this TruxModel
@@ -48,11 +48,10 @@
     //basic usage
     var MyModel = new TruxModel('My Model');
   * @example
-    //expected usage
+    //advanced usage
     var UserModel = function(data) {
-        TruxModel.call(this, data.name);
+        TruxModel.call(this);
 
-        this.prototype = TruxModel;
         this.setData(data);
 
         this.getName = function () {
@@ -65,8 +64,10 @@
     }
   * @class
   */
-var TruxModel = function (name) {
+var TruxModel = function (data) {
     'use strict';
+
+    Trux.call(this);
 
     /**
      * Private reference to this TruxModel instance.
@@ -84,14 +85,19 @@ var TruxModel = function (name) {
      */
     var _backup = null;
 
-    Trux.call(this);
+    /**
+     * The model's unique id.
+     *
+     * @prop {Null|String|Number} id - the model's unique id
+     */
+    this.id = null;
 
     /**
      * The data which defines this model, initially null.
      *
      * @prop {Null|Object} data - the data which defines this model, initially null
      */
-    this.data = null;
+    this.data = data;
 
     /**
      * A public backup of this model's data, initially null.
@@ -103,9 +109,9 @@ var TruxModel = function (name) {
     /**
      * The name of this model.
      *
-     * @prop {String} _name - this name of this model
+     * @prop {String} name - this name of this model
      */
-    this._name = name;
+    this.name = '';
 
     /**
      * The collection this model belongs to, if it does belong to one. Initially false.
@@ -122,18 +128,16 @@ var TruxModel = function (name) {
     this.className = 'TruxModel';
 
     /**
-     * A boolean value to decide whether to poll remote data or not.
+     * Set the id for the model.
      *
-     * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
+     * @prop {String|Number} id - the id of this model
+     * @return {Object} this - this TruxModel
      */
-    this.poll = false;
+     this.setId = function (id) {
+         this.id = id;
+         return this;
+     };
 
-    /**
-     * The time to wait to poll the remote data.
-     *
-     * @prop {Integer} wait - the time to wait to poll the remote data
-     */
-    this.wait = 5000;
 
     /**
      * Set the data for this TruxModel instance.
@@ -191,14 +195,14 @@ var TruxModel = function (name) {
      * @return void
      */
     this.fetch = function (options) {
-        qwest.get(this.GET)
+        qwest.get(this.GET, null, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
@@ -217,14 +221,15 @@ var TruxModel = function (name) {
      * @return void
      */
     this.create = function (data, options) {
-        qwest.post(this.POST, data)
+        qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
+                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
@@ -244,21 +249,21 @@ var TruxModel = function (name) {
      * @return void
      */
     this.update = function (data, options) {
-        qwest.put(this.PUT, data)
+        qwest.put(this.PUT, data, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
                 _this.setData(response).persist();
 
                 if (typeof options.onDone === 'function') {
-                    options.onDone();
+                    options.onDone(response);
                 }
             })
             .catch(function (xhr, response, e) {
                 _this.restoreData().persist();
 
                 if (typeof options.onFail === 'function') {
-                    options.onFail();
+                    options.onFail(xhr, response, e);
                 }
             });
     };
@@ -277,7 +282,7 @@ var TruxModel = function (name) {
             if (this.poll === false) return;
 
             setTimeout(function () {
-                qwest.get(this.GET)
+                qwest.get(this.GET, null, this.requestOptions)
                     .then(function (xhr, response) {
                         _this.setData(response)
                             .persist()
@@ -324,7 +329,7 @@ var TruxModel = function (name) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 21 2016 22:27:08 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 27 2016 20:28:10 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

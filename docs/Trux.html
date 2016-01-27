@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#request">request</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#fetch">fetch</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#setId">setId</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -359,7 +359,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line65">line 65</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -587,7 +587,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line37">line 37</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -701,7 +701,121 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line58">line 58</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="poll"><span class="type-signature"></span>poll<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    A boolean value to decide whether to poll remote data or not.
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>poll</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a boolean value to decide whether to poll remote data or not</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line90">line 90</a>
     </li></ul></dd>
     
 
@@ -815,7 +929,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line44">line 44</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -929,7 +1043,242 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line51">line 51</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="requestOptions"><span class="type-signature"></span>requestOptions<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Request options which align with the qwest options argument for requests.
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>requestOptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">options to be set for the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/pyrsmk/qwest#basics">https://github.com/pyrsmk/qwest#basics</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="wait"><span class="type-signature"></span>wait<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The time to wait to poll the remote data.
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>wait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the time to wait to poll the remote data</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -1059,7 +1408,7 @@ Should be called within the component's componentWillMount or componentDidMount 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line94">line 94</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -1158,7 +1507,7 @@ Should be called within the component's componentWillMount or componentDidMount 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line119">line 119</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -1177,6 +1526,147 @@ Should be called within the component's componentWillMount or componentDidMount 
 <ul>
     <li>this.emitter.event:change</li>
 </ul>
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    void
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setRequestOptions"><span class="type-signature"></span>setRequestOptions<span class="signature">(requestOptions)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets the options for the request.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>requestOptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the options for all requests</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line81">line 81</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
 
 
 
@@ -1306,7 +1796,7 @@ Should be called within the component's componentWillUnmount method.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line106">line 106</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -1405,7 +1895,7 @@ Should be called within the component's componentWillUnmount method.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line75">line 75</a>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -1459,7 +1949,7 @@ Should be called within the component's componentWillUnmount method.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 21 2016 22:27:08 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 27 2016 20:28:10 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

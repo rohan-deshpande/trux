@@ -234,7 +234,7 @@ var Editor = React.createClass({
             this.trux.models.Book = function (data) {
                 TruxModel.call(this);
 
-                this.setData(data).setName(data.title);
+                this.setData(data);
 
                 this.getTitle = function () {
                     return this.data.title;
@@ -278,7 +278,7 @@ var Editor = React.createClass({
             this.trux.collections.Genre =  function() {
                 TruxCollection.call(this, _this.trux.models.Book);
 
-                this.requestLocal = function (key) {
+                this.fetchLocal = function (key) {
                     var models = JSON.parse(localStorage.getItem(key));
 
                     this.setModels(models);
@@ -295,7 +295,7 @@ var Editor = React.createClass({
             .setupGenre();
 
             var fantasy = new app.trux.collections.Genre();
-            fantasy.requestLocal('truxExampleData');
+            fantasy.fetchLocal('truxExampleData');
 
             ReactDOM.render(
                 <div>

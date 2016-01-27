@@ -52,10 +52,6 @@ var MyComponent = React.createClass({
 
 You're now set up to interact with `MyModel` and have its changes reflected in the `MyComponent`.
 
-## Working with remote data
-
-Trux was designed to work with a RESTful API.
-
 
 ## Getting Started
 
@@ -151,4 +147,8 @@ After the `setInterval` runs, `MyComponent` will re render and the new value for
 
 ## Extending the Trux base objects
 
-Trux's real strength lies in its focus on inheritance. You can easily declare new, custom TruxModels which have their own methods while still accessing their parent's methods. Check out the following example for how this works.
+Trux's real strength lies in its focus on inheritance. You can easily declare new, custom TruxModels which have their own methods while still accessing their parent's methods. Check out the `local` and `remote` examples for an idea on how this works.
+
+## Working with remote data
+
+Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com). Checkout the `remote` example for more on how this can work.
