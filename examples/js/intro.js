@@ -3,7 +3,7 @@
  *
  */
 var myData = {'thing':"Keep on truxin'"};
-var myModel = new TruxModel('myModel').setData(myData);
+var myModel = new Trux.Model('myModel').setData(myData);
 var MyComponent = React.createClass({
 
     /**

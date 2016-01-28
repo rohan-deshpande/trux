@@ -1,143 +1,143 @@
- /**
-  * A client side interface for a remote data model.
-  * <p>Each TruxModel is expected to have a unique <em>id</em> property.</p>
-  *
-  * @param {String} name - the name of this TruxModel
-  * @return {Object} this - this TruxModel
-  * @example
-    //basic usage
-    var MyModel = new TruxModel('My Model');
-  * @example
-    //advanced usage
-    var UserModel = function(data) {
-        TruxModel.call(this);
-
-        this.setData(data);
-
-        this.getName = function () {
-            return this.data.name;
-        }
-
-        this.setName = function (name) {
-            this.data.name = name;
-        }
-    }
-  * @class
-  */
-var TruxModel = function (data) {
+(function () {
     'use strict';
 
-    Trux.call(this);
+    /**
+     * A client side interface for a remote data Model.
+     * <p>Each Model is expected to have a unique <em>id</em> property.</p>
+     *
+     * @param {Object} data - the data which defines this Model
+     * @return {Object} this - this Model
+     * @example
+       //basic usage
+       var MyModel = new Model('My Model');
+     * @example
+       //advanced usage
+       var UserModel = function(data) {
+           Trux.Model.call(this);
+
+           this.setData(data);
+
+           this.getName = function () {
+               return this.data.name;
+           }
+
+           this.setName = function (name) {
+               this.data.name = name;
+           }
+       }
+     * @constructor
+     */
+    Trux.Model = function (data) {
+
+        Trux.Base.call(this);
+
+        /**
+         * Private reference to this Model instance.
+         *
+         * @prop {Object} _this - private reference to this instance
+         * @private
+         */
+        var _this = this;
+
+        /**
+         * Private backup of the Model's data, initially null.
+         *
+         * @prop {Null|Object} _this -  private backup of the Model's data, initially null
+         * @private
+         */
+        var _backup = null;
+
+        /**
+         * The Model's unique id.
+         *
+         * @prop {Null|String|Number} id - the Model's unique id
+         */
+        this.id = null;
+
+        /**
+         * The data which defines this Model, initially null.
+         *
+         * @prop {Null|Object} data - the data which defines this Model, initially null
+         */
+        this.data = data;
+
+        /**
+         * A public backup of this Model's data, initially null.
+         *
+         * @prop {Null|Object} backup - a public backup of this Model's data, initially null
+         */
+        this.backup = null;
+
+        /**
+         * The collection this Model belongs to, if it does belong to one. Initially false.
+         *
+         * @prop {Boolean|Object} collection - the collection this Model belongs to
+         */
+        this.collection = false;
+
+        /**
+         * Easy way of determining what kind of class this is.
+         *
+         * @prop {String} className - easy way of determining what kind of class this is
+         */
+        this.className = 'Model';
+
+        /**
+         * Set the data for this Model instance.
+         * Also sets the private _backup for this instance.
+         *
+         * @param {Object} data - the data that defines this Model
+         * @return {Object} this - this Model
+         */
+        this.setData = function (data) {
+            this.data = data;
+            _backup = JSON.parse(JSON.stringify(data));
+            return this;
+        };
+
+        /**
+         * Restores the Model's data from the privately stored _backup.
+         *
+         * @return {Object} this - this Model
+         */
+        this.restoreData = function () {
+            this.data = JSON.parse(JSON.stringify(_backup));
+            return this;
+        };
+
+        return this;
+    };
+
+    Trux.Model.prototype = Object.create(Trux.Base.prototype);
+    Trux.Model.prototype.constructor = Trux.Model;
 
     /**
-     * Private reference to this TruxModel instance.
+     * Set the id for the Model.
      *
-     * @prop {Object} _this - private reference to this instance
-     * @private
+     * @prop {String|Number} id - the id of this Model
+     * @return {Object} this - this Model
      */
-    var _this = this;
-
-    /**
-     * Private backup of the model's data, initially null.
-     *
-     * @prop {Null|Object} _this -  private backup of the model's data, initially null
-     * @private
-     */
-    var _backup = null;
-
-    /**
-     * The model's unique id.
-     *
-     * @prop {Null|String|Number} id - the model's unique id
-     */
-    this.id = null;
-
-    /**
-     * The data which defines this model, initially null.
-     *
-     * @prop {Null|Object} data - the data which defines this model, initially null
-     */
-    this.data = data;
-
-    /**
-     * A public backup of this model's data, initially null.
-     *
-     * @prop {Null|Object} backup - a public backup of this model's data, initially null
-     */
-    this.backup = null;
-
-    /**
-     * The name of this model.
-     *
-     * @prop {String} name - this name of this model
-     */
-    this.name = '';
-
-    /**
-     * The collection this model belongs to, if it does belong to one. Initially false.
-     *
-     * @prop {Boolean|Object} collection - the collection this model belongs to
-     */
-    this.collection = false;
-
-    /**
-     * Easy way of determining what kind of class this is.
-     *
-     * @prop {String} className - easy way of determining what kind of class this is
-     */
-    this.className = 'TruxModel';
-
-    /**
-     * Set the id for the model.
-     *
-     * @prop {String|Number} id - the id of this model
-     * @return {Object} this - this TruxModel
-     */
-     this.setId = function (id) {
+     Trux.Model.prototype.setId = function (id) {
          this.id = id;
          return this;
      };
 
-
     /**
-     * Set the data for this TruxModel instance.
-     * Also sets the private _backup for this instance.
+     * Gets the id for this Model.
      *
-     * @param {Object} data - the data that defines this model
-     * @return {Object} this - this TruxModel
+     * @return {Integer|String} id - the Model's unique id
      */
-    this.setData = function (data) {
-        this.data = data;
-        _backup = JSON.parse(JSON.stringify(data));
-        return this;
-    };
-
-    /**
-     * Restores the model's data from the privately stored _backup.
-     *
-     * @return {Object} this - this TruxModel
-     */
-    this.restoreData = function () {
-        this.data = JSON.parse(JSON.stringify(_backup));
-        return this;
-    };
-
-    /**
-     * Gets the id for this model.
-     *
-     * @return {Integer|String} id - the model's unique id
-     */
-    this.getId = function () {
+    Trux.Model.prototype.getId = function () {
         return this.data.id;
     };
 
     /**
-     * Persits the model's data throughout its bound components.
-     * Emits the model's change event.
+     * Persits the Model's data throughout its bound components.
+     * Emits the Model's change event.
      *
-     * @return {Object} this - this TruxModel
+     * @return {Object} this - this Model
      */
-    this.persist = function () {
+    Trux.Model.prototype.persist = function () {
         if (this.collection) {
             this.collection.emitChangeEvent();
         } else {
@@ -148,13 +148,13 @@ var TruxModel = function (data) {
     };
 
     /**
-     * Requests the remote data for the model, then sets the TruxModel data with the response.
+     * Requests the remote data for the Model, then sets the Model data with the response.
      *
      * @implements qwest.get
      * @param {Object} options - optional onDone and onFail methods to run when promises are resolved
      * @return void
      */
-    this.fetch = function (options) {
+    Trux.Model.prototype.fetch = function (options) {
         qwest.get(this.GET, null, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -173,14 +173,14 @@ var TruxModel = function (data) {
     };
 
     /**
-     * Creates a new instance of this model in the remote data store.
+     * Creates a new instance of this Model in the remote data store.
      *
      * @implements qwest.post
-     * @param {Object} data - the data for the new model
+     * @param {Object} data - the data for the new Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
      * @return void
      */
-    this.create = function (data, options) {
+    Trux.Model.prototype.create = function (data, options) {
         qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
                 console.log(response);
@@ -200,15 +200,15 @@ var TruxModel = function (data) {
     };
 
     /**
-     * Updates this model in the remote data store.
+     * Updates this Model in the remote data store.
      *
      * @implements qwest.put
      * @implements EventEmitter.emitEvent
-     * @param {Object} data - the new data for the model
+     * @param {Object} data - the new data for the Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
      * @return void
      */
-    this.update = function (data, options) {
+    Trux.Model.prototype.update = function (data, options) {
         qwest.put(this.PUT, data, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -235,8 +235,10 @@ var TruxModel = function (data) {
      * @param {Boolean|Undefined} poll - true when first starting to poll, undefined while in recursion
      * @return void
      */
-    this.startPolling = function (poll) {
+    Trux.Model.prototype.startPolling = function (poll) {
         if (poll === true) this.poll = true;
+
+        var _this = this;
 
         (function () {
             if (this.poll === false) return;
@@ -259,21 +261,21 @@ var TruxModel = function (data) {
     /**
      * Sets this.poll to false so that the next time startPolling runs it will cancel the recursion.
      *
-     * @return {Object} this - this TruxModel
+     * @return {Object} this - this Model
      */
-    this.stopPolling = function () {
+    Trux.Model.prototype.stopPolling = function () {
         this.poll = false;
+
         return this;
     };
 
     /**
-     * Clears this model's data property.
+     * Clears this Model's data property.
      *
      * @return void
      */
-    this.purge = function () {
+    Trux.Model.prototype.purge = function () {
         this.data = null;
     };
 
-    return this;
-};
+}.call(Trux));

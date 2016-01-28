@@ -1,62 +1,66 @@
- /**
-  * A store for an array of models.
-  *
-  * @param {String} name - the name of this TruxCollection
-  * @param {Function} modelConstructor - a constructor for a TruxModel
-  * @return {Object} this - this TruxCollection
-  * @example
-    //basic usage
-    var MyCollection = new TruxCollection('My Collection', TruxModel);
-  * @example
-    //advanced usage
-    var MyCollection = function () {
-        TruxCollection.call(this);
-
-        this.getCategories = function () {
-            categories = [];
-
-            this.models.forEach(function (item) {
-                categories.push(item.data.category);
-            });
-
-            return categories;
-        };
-    };
-  * @class
-  */
-var TruxCollection = function (modelConstructor) {
+(function () {
     'use strict';
-
-    Trux.call(this);
-
     /**
-     * Private reference to this TruxModel instance.
+     * A store for an array of models.
      *
-     * @prop {Object} _this - private reference to this instance
-     * @private
-     */
-    var _this = this;
+     * @param {String} name - the name of this Collection
+     * @param {Function} modelConstructor - a constructor for a Model
+     * @return {Object} this - this Collection
+     * @example
+       //basic usage
+       var MyCollection = new Collection('My Collection', Model);
+     * @example
+       //advanced usage
+       var MyCollection = function () {
+           Collection.call(this);
 
-    /**
-     * The TruxModel class for the models contained within this collection.
-     *
-     * @prop {Object} modelConstructor - the TruxModel class for the models contained within this collection
-     */
-    this.modelConstructor = modelConstructor;
+           this.getCategories = function () {
+               categories = [];
 
-    /**
-     * The array of TruxModels stored in this TruxCollection.
-     *
-     * @prop {Array} models - an array of TruxModels
-     */
-    this.models = [];
+               this.models.forEach(function (item) {
+                   categories.push(item.data.category);
+               });
 
-    /**
-     * An easy way of determining what kind of class this is.
-     *
-     * @prop {String} className -  easy way of determining what kind of class this is
+               return categories;
+           };
+       };
+     * @constructor
      */
-    this.className = 'TruxCollection';
+    function Collection(modelConstructor) {
+
+        Trux.Base.call(this);
+
+        /**
+         * Private reference to this Model instance.
+         *
+         * @prop {Object} _this - private reference to this instance
+         * @private
+         */
+        var _this = this;
+
+        /**
+         * The Model class for the models contained within this collection.
+         *
+         * @prop {Object} modelConstructor - the Model class for the models contained within this collection
+         */
+        this.modelConstructor = modelConstructor;
+
+        /**
+         * The array of Models stored in this Collection.
+         *
+         * @prop {Array} models - an array of Models
+         */
+        this.models = [];
+
+        /**
+         * An easy way of determining what kind of class this is.
+         *
+         * @prop {String} className -  easy way of determining what kind of class this is
+         */
+        this.className = 'Collection';
+
+        return this;
+    }
 
     /**
      * Requests a collection from a remote store.
@@ -65,7 +69,7 @@ var TruxCollection = function (modelConstructor) {
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
-    this.fetch = function(options) {
+    Collection.prototype.fetch = function(options) {
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response);
@@ -83,13 +87,13 @@ var TruxCollection = function (modelConstructor) {
 
     /**
      * Sets the models for this collection.
-     * Instantiates a TruxModel for each data item contained with in the models param.
-     * Appends these models into the data property of this TruxCollection instance.
+     * Instantiates a Model for each data item contained with in the models param.
+     * Appends these models into the data property of this Collection instance.
      *
      * @param {Array} models - an array of JSON objects, each object must have an id property
      * @return {Object} _this - object instance
      */
-    this.setModels = function (models) {
+    Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;
 
         _this.purgeModels();
@@ -112,7 +116,7 @@ var TruxCollection = function (modelConstructor) {
      * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
      * @return {Object|Boolean} model - an object if the model was found, false if not
      */
-    this.findById = function (id) {
+    Collection.prototype.findById = function (id) {
         var length = this.models.length;
         var i;
         var model = false;
@@ -127,23 +131,23 @@ var TruxCollection = function (modelConstructor) {
     };
 
     /**
-     * Appends a model to the data property of this TruxCollection instance.
+     * Appends a model to the data property of this Collection instance.
      *
-     * @param {Object} model - a TruxModel instance
+     * @param {Object} model - a Model instance
      * @return void
      */
-    this.append = function (model) {
+    Collection.prototype.append = function (model) {
         model.collection = this;
         _this.models.push(model);
     };
 
     /**
-     * Prepends a model to the data property of this TruxCollection instance.
+     * Prepends a model to the data property of this Collection instance.
      *
-     * @param {Object} model - a TruxModel instance
+     * @param {Object} model - a Model instance
      * @return void
      */
-    this.prepend = function (model) {
+    Collection.prototype.prepend = function (model) {
         model.collection = _this;
         _this.models.unshift(model);
     };
@@ -153,9 +157,7 @@ var TruxCollection = function (modelConstructor) {
      *
      * @return void
      */
-    this.purgeModels = function () {
+    Collection.prototype.purgeModels = function () {
         this.models = [];
     };
-
-    return this;
-};
+}.call(Trux));
