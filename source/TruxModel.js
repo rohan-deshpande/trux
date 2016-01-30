@@ -1,4 +1,4 @@
-(function () {
+(function (Trux) {
     'use strict';
 
     /**
@@ -29,6 +29,10 @@
      */
     Trux.Model = function (data) {
 
+        /**
+         * Inherit properties from Trux.Base.
+         *
+         */
         Trux.Base.call(this);
 
         /**
@@ -108,8 +112,11 @@
         return this;
     };
 
+    /**
+     * Inherit prototype methods from Trux.Base.
+     *
+     */
     Trux.Model.prototype = Object.create(Trux.Base.prototype);
-    Trux.Model.prototype.constructor = Trux.Model;
 
     /**
      * Set the id for the Model.
@@ -278,4 +285,4 @@
         this.data = null;
     };
 
-}.call(Trux));
+}(Trux));

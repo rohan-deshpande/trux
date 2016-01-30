@@ -9,22 +9,7 @@
     </head>
     <body>
         <div class="container">
-            <nav class='demo'>
-                <a href="index.html" class='brand'>Trux</a>
-                <input id="bmenub" type="checkbox" class="show">
-                <label for="bmenub" class="burger pseudo button toggle">menu</label>
-                <div class='menu'>
-                    <a class='button' href="intro.html">
-                        Intro
-                    </a>
-                    <a class='button' href="local.html">
-                        Local
-                    </a>
-                    <a class='button' href="remote.html">
-                        Remote
-                    </a>
-                </div>
-            </nav>
+            <div id='menu'></div>
             <h1>
                 Meanwhile at your local library...
             </h1>
@@ -33,7 +18,8 @@
         <script src="https://fb.me/react-0.14.3.min.js"></script>
         <script src="https://fb.me/react-dom-0.14.3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-        <script type="text/javascript" src='../dist/trux.min.js'></script>
+        <script type="text/javascript" src='../dist/trux.js'></script>
+        <script type="text/babel" src='js/menu.js'></script>
         <script type="text/babel" src='js/local.js'></script>
     </body>
 </html>

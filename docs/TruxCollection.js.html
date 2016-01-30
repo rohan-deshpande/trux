@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.html#~broadcast">broadcast</a></li></ul></li><li><a href="TruxCollection.html">TruxCollection</a><ul class='methods'><li data-type='method'><a href="TruxCollection.html#append">append</a></li><li data-type='method'><a href="TruxCollection.html#fetch">fetch</a></li><li data-type='method'><a href="TruxCollection.html#findById">findById</a></li><li data-type='method'><a href="TruxCollection.html#prepend">prepend</a></li><li data-type='method'><a href="TruxCollection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="TruxCollection.html#setModels">setModels</a></li></ul></li><li><a href="TruxModel.html">TruxModel</a><ul class='methods'><li data-type='method'><a href="TruxModel.html#create">create</a></li><li data-type='method'><a href="TruxModel.html#fetch">fetch</a></li><li data-type='method'><a href="TruxModel.html#getId">getId</a></li><li data-type='method'><a href="TruxModel.html#persist">persist</a></li><li data-type='method'><a href="TruxModel.html#purge">purge</a></li><li data-type='method'><a href="TruxModel.html#restoreData">restoreData</a></li><li data-type='method'><a href="TruxModel.html#setData">setData</a></li><li data-type='method'><a href="TruxModel.html#setId">setId</a></li><li data-type='method'><a href="TruxModel.html#startPolling">startPolling</a></li><li data-type='method'><a href="TruxModel.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="TruxModel.html#update">update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#startPolling">startPolling</a></li><li data-type='method'><a href="Trux.Model.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a></li></ul>
 </nav>
 
 <div id="main">
@@ -38,65 +38,75 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code> /**
-  * A store for an array of models.
-  *
-  * @param {String} name - the name of this TruxCollection
-  * @param {Function} modelConstructor - a constructor for a TruxModel
-  * @return {Object} this - this TruxCollection
-  * @example
-    //basic usage
-    var MyCollection = new TruxCollection('My Collection', TruxModel);
-  * @example
-    //advanced usage
-    var MyCollection = function () {
-        TruxCollection.call(this);
-
-        this.getCategories = function () {
-            categories = [];
-
-            this.models.forEach(function (item) {
-                categories.push(item.data.category);
-            });
-
-            return categories;
-        };
-    };
-  * @class
-  */
-var TruxCollection = function (modelConstructor) {
+            <pre class="prettyprint source linenums"><code>(function (Trux) {
     'use strict';
+    /**
+     * A store for an array of models.
+     *
+     * @param {String} name - the name of this Collection
+     * @param {Function} modelConstructor - a constructor for a Model
+     * @return {Object} this - this Collection
+     * @example
+       //basic usage
+       var MyCollection = new Trux.Collection(Trux.Model);
+     * @example
+       //advanced usage
+       var MyCollection = function () {
+           Trux.Collection.call(this);
 
-    Trux.call(this);
+           this.getCategories = function () {
+               categories = [];
+
+               this.models.forEach(function (item) {
+                   categories.push(item.data.category);
+               });
+
+               return categories;
+           };
+       };
+     * @constructor
+     */
+    Trux.Collection = function (modelConstructor) {
+
+        Trux.Base.call(this);
+
+        /**
+         * Private reference to this Model instance.
+         *
+         * @prop {Object} _this - private reference to this instance
+         * @private
+         */
+        var _this = this;
+
+        /**
+         * The Model class for the models contained within this collection.
+         *
+         * @prop {Object} modelConstructor - the Model class for the models contained within this collection
+         */
+        this.modelConstructor = modelConstructor;
+
+        /**
+         * The array of Models stored in this Collection.
+         *
+         * @prop {Array} models - an array of Models
+         */
+        this.models = [];
+
+        /**
+         * An easy way of determining what kind of class this is.
+         *
+         * @prop {String} className -  easy way of determining what kind of class this is
+         */
+        this.className = 'Collection';
+
+        return this;
+    };
 
     /**
-     * Private reference to this TruxModel instance.
+     * Inherit prototype methods from Trux.Base.
      *
-     * @prop {Object} _this - private reference to this instance
-     * @private
      */
-    var _this = this;
-
-    /**
-     * The TruxModel class for the models contained within this collection.
-     *
-     * @prop {Object} modelConstructor - the TruxModel class for the models contained within this collection
-     */
-    this.modelConstructor = modelConstructor;
-
-    /**
-     * The array of TruxModels stored in this TruxCollection.
-     *
-     * @prop {Array} models - an array of TruxModels
-     */
-    this.models = [];
-
-    /**
-     * An easy way of determining what kind of class this is.
-     *
-     * @prop {String} className -  easy way of determining what kind of class this is
-     */
-    this.className = 'TruxCollection';
+    Trux.Collection.prototype = Object.create(Trux.Base.prototype);
 
     /**
      * Requests a collection from a remote store.
@@ -105,7 +115,9 @@ var TruxCollection = function (modelConstructor) {
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
-    this.fetch = function(options) {
+    Trux.Collection.prototype.fetch = function(options) {
+        var _this = this;
+
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response);
@@ -123,27 +135,27 @@ var TruxCollection = function (modelConstructor) {
 
     /**
      * Sets the models for this collection.
-     * Instantiates a TruxModel for each data item contained with in the models param.
-     * Appends these models into the data property of this TruxCollection instance.
+     * Instantiates a Model for each data item contained with in the models param.
+     * Appends these models into the data property of this Collection instance.
      *
      * @param {Array} models - an array of JSON objects, each object must have an id property
      * @return {Object} _this - object instance
      */
-    this.setModels = function (models) {
+    Trux.Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;
 
-        _this.purgeModels();
+        this.purgeModels();
 
         var length = models.length;
         var i;
 
 
         for (i = 0 ; i &lt; length ; i++) {
-            var model = new _this.modelConstructor(models[i]);
-            _this.append(model);
+            var model = new this.modelConstructor(models[i]);
+            this.append(model);
         }
 
-        return _this;
+        return this;
     };
 
     /**
@@ -152,7 +164,7 @@ var TruxCollection = function (modelConstructor) {
      * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
      * @return {Object|Boolean} model - an object if the model was found, false if not
      */
-    this.findById = function (id) {
+    Trux.Collection.prototype.findById = function (id) {
         var length = this.models.length;
         var i;
         var model = false;
@@ -167,25 +179,25 @@ var TruxCollection = function (modelConstructor) {
     };
 
     /**
-     * Appends a model to the data property of this TruxCollection instance.
+     * Appends a model to the data property of this Collection instance.
      *
-     * @param {Object} model - a TruxModel instance
+     * @param {Object} model - a Model instance
      * @return void
      */
-    this.append = function (model) {
+    Trux.Collection.prototype.append = function (model) {
         model.collection = this;
-        _this.models.push(model);
+        this.models.push(model);
     };
 
     /**
-     * Prepends a model to the data property of this TruxCollection instance.
+     * Prepends a model to the data property of this Collection instance.
      *
-     * @param {Object} model - a TruxModel instance
+     * @param {Object} model - a Model instance
      * @return void
      */
-    this.prepend = function (model) {
+    Trux.Collection.prototype.prepend = function (model) {
         model.collection = _this;
-        _this.models.unshift(model);
+        this.models.unshift(model);
     };
 
     /**
@@ -193,12 +205,10 @@ var TruxCollection = function (modelConstructor) {
      *
      * @return void
      */
-    this.purgeModels = function () {
+    Trux.Collection.prototype.purgeModels = function () {
         this.models = [];
     };
-
-    return this;
-};
+}(Trux));
 </code></pre>
         </article>
     </section>
@@ -211,7 +221,7 @@ var TruxCollection = function (modelConstructor) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 27 2016 20:28:10 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Jan 30 2016 21:08:04 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

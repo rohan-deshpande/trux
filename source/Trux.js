@@ -158,6 +158,24 @@
     };
 
     /**
+     * Extends the base methods of this Trux class instance.
+     *
+     * @param {Object} methods - the custom methods to set on this instance
+     * @return {Object} this - this Trux class instance
+     */
+    Trux.Base.prototype.extend = function (methods) {
+        if (typeof methods !== 'object') return this;
+
+        for (var fn in methods) {
+            if (methods.hasOwnProperty(fn) && typeof(methods[fn]) === 'function') {
+                this[fn] = methods[fn];
+            }
+        }
+
+        return this;
+    };
+
+    /**
      * Sets the options for the request.
      *
      * @param {Object} requestOptions - the options for all requests

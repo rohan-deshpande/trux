@@ -166,6 +166,24 @@
     };
 
     /**
+     * Extends the base methods of this Trux class instance.
+     *
+     * @param {Object} methods - the custom methods to set on this instance
+     * @return {Object} this - this Trux class instance
+     */
+    Trux.Base.prototype.extend = function (methods) {
+        if (typeof methods !== 'object') return this;
+
+        for (var fn in methods) {
+            if (methods.hasOwnProperty(fn) && typeof(methods[fn]) === 'function') {
+                this[fn] = methods[fn];
+            }
+        }
+
+        return this;
+    };
+
+    /**
      * Sets the options for the request.
      *
      * @param {Object} requestOptions - the options for all requests
@@ -176,7 +194,7 @@
     };
 }.call(this));
 
-(function () {
+(function (Trux) {
     'use strict';
     /**
      * A store for an array of models.
@@ -186,11 +204,11 @@
      * @return {Object} this - this Collection
      * @example
        //basic usage
-       var MyCollection = new Collection('My Collection', Model);
+       var MyCollection = new Trux.Collection(Trux.Model);
      * @example
        //advanced usage
        var MyCollection = function () {
-           Collection.call(this);
+           Trux.Collection.call(this);
 
            this.getCategories = function () {
                categories = [];
@@ -204,7 +222,7 @@
        };
      * @constructor
      */
-    function Collection(modelConstructor) {
+    Trux.Collection = function (modelConstructor) {
 
         Trux.Base.call(this);
 
@@ -238,7 +256,13 @@
         this.className = 'Collection';
 
         return this;
-    }
+    };
+
+    /**
+     * Inherit prototype methods from Trux.Base.
+     *
+     */
+    Trux.Collection.prototype = Object.create(Trux.Base.prototype);
 
     /**
      * Requests a collection from a remote store.
@@ -247,7 +271,9 @@
      * @param object {options} - optional options containing possible onDone and onFail methods
      * @return void
      */
-    Collection.prototype.fetch = function(options) {
+    Trux.Collection.prototype.fetch = function(options) {
+        var _this = this;
+
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
             _this.setModels(response);
@@ -271,21 +297,21 @@
      * @param {Array} models - an array of JSON objects, each object must have an id property
      * @return {Object} _this - object instance
      */
-    Collection.prototype.setModels = function (models) {
+    Trux.Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;
 
-        _this.purgeModels();
+        this.purgeModels();
 
         var length = models.length;
         var i;
 
 
         for (i = 0 ; i < length ; i++) {
-            var model = new _this.modelConstructor(models[i]);
-            _this.append(model);
+            var model = new this.modelConstructor(models[i]);
+            this.append(model);
         }
 
-        return _this;
+        return this;
     };
 
     /**
@@ -294,7 +320,7 @@
      * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
      * @return {Object|Boolean} model - an object if the model was found, false if not
      */
-    Collection.prototype.findById = function (id) {
+    Trux.Collection.prototype.findById = function (id) {
         var length = this.models.length;
         var i;
         var model = false;
@@ -314,9 +340,9 @@
      * @param {Object} model - a Model instance
      * @return void
      */
-    Collection.prototype.append = function (model) {
+    Trux.Collection.prototype.append = function (model) {
         model.collection = this;
-        _this.models.push(model);
+        this.models.push(model);
     };
 
     /**
@@ -325,9 +351,9 @@
      * @param {Object} model - a Model instance
      * @return void
      */
-    Collection.prototype.prepend = function (model) {
+    Trux.Collection.prototype.prepend = function (model) {
         model.collection = _this;
-        _this.models.unshift(model);
+        this.models.unshift(model);
     };
 
     /**
@@ -335,12 +361,12 @@
      *
      * @return void
      */
-    Collection.prototype.purgeModels = function () {
+    Trux.Collection.prototype.purgeModels = function () {
         this.models = [];
     };
-}.call(Trux));
+}(Trux));
 
-(function () {
+(function (Trux) {
     'use strict';
 
     /**
@@ -371,6 +397,10 @@
      */
     Trux.Model = function (data) {
 
+        /**
+         * Inherit properties from Trux.Base.
+         *
+         */
         Trux.Base.call(this);
 
         /**
@@ -450,8 +480,11 @@
         return this;
     };
 
+    /**
+     * Inherit prototype methods from Trux.Base.
+     *
+     */
     Trux.Model.prototype = Object.create(Trux.Base.prototype);
-    Trux.Model.prototype.constructor = Trux.Model;
 
     /**
      * Set the id for the Model.
@@ -620,4 +653,4 @@
         this.data = null;
     };
 
-}.call(Trux));
+}(Trux));
