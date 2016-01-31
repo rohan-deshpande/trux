@@ -10,7 +10,7 @@
     "Rohan Deshpande"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/rohan-deshpande/trux",
   "ignore": [
     "**/.*",
     "node_modules",
