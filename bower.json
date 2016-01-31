@@ -14,8 +14,8 @@
   "ignore": [
     "**/.*",
     "source/com",
-    "docs",
-    "examples",
+    "docs/",
+    "examples/",
     ".gitignore",
     "README.md"
   ],
