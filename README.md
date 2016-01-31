@@ -9,7 +9,7 @@ Trux allows you to create client side data store objects which contain bindings 
 
 Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data store classes, `Trux.Model` and `Trux.Collection` which are designed to be branched for your own use cases.
 
-Trux focuses on inheritance and provides a `Trux.branch` method to branch `Trux.Model` or `Trux.Collection` into new classes with custom methods. 
+Trux focuses on inheritance and provides a `Trux.branch` method to branch `Trux.Model` or `Trux.Collection` into new classes with custom methods.
 
 Checkout the short guide below, the examples and the docs to get an idea of how to use Trux.
 
@@ -143,8 +143,14 @@ From this short example you can see how we can easily branch Trux classes into n
 
 ## Working with remote data
 
-Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com). 
+Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com).
 
 The provided methods within both `Trux.Model` and `Trux.Collection` do make some assumptions as to how data is being sent back from your API. If this doesn't gel with your setup, you can simply branch new versions of these and write your own REST methods.
 
 For more info on how this is achieved, please check the `remote.html` example which uses Parse and read the docs.
+
+## License
+
+Copyright (c) 2016 Rohan Deshpande and other contributors
+
+Licensed under the MIT License
