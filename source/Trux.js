@@ -127,20 +127,6 @@
              * @prop {String} DELETE - the DELETE route for this object
              */
             this.DELETE = false;
-
-            /**
-             * A boolean value to decide whether to poll remote data or not.
-             *
-             * @prop {Boolean} poll - a boolean value to decide whether to poll remote data or not
-             */
-            this.poll = false;
-
-            /**
-             * The time to wait to poll the remote data.
-             *
-             * @prop {Integer} wait - the time to wait to poll the remote data
-             */
-            this.wait = 5000;
         }
     };
 

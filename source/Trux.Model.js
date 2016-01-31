@@ -212,7 +212,6 @@
             });
 
         return this;
-
     };
 
     /**
@@ -244,47 +243,6 @@
                     options.onFail(xhr, response, e);
                 }
             });
-
-        return this;
-    };
-
-    /**
-     * Polls the remote data store.
-     *
-     * @implements qwest.get
-     * @param {Boolean|Undefined} poll - true when first starting to poll, undefined while in recursion
-     * @return void
-     */
-    Trux.Model.prototype.startPolling = function (poll) {
-        if (poll === true) this.poll = true;
-
-        var _this = this;
-
-        (function () {
-            if (this.poll === false) return;
-
-            setTimeout(function () {
-                qwest.get(this.GET, null, this.requestOptions)
-                    .then(function (xhr, response) {
-                        _this.setData(response)
-                            .persist()
-                            .startPolling();
-                    })
-                    .catch(function (xhr, response, e) {
-                        _this.restoreData()
-                            .persist();
-                    });
-            }, _this.wait);
-        })();
-    };
-
-    /**
-     * Sets this.poll to false so that the next time startPolling runs it will cancel the recursion.
-     *
-     * @return {Object} this - this Model
-     */
-    Trux.Model.prototype.stopPolling = function () {
-        this.poll = false;
 
         return this;
     };
