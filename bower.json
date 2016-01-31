@@ -15,8 +15,6 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests",
     "source/com",
     ".gitignore",
     "README.md"
