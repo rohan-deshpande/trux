@@ -13,9 +13,9 @@
   "homepage": "https://github.com/rohan-deshpande/trux",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
     "source/com",
+    "docs",
+    "examples",
     ".gitignore",
     "README.md"
   ],
