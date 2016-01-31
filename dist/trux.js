@@ -18,6 +18,31 @@
     this.Trux = {
 
         /**
+         * Convenience for enabling prototypal inheritance.
+         *
+         * @param {Function} base - the base class from which to extend
+         * @param {Function} extension - the extended class which inherits from base
+         * @return void
+         */
+        branch: function (base, extension) {
+            extension.prototype = Object.create(base.prototype);
+        },
+
+        /**
+         * Store for custom Trux Model classes.
+         *
+         * @prop {Object} models - an object to store Trux Model classes
+         */
+        models:{},
+
+        /**
+         * Store for custom Trux Collection classes.
+         *
+         * @prop {Object} collections - an object to store Trux Collection classes
+         */
+        collections:{},
+
+        /**
          * The base constructor for models and collections.
          *
          * @constructor

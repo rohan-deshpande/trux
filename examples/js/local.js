@@ -128,7 +128,7 @@ var Book = React.createClass({
         var model = this.props.model;
 
         return (
-            <div className='card-panel'>
+            <div className='card'>
                 <form onSubmit={this.handleSubmit}>
                     <h4>
                         {'Book ' + this.props.index}
@@ -204,12 +204,6 @@ var Editor = React.createClass({
 
     window.app = {
 
-        trux:{
-            models:{},
-            collections:{},
-            store:{}
-        },
-
         books:[{
                 'id':performance.now(),
                 'title':'Lord Of The Kings',
@@ -231,7 +225,7 @@ var Editor = React.createClass({
         },
 
         setupBook:function () {
-            this.trux.models.Book = function (data) {
+            Trux.models.Book = function (data) {
                 Trux.Model.call(this);
 
                 this.setData(data);
@@ -269,7 +263,7 @@ var Editor = React.createClass({
                 };
             };
 
-            this.trux.models.Book.prototype = Object.create(Trux.Model.prototype);
+            Trux.branch(Trux.Model, Trux.models.Book);
 
             return this;
         },
@@ -277,15 +271,15 @@ var Editor = React.createClass({
         setupGenre:function () {
             var _this = this;
 
-            this.trux.collections.Genre =  function() {
-                Trux.Collection.call(this, _this.trux.models.Book);
+            Trux.collections.Genre =  function() {
+                Trux.Collection.call(this, Trux.models.Book);
 
                 this.fetchLocal = function(key) {
                     this.setModels(JSON.parse(localStorage.getItem(key)));
                 };
             };
 
-            this.trux.collections.Genre.prototype = Object.create(Trux.Collection.prototype);
+            Trux.branch(Trux.Collection, Trux.collections.Genre);
 
             return this;
         },
@@ -296,7 +290,8 @@ var Editor = React.createClass({
                 .setupBook()
                 .setupGenre();
 
-            var fantasy = new app.trux.collections.Genre();
+            var fantasy = new Trux.collections.Genre();
+            console.log(fantasy);
             fantasy.fetchLocal('truxExampleData');
 
             ReactDOM.render(
