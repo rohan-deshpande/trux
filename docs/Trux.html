@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#startPolling">startPolling</a></li><li data-type='method'><a href="Trux.Model.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#startPolling">startPolling</a></li><li data-type='method'><a href="Trux.Model.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.branch">branch</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -126,7 +126,407 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
 
+        
+            
+<h4 class="name" id=".collections"><span class="type-signature">(static) </span>collections<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Store for custom Trux Collection classes.
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>collections</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">an object to store custom Trux Collection classes</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".models"><span class="type-signature">(static) </span>models<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Store for custom Trux Model classes.
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>models</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">an object to store custom Trux Model classes</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".branch"><span class="type-signature">(static) </span>branch<span class="signature">(base, extension)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Convenience for enabling prototypal inheritance.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>base</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the base class from which to extend</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>extension</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the extended class which inherits from base</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Trux.js.html">Trux.js</a>, <a href="Trux.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    void
+</div>
+
+
+
+    
+
+
+
+        
     
 
     
@@ -144,7 +544,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Jan 30 2016 21:08:04 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 14:50:56 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -4,20 +4,22 @@
   "main": "dist/trux.js",
   "moduleType": [],
   "keywords": [
-    "reactjs"
+    "reactjs", "react", "flux"
   ],
   "authors": [
     "Rohan Deshpande"
   ],
   "license": "MIT",
   "homepage": "",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "source/com",
+    ".gitignore",
+    "README.md"
   ],
   "dependencies": {
     "eventEmitter": "~4.3.0",

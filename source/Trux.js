@@ -23,14 +23,14 @@
         /**
          * Store for custom Trux Model classes.
          *
-         * @prop {Object} models - an object to store Trux Model classes
+         * @prop {Object} models - an object to store custom Trux Model classes
          */
         models:{},
 
         /**
          * Store for custom Trux Collection classes.
          *
-         * @prop {Object} collections - an object to store Trux Collection classes
+         * @prop {Object} collections - an object to store custom Trux Collection classes
          */
         collections:{},
 
@@ -184,6 +184,7 @@
 
     /**
      * Extends the base methods of this Trux class instance.
+     * Use this if you want a generic Trux.Model or Trux.Collection with custom methods.
      *
      * @param {Object} methods - the custom methods to set on this instance
      * @return {Object} this - this Trux class instance

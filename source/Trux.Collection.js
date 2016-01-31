@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>TruxCollection.js - Documentation</title>
-
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-<body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#startPolling">startPolling</a></li><li data-type='method'><a href="Trux.Model.html#stopPolling">stopPolling</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a></li></ul>
-</nav>
-
-<div id="main">
-    
-    <h1 class="page-title">TruxCollection.js</h1>
-    
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>(function (Trux) {
+(function (Trux) {
     'use strict';
     /**
      * A store for an array of models.
@@ -51,19 +11,19 @@
        var MyCollection = new Trux.Collection(Trux.Model);
      * @example
        //advanced usage
-       var MyCollection = function () {
-           Trux.Collection.call(this);
-
-           this.getCategories = function () {
-               categories = [];
-
-               this.models.forEach(function (item) {
-                   categories.push(item.data.category);
-               });
-
-               return categories;
-           };
+       Trux.collections.Posts = function () {
+           Trux.Collection.call(this, Trux.models.Post); //assumes you have created a custom Trux.Model - Post
        };
+
+       Trux.collections.Posts.prototype.getCategories = function () {
+           categories = [];
+
+           this.models.forEach(function (model) {
+               categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
+           });
+
+           return categories;
+       }
      * @constructor
      */
     Trux.Collection = function (modelConstructor) {
@@ -113,7 +73,7 @@
      *
      * @implements qwest.get
      * @param object {options} - optional options containing possible onDone and onFail methods
-     * @return void
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.fetch = function(options) {
         var _this = this;
@@ -122,15 +82,17 @@
         .then(function (xhr, response) {
             _this.setModels(response);
 
-            if (options &amp;&amp; typeof options.onDone === 'function') {
+            if (options && typeof options.onDone === 'function') {
                 options.onDone(response);
             }
         })
         .catch(function (xhr, response, e) {
-            if (options &amp;&amp; typeof options.onFail === 'function') {
+            if (options && typeof options.onFail === 'function') {
                 options.onFail(xhr, response, e);
             }
         });
+
+        return this;
     };
 
     /**
@@ -139,7 +101,7 @@
      * Appends these models into the data property of this Collection instance.
      *
      * @param {Array} models - an array of JSON objects, each object must have an id property
-     * @return {Object} _this - object instance
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;
@@ -150,7 +112,7 @@
         var i;
 
 
-        for (i = 0 ; i &lt; length ; i++) {
+        for (i = 0 ; i < length ; i++) {
             var model = new this.modelConstructor(models[i]);
             this.append(model);
         }
@@ -169,7 +131,7 @@
         var i;
         var model = false;
 
-        for(i = 0 ; i &lt; length ; i ++) {
+        for(i = 0 ; i < length ; i ++) {
             if(this.models[i].data.id == id || this.models[i].data.id == parseInt(id, 10)) {
                 model = this.models[i];
             }
@@ -209,22 +171,3 @@
         this.models = [];
     };
 }(Trux));
-</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Jan 30 2016 21:08:04 GMT+1100 (AEDT) using the Minami theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
-</body>
-</html>

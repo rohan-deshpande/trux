@@ -28,8 +28,15 @@ gulp.task('lib', function () {
 
 gulp.task('app', function () {
     return gulp.src(paths.app)
+    .pipe(order([
+        'Trux.js',
+        'Trux.Model.js',
+        'Trux.Collection.js'
+    ]))
     .pipe(concat('app.com.js'))
-    .pipe(gulp.dest(paths.com.dest));
+    .pipe(gulp.dest(paths.com.dest))
+    .pipe(concat('trux.js'))
+    .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('build', ['app'], function () {
@@ -38,14 +45,15 @@ gulp.task('build', ['app'], function () {
         'lib.com.js',
         'app.com.js'
     ]))
-    .pipe(concat('trux.js'))
+    .pipe(concat('trux.bundle.js'))
     .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('uglify', ['build'], function () {
-    return gulp.src(paths.dist + 'trux.js')
+    return gulp.src(paths.dist + 'trux.bundle.js')
     .pipe(uglify())
     .pipe(rename({
+
         extname:'.min.js'
     }))
     .pipe(gulp.dest(paths.dist));
