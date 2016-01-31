@@ -1,6 +1,7 @@
-
-// Set some constants we'll be using in this example.
-
+/**
+ * Set some constants we'll be using in this example.
+ *
+ */
 var PARSE_API = 'https://api.parse.com/1/classes/';
 var PARSE_HEADERS = {
     'X-Parse-Application-Id':'hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk',
@@ -10,65 +11,84 @@ var PARSE_HEADERS = {
     'Cache-Control':null
 };
 
-// Intiialize the Parse object.
-
+/**
+ * Intiialize the Parse object.
+ *
+ */
 Parse.initialize("hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk", "4bhdnwddpjR0yVKzbMYmQpthI0RJlX14QED1YJ9K");
 
-// Define a custom TruxModel constructor.
+/**
+ * Define a custom TruxModel constructor.
+ *
+ */
+Trux.models.Movie = function (data) {
+    Trux.Model.call(this, data);
 
-var Movie = function (data) {
-    TruxModel.call(this, data);
-
-    var _this = this;
-
-    // set the model's id, parse uses the `objectId` key.
-
+    /**
+     * Set the model's id, parse uses the `objectId` key.
+     *
+     */
     this.setId(data.objectId);
 
-    // set the headers and dataType for the model's request options.
-
+    /**
+     * Set the headers and dataType for the model's request options.
+     *
+     */
     this.setRequestOptions({
         'headers':PARSE_HEADERS,
         'dataType':'json'
     });
 
-    // custom method for getting the movie title.
-
+    /**
+     * Custom method for getting the movie title.
+     *
+     */
     this.getTitle = function () {
         return this.data.title;
     };
 
-    // custom method for getting the movie genre.
-
+    /**
+     * Custom method for getting the movie genre.
+     */
     this.getGenre = function () {
         return this.data.genre;
     };
 
-    // set the RESTful routes for the model that we'll be using for this example.
-
+    /**
+     * Set the RESTful routes for the model that we'll be using for this example.
+     *
+     */
     this.PUT = PARSE_API + 'Movies/' + this.id;
     this.GET = PARSE_API + 'Movies/' + this.id;
 };
 
-// Create a new TruxCollection.
+Trux.branch(Trux.Model, Trux.models.Movie);
 
-var Movies = new TruxCollection(Movie);
+/**
+ * Create a new TruxCollection.
+ * Parse requires us to set specific headers in order to interact with their REST API.
+ *
+ */
 
-//Parse requires us to set specific headers in order to interact with their REST API.
-
-Movies.setRequestOptions({
+var Movies = new Trux.Collection(Trux.models.Movie).setRequestOptions({
     'headers':PARSE_HEADERS
 });
 
-// Set the GET route for the collection.
-
+/**
+ * Set the GET route for the collection.
+ *
+ */
 Movies.GET = PARSE_API + 'Movies';
 
-// Request its data and then render the List component to the DOM.
-
+/**
+ * Request its data and then render the List component to the DOM.
+ *
+ */
 Movies.fetch({
     onDone:function (response) {
-        // Get the Parse models array from the results object.
+        /**
+         * Parse returns responses inside a results key so we need to call setModels manually
+         */
         Movies.setModels(response.results);
 
         ReactDOM.render(
@@ -79,12 +99,15 @@ Movies.fetch({
     }
 });
 
-// Create an Item component.
-
+/**
+ * Create an Item component.
+ */
 var Item = React.createClass({
 
-    // Initial state for the Item component.
-
+    //
+    /**
+     * Initial state for the Item component.
+     */
     getInitialState:function () {
         return {
             model:this.props.model,
@@ -94,8 +117,10 @@ var Item = React.createClass({
         };
     },
 
-    // Handle the edit state of the component.
-
+    /**
+     * Handle the edit state of the component.
+     *
+     */
     handleEdit:function (e) {
         e.preventDefault();
 
@@ -104,20 +129,26 @@ var Item = React.createClass({
         this.setState({edit:edit});
     },
 
-    // Handle the movie's title change.
-
+    /**
+     * Handle the movie's title change.
+     *
+     */
     handleTitleChange:function (e) {
         this.setState({title:e.target.value});
     },
 
-    // Handle the movie's genre change.
-
+    /**
+     * Handle the movie's genre change.
+     *
+     */
     handleGenreChange:function (e) {
         this.setState({genre:e.target.value});
     },
 
-    // Handle the submit event for each Item.
-
+    /**
+     * Handle the submit event for each Item.
+     *
+     */
     handleSubmit:function (e) {
         e.preventDefault();
 
@@ -128,15 +159,24 @@ var Item = React.createClass({
             "genre":this.state.genre
         };
 
-        // A TruxModel's update method expects the model to be returned from the server to ensure data consistency.
-        // Parse doesn't do this, instead it only sends back the updatedAt value.
-        // To ensure our data is consistent, we'll request the model once again from Parse.
+        console.log(model.update);
 
+
+        /**
+         * A Trux.Model's update method expects the model to be returned from the server to ensure data consistency.
+         * Parse doesn't do this, instead it only sends back the updatedAt value.
+         * To ensure our data is consistent, we'll request the model once again from Parse.
+         *
+         */
         model.update(data, {
             onDone:function (u) {
                 model.fetch({
                     onDone:function (f) {
-                        // sets the TruxModel's data and persists it across bound components
+                        /**
+                         * Sets the Trux.Model's data and persists it across bound components.
+                         * Again we need to do this manually due to Parse not sending back a complete object on update.
+                         *
+                         */
                         model.setData(f).persist();
                         _this.setState({edit:false});
                     }
@@ -148,8 +188,10 @@ var Item = React.createClass({
         });
     },
 
-    // Render the Item component.
-
+    /**
+     * Render the Item component.
+     *
+     */
     render:function () {
         return (
             <div className='card'>
@@ -195,39 +237,52 @@ var Item = React.createClass({
     }
 });
 
-// Create a List component.
-
+/**
+ * Create a List component.
+ *
+ */
 var List = React.createClass({
 
-    // Initial state for the List component.
-
+    //
+    /**
+     * Initial state for the List component.
+     *
+     */
     getInitialState:function () {
         return {
             collection:this.props.collection
         };
     },
 
-    // Set the component's truxId and bind it to its data store.
-
+    /**
+     * Set the component's truxId and bind it to its data store.
+     *
+     */
     componentDidMount:function () {
         this.truxId = 'List';
         this.state.collection.bindComponent(this);
     },
 
-    // Unbind the component when it unmounts.
-
+    /**
+     * Unbind the component when it unmounts.
+     *
+     */
     componentWillUnmount:function () {
         this.state.collection.unbindComponent(this);
     },
 
-    // Called from the data store List is bound to
-
+    /**
+     * Called from the Trux class List is bound to
+     *
+     */
     appDataDidChange:function () {
         this.forceUpdate();
     },
 
-    // Render the component.
-
+    /**
+     * Render the component.
+     *
+     */
     render:function () {
         return (
             <div>

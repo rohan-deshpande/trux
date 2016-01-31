@@ -73,7 +73,7 @@
      *
      * @implements qwest.get
      * @param object {options} - optional options containing possible onDone and onFail methods
-     * @return void
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.fetch = function(options) {
         var _this = this;
@@ -91,6 +91,8 @@
                 options.onFail(xhr, response, e);
             }
         });
+
+        return this;
     };
 
     /**
@@ -99,7 +101,7 @@
      * Appends these models into the data property of this Collection instance.
      *
      * @param {Array} models - an array of JSON objects, each object must have an id property
-     * @return {Object} _this - object instance
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;

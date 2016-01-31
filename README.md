@@ -26,7 +26,16 @@ Include `trux.js` or `trux.min.js` before your closing `<body>` tag;
 In your app, construct a new `Trux.Model`, pass it some data and bind a component to it, remembering to set the component's `appDataDidChange` method.
 
 ```javascript
+/**
+ * Construct a new Trux.Model and give it some data containing a message property.
+ *
+ */
 var MyModel = new Trux.Model({'message':'hello world'});
+
+/**
+ * Create a React component which will have MyModel passed to it via props.
+ *
+ */
 var MyComponent = React.createClass({
 
 	propTypes: {
@@ -39,15 +48,27 @@ var MyComponent = React.createClass({
         };
     },
 
+    /**
+     * Set the component's unique truxId and bind the component to the model.
+     *
+     */
     componentDidMount:function () {
         this.truxId = 'MyComponent'
-        myModel.bindComponent(this);
+        this.state.model.bindComponent(this);
     },
 
+    /**
+     * The method called by Trux's private broadcast method which persists changes in data across bound components.
+     *
+     */
     appDataDidChange:function () {
         this.forceUpdate();
     },
 
+    /**
+     * Render the component and display the model's message.
+     *
+     */
     render:function() {
         return <div>{this.state.model.data.message}</div>;
     }
@@ -56,7 +77,7 @@ var MyComponent = React.createClass({
 
 Mutate the data inside of `MyModel` then call it's `emitChangeEvent()` method.
 
-```
+```javascript
 MyModel.data.message = 'goodbye cruel world';
 MyModel.emitChangeEvent();
 ```
@@ -66,26 +87,46 @@ You will see the change reflected in `MyComponent`
 
 ## Branching
 
-The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can branch `Trux.Model` or `Trux.Collection` to create custom models or collections that have custom methods while still maintaining access to the methods and properties of the base classes. Of course you can then branch your own custom classes into new ones as well. 
+The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can branch `Trux.Model` or `Trux.Collection` to create custom models or collections that have custom methods while still maintaining access to the methods and properties of the base classes. Of course you can then branch your own custom classes into new ones as well.
 
-Let's look at a simple way to do this. 
+Let's look at a simple way to do this.
 
 ```javascript
+/**
+ * Declare a custom Trux.Model class. Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
+ *
+ */
 Trux.models.User = function (data) {
 	Trux.Model.call(this);
 };
 
-User.prototype.getFullName = function () {
-	return this.data.firstName + ' ' + this.data.lastName; 
+/**
+ * Custom User model method.
+ *
+ */
+Trux.models.User.prototype.getFullName = function () {
+	return this.data.firstName + ' ' + this.data.lastName;
 }
 
+/**
+ * Branch Trux.Model into Trux.models.User.
+ *
+ */
 Trux.branch(Trux.Model, Trux.models.User);
 
+/**
+ * Declare a new User model and give it some data.
+ *
+ */
 var Bilbo = new Trux.models.User({
 	firstName: 'Bilbo',
 	lastName: 'Baggins'
 });
 
+/**
+ * Call the custom function to get Biblo's full name!
+ *
+ */
 console.log(Bilbo.getFullName()); // logs Bilbo Baggins
 ```
 
@@ -94,4 +135,4 @@ From this short example you can see how we can easily branch Trux classes into n
 
 ## Working with remote data
 
-Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com). For more info on how this is achieved, please check the `remote.html` example which uses Parse, and check the docs. 
+Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com). For more info on how this is achieved, please check the `remote.html` example which uses Parse, and check the docs.

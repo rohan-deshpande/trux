@@ -204,9 +204,11 @@
      * Sets the options for the request.
      *
      * @param {Object} requestOptions - the options for all requests
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Base.prototype.setRequestOptions = function (requestOptions) {
         this.requestOptions = requestOptions;
+
+        return this;
     };
 }.call(this));

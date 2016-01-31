@@ -204,10 +204,12 @@
      * Sets the options for the request.
      *
      * @param {Object} requestOptions - the options for all requests
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Base.prototype.setRequestOptions = function (requestOptions) {
         this.requestOptions = requestOptions;
+
+        return this;
     };
 }.call(this));
 
@@ -286,7 +288,7 @@
      *
      * @implements qwest.get
      * @param object {options} - optional options containing possible onDone and onFail methods
-     * @return void
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.fetch = function(options) {
         var _this = this;
@@ -304,6 +306,8 @@
                 options.onFail(xhr, response, e);
             }
         });
+
+        return this;
     };
 
     /**
@@ -312,7 +316,7 @@
      * Appends these models into the data property of this Collection instance.
      *
      * @param {Array} models - an array of JSON objects, each object must have an id property
-     * @return {Object} _this - object instance
+     * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
         if(!Array.isArray(models)) return;
@@ -544,9 +548,11 @@
      *
      * @implements qwest.get
      * @param {Object} options - optional onDone and onFail methods to run when promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.fetch = function (options) {
+        var _this = this;
+
         qwest.get(this.GET, null, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -562,6 +568,8 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
     };
 
     /**
@@ -570,7 +578,7 @@
      * @implements qwest.post
      * @param {Object} data - the data for the new Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.create = function (data, options) {
         qwest.post(this.POST, data, this.requestOptions)
@@ -589,6 +597,9 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
+
     };
 
     /**
@@ -598,9 +609,11 @@
      * @implements EventEmitter.emitEvent
      * @param {Object} data - the new data for the Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.update = function (data, options) {
+        var _this = this;
+
         qwest.put(this.PUT, data, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -618,6 +631,8 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
     };
 
     /**

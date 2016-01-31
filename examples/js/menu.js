@@ -7,7 +7,7 @@ var Menu = React.createClass({
     render:function () {
         return (
             <nav className='demo'>
-                <a href="index.html" className='brand'>Demos</a>
+                <a href="index.html" className='brand'>Trux</a>
                 <input id="bmenub" type="checkbox" className="show" />
                 <label htmlFor="bmenub" className="burger pseudo button toggle">menu</label>
                 <div className='menu'>

@@ -159,9 +159,11 @@
      *
      * @implements qwest.get
      * @param {Object} options - optional onDone and onFail methods to run when promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.fetch = function (options) {
+        var _this = this;
+
         qwest.get(this.GET, null, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -177,6 +179,8 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
     };
 
     /**
@@ -185,7 +189,7 @@
      * @implements qwest.post
      * @param {Object} data - the data for the new Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.create = function (data, options) {
         qwest.post(this.POST, data, this.requestOptions)
@@ -204,6 +208,9 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
+
     };
 
     /**
@@ -213,9 +220,11 @@
      * @implements EventEmitter.emitEvent
      * @param {Object} data - the new data for the Model
      * @param {Object} options - optional onDone and onFail methods to run once promises are resolved
-     * @return void
+     * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.update = function (data, options) {
+        var _this = this;
+
         qwest.put(this.PUT, data, this.requestOptions)
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
@@ -233,6 +242,8 @@
                     options.onFail(xhr, response, e);
                 }
             });
+
+        return this;
     };
 
     /**
