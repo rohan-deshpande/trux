@@ -25,7 +25,7 @@ The following files are included in the `dist` directory of the package
 
 ## Basic Usage
 
-Include `trux.js` or `trux.min.js` before your closing `<body>` tag:
+Include `trux.bundle.js` or `trux.bundle.min.js` before your closing `<body>` tag:
 
 ```html
 <script type="text/javascript" src="/js/trux.bundle.min.js"></script>
