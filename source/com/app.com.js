@@ -590,7 +590,7 @@
      * Requests a collection from a remote store.
      *
      * @implements qwest.get
-     * @param object {options} - optional options containing possible onDone and onFail methods
+     * @param {Object} options - optional options containing possible onDone and onFail methods
      * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.fetch = function(options) {

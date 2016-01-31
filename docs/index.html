@@ -46,6 +46,117 @@
     
 
 
+    <section class="readme">
+        <article><h1>Trux</h1><h2>A micro data framework for ReactJS</h2><p>Trux is a simple, lightweight and effective way of managing mutable data for your client side React app.</p>
+<p>Trux allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as interfaces between your data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.</p>
+<p><strong>In Trux, your data stores are the single source of truth for your app's data dependent React components.</strong></p>
+<p>Trux comes packed with a parent object <code>Trux</code>, a <code>Trux.Base</code> class and two data store classes, <code>Trux.Model</code> and <code>Trux.Collection</code> which are designed to be branched for your own use cases.</p>
+<p>Trux focuses on inheritance and provides a <code>Trux.branch</code> method to branch <code>Trux.Model</code> or <code>Trux.Collection</code> into new classes with custom methods. </p>
+<p>Checkout the short guide below, the examples and the docs to get an idea of how to use Trux.</p>
+<blockquote>
+<p>Trux was developed for my project management &amp; analytics application, <strong>Trakktion</strong> and was inspired by <a href="https://facebook.github.io/flux/">Flux</a> concepts. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.</p>
+</blockquote>
+<h2>Files</h2><p>The following files are included in the <code>dist</code> directory of the package</p>
+<ul>
+<li><code>trux.js</code> 100% pure Trux, no dependencies included and unminified</li>
+<li><code>trux.min.js</code> Same as the above but minified</li>
+<li><code>trux.bundle.js</code> A stable compiled build of Trux which includes its dependencies</li>
+<li><code>trux.bundle.min.js</code> Same as the above but minified</li>
+</ul>
+<h2>Basic Usage</h2><p>Include <code>trux.js</code> or <code>trux.min.js</code> before your closing <code>&lt;body&gt;</code> tag:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;/js/trux.bundle.min.js&quot;>&lt;/script></code></pre><p>In your app, construct a new <code>Trux.Model</code>, pass it some data and bind a component to it, remembering to set the component's <code>appDataDidChange</code> method.</p>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * Construct a new Trux.Model and give it some data containing a message property.
+ *
+ */
+var MyModel = new Trux.Model({'message':'hello world'});
+
+/**
+ * Create a React component which will have MyModel passed to it via props.
+ *
+ */
+var MyComponent = React.createClass({
+
+    propTypes: {
+        model:React.PropTypes.object.isRequired
+    }
+
+    getInitialState:function () {
+        return {
+            model:this.props.model
+        };
+    },
+
+    /**
+     * Set the component's unique truxId and bind the component to the model.
+     *
+     */
+    componentDidMount:function () {
+        this.truxId = 'MyComponent'
+        this.state.model.bindComponent(this);
+    },
+
+    /**
+     * The method called by Trux's private broadcast method which persists changes in data across bound components.
+     *
+     */
+    appDataDidChange:function () {
+        this.forceUpdate();
+    },
+
+    /**
+     * Render the component and display the model's message.
+     *
+     */
+    render:function() {
+        return &lt;div>{this.state.model.data.message}&lt;/div>;
+    }
+});</code></pre><p>Mutate the data inside of <code>MyModel</code> then call it's <code>emitChangeEvent()</code> method.</p>
+<pre class="prettyprint source lang-javascript"><code>MyModel.data.message = 'goodbye cruel world';
+MyModel.emitChangeEvent();</code></pre><p>You will see the change reflected in <code>MyComponent</code></p>
+<h2>Branching</h2><p>The power of Trux lies in its use of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript">prototypal inheritance</a> which means that you can branch <code>Trux.Model</code> or <code>Trux.Collection</code> to create custom models or collections that have custom methods while still maintaining access to the methods and properties of the base classes. Of course you can then branch your own custom classes into new ones as well.</p>
+<p>Let's look at a simple way to do this.</p>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * Declare a custom Trux.Model class. Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
+ *
+ */
+Trux.models.User = function (data) {
+    Trux.Model.call(this);
+};
+
+/**
+ * Custom User model method.
+ *
+ */
+Trux.models.User.prototype.getFullName = function () {
+    return this.data.firstName + ' ' + this.data.lastName;
+}
+
+/**
+ * Branch Trux.Model into Trux.models.User.
+ *
+ */
+Trux.branch(Trux.Model, Trux.models.User);
+
+/**
+ * Declare a new User model and give it some data.
+ *
+ */
+var Bilbo = new Trux.models.User({
+    firstName: 'Bilbo',
+    lastName: 'Baggins'
+});
+
+/**
+ * Call the custom function to get Biblo's full name!
+ *
+ */
+console.log(Bilbo.getFullName()); // logs Bilbo Baggins</code></pre><p>From this short example you can see how we can easily branch Trux classes into new classes with custom methods for whatever purpose we like.</p>
+<h2>Working with remote data</h2><p>Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like <a href="https://parse.com">Parse</a> or <a href="https://firebase.com">Firebase</a>. </p>
+<p>The provided methods within both <code>Trux.Model</code> and <code>Trux.Collection</code> do make some assumptions as to how data is being sent back from your API. If this doesn't gel with your setup, you can simply branch new versions of these and write your own REST methods.</p>
+<p>For more info on how this is achieved, please check the <code>remote.html</code> example which uses Parse and read the docs.</p></article>
+    </section>
+
 
 
 
@@ -56,7 +167,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 14:50:56 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 14:59:30 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
