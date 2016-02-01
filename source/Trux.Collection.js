@@ -57,7 +57,7 @@
          *
          * @prop {String} className -  easy way of determining what kind of class this is
          */
-        this.className = 'Collection';
+        this.className = 'TruxCollection';
 
         return this;
     };

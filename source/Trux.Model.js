@@ -86,7 +86,7 @@
          *
          * @prop {String} className - easy way of determining what kind of class this is
          */
-        this.className = 'Model';
+        this.className = 'TruxModel';
 
         /**
          * Set the data for this Model instance.

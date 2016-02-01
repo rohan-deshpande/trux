@@ -21,6 +21,41 @@
         },
 
         /**
+         * Creates a new sub class from the optional base parameter.
+         * If no base parameter is passed, Trux.Model is assumed.
+         *
+         * @param {Object} props - custom props for the new class
+         * @param {Function} base - the base constructor to create this sub class from
+         * @return {Function} _constructor - the new constructor
+         */
+        createSubClass: function (props, base) {
+            var TruxClass;
+            var _base;
+
+            if (typeof base !== 'undefined') {
+                _base = base;
+            } else {
+                _base = Trux.Model;
+            }
+
+            TruxClass = function (arg) {
+                _base.call(this, arg);
+            };
+
+            TruxClass.prototype = Object.create(_base.prototype);
+
+            if (typeof props !== 'object') return TruxClass;
+
+            for (var prop in props) {
+                if (props.hasOwnProperty(prop)) {
+                    TruxClass.prototype[prop] = props[prop];
+                }
+            }
+
+            return TruxClass;
+        },
+
+        /**
          * Store for custom Trux Model classes.
          *
          * @prop {Object} models - an object to store custom Trux Model classes
@@ -166,25 +201,6 @@
      */
     Trux.Base.prototype.emitChangeEvent = function () {
         this.emitter.emitEvent('change');
-    };
-
-    /**
-     * Extends the base methods of this Trux class instance.
-     * Use this if you want a generic Trux.Model or Trux.Collection with custom methods.
-     *
-     * @param {Object} methods - the custom methods to set on this instance
-     * @return {Object} this - this Trux class instance
-     */
-    Trux.Base.prototype.extend = function (methods) {
-        if (typeof methods !== 'object') return this;
-
-        for (var fn in methods) {
-            if (methods.hasOwnProperty(fn) && typeof(methods[fn]) === 'function') {
-                this[fn] = methods[fn];
-            }
-        }
-
-        return this;
     };
 
     /**

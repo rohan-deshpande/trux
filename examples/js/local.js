@@ -225,20 +225,17 @@ var Editor = React.createClass({
         },
 
         setupBook:function () {
-            Trux.models.Book = function (data) {
-                Trux.Model.call(this);
 
-                this.setData(data);
-
-                this.getTitle = function () {
+            Trux.models.Book = Trux.createSubClass({
+                getTitle: function () {
                     return this.data.title;
-                };
+                },
 
-                this.getAuthor = function () {
+                getAuthor: function () {
                     return this.data.author;
-                };
+                },
 
-                this.updateLocal = function() {
+                updateLocal: function () {
                     var stored = JSON.parse(localStorage.getItem('truxExampleData'));
                     var item = false;
                     var length = stored.length;
@@ -260,10 +257,47 @@ var Editor = React.createClass({
                     } else {
                         this.emitChangeEvent();
                     }
-                };
-            };
-
-            Trux.branch(Trux.Model, Trux.models.Book);
+                }
+            });
+            // Trux.models.Book = function (data) {
+            //     Trux.Model.call(this);
+            //
+            //     this.setData(data);
+            //
+            //     this.getTitle = function () {
+            //         return this.data.title;
+            //     };
+            //
+            //     this.getAuthor = function () {
+            //         return this.data.author;
+            //     };
+            //
+            //     this.updateLocal = function() {
+            //         var stored = JSON.parse(localStorage.getItem('truxExampleData'));
+            //         var item = false;
+            //         var length = stored.length;
+            //         var i;
+            //
+            //         for (i = 0 ; i < length ; i ++) {
+            //             if (stored[i].id == this.getId()) {
+            //                 item = stored[i];
+            //             }
+            //         }
+            //
+            //         item.title = this.data.title;
+            //         item.author = this.data.author;
+            //
+            //         localStorage.setItem('truxExampleData', JSON.stringify(stored));
+            //
+            //         if (this.collection) {
+            //             this.collection.emitChangeEvent();
+            //         } else {
+            //             this.emitChangeEvent();
+            //         }
+            //     };
+            // };
+            //
+            // Trux.branch(Trux.Model, Trux.models.Book);
 
             return this;
         },
