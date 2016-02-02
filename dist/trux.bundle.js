@@ -37,30 +37,22 @@
          * @return {Function} _constructor - the new constructor
          */
         createSubClass: function (props, base) {
-            var TruxClass;
-            var _base;
-
-            if (typeof base !== 'undefined') {
-                _base = base;
-            } else {
-                _base = Trux.Model;
-            }
-
-            TruxClass = function (arg) {
+            var _base = (typeof base === 'function') ? base : Trux.Model;
+            var TruxSubClass = function (arg) {
                 _base.call(this, arg);
             };
 
-            TruxClass.prototype = Object.create(_base.prototype);
+            TruxSubClass.prototype = Object.create(_base.prototype);
 
-            if (typeof props !== 'object') return TruxClass;
+            if (typeof props !== 'object') return TruxSubClass;
 
             for (var prop in props) {
                 if (props.hasOwnProperty(prop)) {
-                    TruxClass.prototype[prop] = props[prop];
+                    TruxSubClass.prototype[prop] = props[prop];
                 }
             }
 
-            return TruxClass;
+            return TruxSubClass;
         },
 
         /**
