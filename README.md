@@ -1,19 +1,25 @@
-# Trux
-## A micro data framework for ReactJS
+> A micro data framework for react js
 
 Trux is a simple, lightweight and effective way of managing mutable data for your client side React app.
 
 Trux allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as interfaces between your data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.
 
-**In Trux, your data stores are the single source of truth for your app's data dependent React components.**
+**In Trux, your data stores are the sources of truth for your app's data dependent React components.**
 
-Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data store classes, `Trux.Model` and `Trux.Collection` which are designed to be branched for your own use cases.
+Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data store classes, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases.
 
-Trux focuses on inheritance and provides a `Trux.branch` method to branch `Trux.Model` or `Trux.Collection` into new classes with custom methods.
+Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.Model` or `Trux.Collection` into sub classes with custom methods & properties.
 
 Checkout the short guide below, the examples and the docs to get an idea of how to use Trux.
 
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+
+## Installation
+Bower!
+
+```
+bower install trux
+```
 
 ## Files
 The following files are included in the `dist` directory of the package
@@ -93,9 +99,9 @@ MyModel.emitChangeEvent();
 You will see the change reflected in `MyComponent`
 
 
-## Branching
+## Extending
 
-The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can branch `Trux.Model` or `Trux.Collection` to create custom models or collections that have custom methods while still maintaining access to the methods and properties of the base classes. Of course you can then branch your own custom classes into new ones as well.
+The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create sub classes that have custom methods while still maintaining access to the methods and properties of their parent classes. Of course you can then extend your own custom classes into new ones as well.
 
 Let's look at a simple way to do this.
 

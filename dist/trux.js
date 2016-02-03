@@ -8,18 +8,6 @@
      * @global
      */
     this.Trux = {
-
-        /**
-         * Convenience for enabling prototypal inheritance.
-         *
-         * @param {Function} base - the base class from which to extend
-         * @param {Function} extension - the extended class which inherits from base
-         * @return void
-         */
-        branch: function (base, extension) {
-            extension.prototype = Object.create(base.prototype);
-        },
-
         /**
          * Creates a new sub class from the optional base parameter.
          * If no base parameter is passed, Trux.Model is assumed.

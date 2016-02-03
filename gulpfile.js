@@ -10,7 +10,7 @@ var rename = require('gulp-rename');
 var paths = {
     'vendor':[
         'bower_components/qwest/qwest.min.js',
-        'bower_components/eventEmitter/EventEmitter.min.js'
+        'bower_components/eventEmitter/EventEmitter.js'
     ],
     'app':'source/*.js',
     'com':{
@@ -23,6 +23,7 @@ var paths = {
 gulp.task('lib', function () {
     return gulp.src(paths.vendor)
     .pipe(concat('lib.com.js'))
+    .pipe(uglify())
     .pipe(gulp.dest(paths.com.dest));
 });
 
@@ -36,6 +37,11 @@ gulp.task('app', function () {
     .pipe(concat('app.com.js'))
     .pipe(gulp.dest(paths.com.dest))
     .pipe(concat('trux.js'))
+    .pipe(gulp.dest(paths.dist))
+    .pipe(uglify())
+    .pipe(rename({
+        extname:'.min.js'
+    }))
     .pipe(gulp.dest(paths.dist));
 });
 
@@ -53,7 +59,6 @@ gulp.task('uglify', ['build'], function () {
     return gulp.src(paths.dist + 'trux.bundle.js')
     .pipe(uglify())
     .pipe(rename({
-
         extname:'.min.js'
     }))
     .pipe(gulp.dest(paths.dist));
