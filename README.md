@@ -10,7 +10,7 @@ Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data 
 
 Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.Model` or `Trux.Collection` into sub classes with custom methods & properties.
 
-Checkout the short guide below, the examples and the docs to get an idea of how to use Trux.
+Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
 
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
@@ -91,9 +91,9 @@ var MyComponent = React.createClass({
 /**
  * Render the component into the DOM
  *
- */ 
+ */
 ReactDOM.Render(
-	<MyComponent model={MyModel} />, 
+	<MyComponent model={MyModel} />,
 	document.getElementById('app')
 );
 ```
@@ -116,7 +116,7 @@ Let's look at a simple way to do this.
 
 ```javascript
 /**
- * Declare an Trux.Model class. 
+ * Declare an Trux.Model class.
  * Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
  * Give the User model some custom methods.
  *
