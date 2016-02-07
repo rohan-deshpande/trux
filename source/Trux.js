@@ -9,30 +9,35 @@
      */
     this.Trux = {
         /**
-         * Creates a new sub class from the optional base parameter.
+         * Extends a base class and returns a new class.
          * If no base parameter is passed, Trux.Model is assumed.
          *
          * @param {Object} props - custom props for the new class
+         * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
          * @param {Function} base - the base constructor to create this sub class from
          * @return {Function} _constructor - the new constructor
          */
-        createSubClass: function (props, base) {
+        extend: function (props, setup, base) {
             var _base = (typeof base === 'function') ? base : Trux.Model;
-            var TruxSubClass = function (arg) {
+            var TruxClassExtension = function (arg) {
                 _base.call(this, arg);
+
+                if (typeof setup === 'function') {
+                    setup(this);
+                }
             };
 
-            TruxSubClass.prototype = Object.create(_base.prototype);
+            TruxClassExtension.prototype = Object.create(_base.prototype);
 
-            if (typeof props !== 'object') return TruxSubClass;
+            if (typeof props !== 'object') return TruxClassExtension;
 
             for (var prop in props) {
                 if (props.hasOwnProperty(prop)) {
-                    TruxSubClass.prototype[prop] = props[prop];
+                    TruxClassExtension.prototype[prop] = props[prop];
                 }
             }
 
-            return TruxSubClass;
+            return TruxClassExtension;
         },
 
         /**
@@ -40,14 +45,14 @@
          *
          * @prop {Object} models - an object to store custom Trux Model classes
          */
-        models:{},
+        models: {},
 
         /**
          * Store for custom Trux Collection classes.
          *
          * @prop {Object} collections - an object to store custom Trux Collection classes
          */
-        collections:{},
+        collections: {},
 
         /**
          * The base constructor for models and collections.

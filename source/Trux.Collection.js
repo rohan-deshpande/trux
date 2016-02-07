@@ -11,19 +11,21 @@
        var MyCollection = new Trux.Collection(Trux.Model);
      * @example
        //advanced usage
-       Trux.collections.Posts = function () {
-           Trux.Collection.call(this, Trux.models.Post); //assumes you have created a custom Trux.Model - Post
-       };
+       Trux.collections.Posts = Trux.extend({
+            getCategories: function () {
+                categories = [];
 
-       Trux.collections.Posts.prototype.getCategories = function () {
-           categories = [];
+                this.models.forEach(function (model) {
+                    categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
+                });
 
-           this.models.forEach(function (model) {
-               categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
-           });
+                return categories;
+            }
+       }, false, Trux.Collection);
 
-           return categories;
-       }
+       var Blog = new Trux.collections.Posts(Trux.models.Post); //assumes you've created a custom Post model.
+
+       console.log(Blog.getCategories()); // logs all your post's categories.
      * @constructor
      */
     Trux.Collection = function (modelConstructor) {
@@ -104,6 +106,7 @@
      * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
+
         if(!Array.isArray(models)) return;
 
         this.purgeModels();
@@ -111,33 +114,12 @@
         var length = models.length;
         var i;
 
-
         for (i = 0 ; i < length ; i++) {
             var model = new this.modelConstructor(models[i]);
             this.append(model);
         }
 
         return this;
-    };
-
-    /**
-     * Finds a model contained within this collection via its unique id.
-     *
-     * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
-     * @return {Object|Boolean} model - an object if the model was found, false if not
-     */
-    Trux.Collection.prototype.findById = function (id) {
-        var length = this.models.length;
-        var i;
-        var model = false;
-
-        for(i = 0 ; i < length ; i ++) {
-            if(this.models[i].data.id == id || this.models[i].data.id == parseInt(id, 10)) {
-                model = this.models[i];
-            }
-        }
-
-        return model;
     };
 
     /**

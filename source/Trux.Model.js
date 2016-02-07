@@ -3,7 +3,6 @@
 
     /**
      * A client side interface for a remote data Model.
-     * <p>Each Model is expected to have a unique <em>id</em> property.</p>
      *
      * @param {Object} data - the data which defines this Model
      * @return {Object} this - this Model
@@ -12,21 +11,15 @@
        var MyModel = new Trux.Model({message:'hello world'});
      * @example
        //advanced usage
-       Trux.models.User = function(data) {
-           Trux.Model.call(this);
-       }
+       Trux.models.User = Trux.extend({
+            getName: function () {
+                return this.data.name;
+            }
+       }, false);
 
-       Trux.models.User.prototype.getName = function () {
-            return this.data.name;
-       }
+       var Frodo = new Trux.models.User({name:'Frodo Baggins'});
 
-       Trux.models.User.prototype.setName = function () {
-            this.data.name = name;
-       }
-
-       Trux.branch(Trux.Model, Trux.models.User);
-
-       var user = new Trux.models.User({name:'Frodo Baggins'});
+       console.log(Frodo.getName()); // logs 'Frodo Baggins'
      * @constructor
      */
     Trux.Model = function (data) {
@@ -52,13 +45,6 @@
          * @private
          */
         var _backup = null;
-
-        /**
-         * The Model's unique id.
-         *
-         * @prop {Null|String|Number} id - the Model's unique id
-         */
-        this.id = null;
 
         /**
          * The data which defines this Model, initially null.
@@ -121,28 +107,8 @@
     Trux.Model.prototype = Object.create(Trux.Base.prototype);
 
     /**
-     * Set the id for the Model.
-     *
-     * @prop {String|Number} id - the id of this Model
-     * @return {Object} this - this Model
-     */
-     Trux.Model.prototype.setId = function (id) {
-         this.id = id;
-         return this;
-     };
-
-    /**
-     * Gets the id for this Model.
-     *
-     * @return {Integer|String} id - the Model's unique id
-     */
-    Trux.Model.prototype.getId = function () {
-        return this.data.id;
-    };
-
-    /**
      * Persits the Model's data throughout its bound components.
-     * Emits the Model's change event.
+     * Emits either the Model's change event or, if it belongs to a Collection, the Collection's change event.
      *
      * @return {Object} this - this Model
      */
@@ -194,9 +160,10 @@
      * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.create = function (data, options) {
+        var _this = this;
+
         qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
-                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
