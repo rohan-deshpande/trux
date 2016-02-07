@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.branch">branch</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.extend">extend</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -48,16 +48,36 @@
      * @global
      */
     this.Trux = {
-
         /**
-         * Convenience for enabling prototypal inheritance.
+         * Extends a base class and returns a new class.
+         * If no base parameter is passed, Trux.Model is assumed.
          *
-         * @param {Function} base - the base class from which to extend
-         * @param {Function} extension - the extended class which inherits from base
-         * @return void
+         * @param {Object} props - custom props for the new class
+         * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
+         * @param {Function} base - the base constructor to create this sub class from
+         * @return {Function} _constructor - the new constructor
          */
-        branch: function (base, extension) {
-            extension.prototype = Object.create(base.prototype);
+        extend: function (props, setup, base) {
+            var _base = (typeof base === 'function') ? base : Trux.Model;
+            var TruxClassExtension = function (arg) {
+                _base.call(this, arg);
+
+                if (typeof setup === 'function') {
+                    setup(this);
+                }
+            };
+
+            TruxClassExtension.prototype = Object.create(_base.prototype);
+
+            if (typeof props !== 'object') return TruxClassExtension;
+
+            for (var prop in props) {
+                if (props.hasOwnProperty(prop)) {
+                    TruxClassExtension.prototype[prop] = props[prop];
+                }
+            }
+
+            return TruxClassExtension;
         },
 
         /**
@@ -65,14 +85,14 @@
          *
          * @prop {Object} models - an object to store custom Trux Model classes
          */
-        models:{},
+        models: {},
 
         /**
          * Store for custom Trux Collection classes.
          *
          * @prop {Object} collections - an object to store custom Trux Collection classes
          */
-        collections:{},
+        collections: {},
 
         /**
          * The base constructor for models and collections.
@@ -209,25 +229,6 @@
     };
 
     /**
-     * Extends the base methods of this Trux class instance.
-     * Use this if you want a generic Trux.Model or Trux.Collection with custom methods.
-     *
-     * @param {Object} methods - the custom methods to set on this instance
-     * @return {Object} this - this Trux class instance
-     */
-    Trux.Base.prototype.extend = function (methods) {
-        if (typeof methods !== 'object') return this;
-
-        for (var fn in methods) {
-            if (methods.hasOwnProperty(fn) &amp;&amp; typeof(methods[fn]) === 'function') {
-                this[fn] = methods[fn];
-            }
-        }
-
-        return this;
-    };
-
-    /**
      * Sets the options for the request.
      *
      * @param {Object} requestOptions - the options for all requests
@@ -251,7 +252,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 15:08:39 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Feb 07 2016 16:18:03 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

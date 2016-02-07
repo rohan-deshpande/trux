@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.branch">branch</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.extend">extend</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -179,7 +179,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line29">line 29</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -232,19 +232,21 @@
        var MyCollection = new Trux.Collection(Trux.Model);</code></pre>
 
     <pre class="prettyprint"><code>//advanced usage
-       Trux.collections.Posts = function () {
-           Trux.Collection.call(this, Trux.models.Post); //assumes you have created a custom Trux.Model - Post
-       };
+       Trux.collections.Posts = Trux.extend({
+            getCategories: function () {
+                categories = [];
 
-       Trux.collections.Posts.prototype.getCategories = function () {
-           categories = [];
+                this.models.forEach(function (model) {
+                    categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
+                });
 
-           this.models.forEach(function (model) {
-               categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
-           });
+                return categories;
+            }
+       }, false, Trux.Collection);
 
-           return categories;
-       }</code></pre>
+       var Blog = new Trux.collections.Posts(Trux.models.Post); //assumes you've created a custom Post model.
+
+       console.log(Blog.getCategories()); // logs all your post's categories.</code></pre>
 
 
 
@@ -362,7 +364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line60">line 60</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -476,7 +478,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line46">line 46</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -590,7 +592,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line53">line 53</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -717,7 +719,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line149">line 149</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -865,7 +867,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line78">line 78</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -904,165 +906,6 @@
     <dd>
         
 <span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="findById"><span class="type-signature"></span>findById<span class="signature">(id)</span><span class="type-signature"> &rarr; {Object|Boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Finds a model contained within this collection via its unique id.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-|
-
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a unique id which corresponds to a model stored in this collection</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line129">line 129</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    model - an object if the model was found, false if not
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-|
-
-<span class="param-type">Boolean</span>
 
 
     </dd>
@@ -1177,7 +1020,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line160">line 160</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line142">line 142</a>
     </li></ul></dd>
     
 
@@ -1269,7 +1112,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line170">line 170</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -1412,7 +1255,7 @@ Appends these models into the data property of this Collection instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line106">line 106</a>
+        <a href="Trux.Collection.js.html">Trux.Collection.js</a>, <a href="Trux.Collection.js.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -1478,7 +1321,7 @@ Appends these models into the data property of this Collection instance.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 15:08:39 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Feb 07 2016 16:18:03 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -21,55 +21,62 @@ Parse.initialize("hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk", "4bhdnwddpjR0yVKzbM
  * Define a custom TruxModel constructor.
  *
  */
-Trux.models.Movie = function (data) {
-    Trux.Model.call(this, data);
+Trux.models.Movie = Trux.extend({
 
     /**
-     * Set the model's id, parse uses the `objectId` key.
+     * Set the model's id
      *
      */
-    this.setId(data.objectId);
+    setId: function (id) {
+        this.id = id;
+    },
 
     /**
-     * Set the headers and dataType for the model's request options.
+     * Get the model's id
      *
      */
-    this.setRequestOptions({
+    getId:function () {
+        return this.id;
+    },
+
+    /**
+     * Get the movie title.
+     *
+     */
+    getTitle :function () {
+        return this.data.title;
+    },
+
+    /**
+     * Get the movie genre.
+     *
+     */
+    getGenre: function () {
+        return this.data.genre;
+    }
+}, function(_this) {
+    /**
+     * Perform these setup operations on each model when it is instantiated.
+     * Set each model's id.
+     * Set the custom request options needed for each model to communicate with the API.
+     * Set the RESTful PUT and GET routes.
+     * @see Trux.extend
+     *
+     */
+    _this.setId(_this.data.objectId);
+    _this.setRequestOptions({
         'headers':PARSE_HEADERS,
         'dataType':'json'
     });
-
-    /**
-     * Custom method for getting the movie title.
-     *
-     */
-    this.getTitle = function () {
-        return this.data.title;
-    };
-
-    /**
-     * Custom method for getting the movie genre.
-     */
-    this.getGenre = function () {
-        return this.data.genre;
-    };
-
-    /**
-     * Set the RESTful routes for the model that we'll be using for this example.
-     *
-     */
-    this.PUT = PARSE_API + 'Movies/' + this.id;
-    this.GET = PARSE_API + 'Movies/' + this.id;
-};
-
-Trux.branch(Trux.Model, Trux.models.Movie);
+    _this.PUT = PARSE_API + 'Movies/' + _this.id;
+    _this.GET = PARSE_API + 'Movies/' + _this.id;
+});
 
 /**
  * Create a new TruxCollection.
  * Parse requires us to set specific headers in order to interact with their REST API.
  *
  */
-
 var Movies = new Trux.Collection(Trux.models.Movie).setRequestOptions({
     'headers':PARSE_HEADERS
 });
@@ -104,7 +111,6 @@ Movies.fetch({
  */
 var Item = React.createClass({
 
-    //
     /**
      * Initial state for the Item component.
      */
@@ -159,13 +165,11 @@ var Item = React.createClass({
             "genre":this.state.genre
         };
 
-        console.log(model.update);
-
-
         /**
          * A Trux.Model's update method expects the model to be returned from the server to ensure data consistency.
          * Parse doesn't do this, instead it only sends back the updatedAt value.
          * To ensure our data is consistent, we'll request the model once again from Parse.
+         * This isn't very efficient, so in a real use case you would override the native fetch method with your own.
          *
          */
         model.update(data, {

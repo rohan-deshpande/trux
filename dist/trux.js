@@ -9,30 +9,35 @@
      */
     this.Trux = {
         /**
-         * Creates a new sub class from the optional base parameter.
+         * Extends a base class and returns a new class.
          * If no base parameter is passed, Trux.Model is assumed.
          *
          * @param {Object} props - custom props for the new class
+         * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
          * @param {Function} base - the base constructor to create this sub class from
          * @return {Function} _constructor - the new constructor
          */
-        createSubClass: function (props, base) {
+        extend: function (props, setup, base) {
             var _base = (typeof base === 'function') ? base : Trux.Model;
-            var TruxSubClass = function (arg) {
+            var TruxClassExtension = function (arg) {
                 _base.call(this, arg);
+
+                if (typeof setup === 'function') {
+                    setup(this);
+                }
             };
 
-            TruxSubClass.prototype = Object.create(_base.prototype);
+            TruxClassExtension.prototype = Object.create(_base.prototype);
 
-            if (typeof props !== 'object') return TruxSubClass;
+            if (typeof props !== 'object') return TruxClassExtension;
 
             for (var prop in props) {
                 if (props.hasOwnProperty(prop)) {
-                    TruxSubClass.prototype[prop] = props[prop];
+                    TruxClassExtension.prototype[prop] = props[prop];
                 }
             }
 
-            return TruxSubClass;
+            return TruxClassExtension;
         },
 
         /**
@@ -40,14 +45,14 @@
          *
          * @prop {Object} models - an object to store custom Trux Model classes
          */
-        models:{},
+        models: {},
 
         /**
          * Store for custom Trux Collection classes.
          *
          * @prop {Object} collections - an object to store custom Trux Collection classes
          */
-        collections:{},
+        collections: {},
 
         /**
          * The base constructor for models and collections.
@@ -201,7 +206,6 @@
 
     /**
      * A client side interface for a remote data Model.
-     * <p>Each Model is expected to have a unique <em>id</em> property.</p>
      *
      * @param {Object} data - the data which defines this Model
      * @return {Object} this - this Model
@@ -210,21 +214,15 @@
        var MyModel = new Trux.Model({message:'hello world'});
      * @example
        //advanced usage
-       Trux.models.User = function(data) {
-           Trux.Model.call(this);
-       }
+       Trux.models.User = Trux.extend({
+            getName: function () {
+                return this.data.name;
+            }
+       }, false);
 
-       Trux.models.User.prototype.getName = function () {
-            return this.data.name;
-       }
+       var Frodo = new Trux.models.User({name:'Frodo Baggins'});
 
-       Trux.models.User.prototype.setName = function () {
-            this.data.name = name;
-       }
-
-       Trux.branch(Trux.Model, Trux.models.User);
-
-       var user = new Trux.models.User({name:'Frodo Baggins'});
+       console.log(Frodo.getName()); // logs 'Frodo Baggins'
      * @constructor
      */
     Trux.Model = function (data) {
@@ -250,13 +248,6 @@
          * @private
          */
         var _backup = null;
-
-        /**
-         * The Model's unique id.
-         *
-         * @prop {Null|String|Number} id - the Model's unique id
-         */
-        this.id = null;
 
         /**
          * The data which defines this Model, initially null.
@@ -319,28 +310,8 @@
     Trux.Model.prototype = Object.create(Trux.Base.prototype);
 
     /**
-     * Set the id for the Model.
-     *
-     * @prop {String|Number} id - the id of this Model
-     * @return {Object} this - this Model
-     */
-     Trux.Model.prototype.setId = function (id) {
-         this.id = id;
-         return this;
-     };
-
-    /**
-     * Gets the id for this Model.
-     *
-     * @return {Integer|String} id - the Model's unique id
-     */
-    Trux.Model.prototype.getId = function () {
-        return this.data.id;
-    };
-
-    /**
      * Persits the Model's data throughout its bound components.
-     * Emits the Model's change event.
+     * Emits either the Model's change event or, if it belongs to a Collection, the Collection's change event.
      *
      * @return {Object} this - this Model
      */
@@ -392,9 +363,10 @@
      * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.create = function (data, options) {
+        var _this = this;
+
         qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
-                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
@@ -469,19 +441,21 @@
        var MyCollection = new Trux.Collection(Trux.Model);
      * @example
        //advanced usage
-       Trux.collections.Posts = function () {
-           Trux.Collection.call(this, Trux.models.Post); //assumes you have created a custom Trux.Model - Post
-       };
+       Trux.collections.Posts = Trux.extend({
+            getCategories: function () {
+                categories = [];
 
-       Trux.collections.Posts.prototype.getCategories = function () {
-           categories = [];
+                this.models.forEach(function (model) {
+                    categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
+                });
 
-           this.models.forEach(function (model) {
-               categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
-           });
+                return categories;
+            }
+       }, false, Trux.Collection);
 
-           return categories;
-       }
+       var Blog = new Trux.collections.Posts(Trux.models.Post); //assumes you've created a custom Post model.
+
+       console.log(Blog.getCategories()); // logs all your post's categories.
      * @constructor
      */
     Trux.Collection = function (modelConstructor) {
@@ -562,6 +536,7 @@
      * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
+
         if(!Array.isArray(models)) return;
 
         this.purgeModels();
@@ -569,33 +544,12 @@
         var length = models.length;
         var i;
 
-
         for (i = 0 ; i < length ; i++) {
             var model = new this.modelConstructor(models[i]);
             this.append(model);
         }
 
         return this;
-    };
-
-    /**
-     * Finds a model contained within this collection via its unique id.
-     *
-     * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
-     * @return {Object|Boolean} model - an object if the model was found, false if not
-     */
-    Trux.Collection.prototype.findById = function (id) {
-        var length = this.models.length;
-        var i;
-        var model = false;
-
-        for(i = 0 ; i < length ; i ++) {
-            if(this.models[i].data.id == id || this.models[i].data.id == parseInt(id, 10)) {
-                model = this.models[i];
-            }
-        }
-
-        return model;
     };
 
     /**

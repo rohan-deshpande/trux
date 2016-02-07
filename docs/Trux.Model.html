@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#extend">extend</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#findById">findById</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#getId">getId</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#setId">setId</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.branch">branch</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Trux.Base.html">Base</a><ul class='methods'><li data-type='method'><a href="Trux.Base.html#bindComponent">bindComponent</a></li><li data-type='method'><a href="Trux.Base.html#emitChangeEvent">emitChangeEvent</a></li><li data-type='method'><a href="Trux.Base.html#setRequestOptions">setRequestOptions</a></li><li data-type='method'><a href="Trux.Base.html#unbindComponent">unbindComponent</a></li><li data-type='method'><a href="Trux.Base.html#~broadcast">broadcast</a></li></ul></li><li><a href="Trux.Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Trux.Collection.html#append">append</a></li><li data-type='method'><a href="Trux.Collection.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Collection.html#prepend">prepend</a></li><li data-type='method'><a href="Trux.Collection.html#purgeModels">purgeModels</a></li><li data-type='method'><a href="Trux.Collection.html#setModels">setModels</a></li></ul></li><li><a href="Trux.Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Trux.Model.html#create">create</a></li><li data-type='method'><a href="Trux.Model.html#fetch">fetch</a></li><li data-type='method'><a href="Trux.Model.html#persist">persist</a></li><li data-type='method'><a href="Trux.Model.html#purge">purge</a></li><li data-type='method'><a href="Trux.Model.html#restoreData">restoreData</a></li><li data-type='method'><a href="Trux.Model.html#setData">setData</a></li><li data-type='method'><a href="Trux.Model.html#update">update</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Trux.html">Trux</a><ul class='methods'><li data-type='method'><a href="Trux.html#.extend">extend</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -64,7 +64,6 @@
 
 <div class="description">
     A client side interface for a remote data Model.
-<p>Each Model is expected to have a unique <em>id</em> property.</p>
 </div>
 
 
@@ -157,7 +156,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line32">line 32</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -210,21 +209,15 @@
        var MyModel = new Trux.Model({message:'hello world'});</code></pre>
 
     <pre class="prettyprint"><code>//advanced usage
-       Trux.models.User = function(data) {
-           Trux.Model.call(this);
-       }
+       Trux.models.User = Trux.extend({
+            getName: function () {
+                return this.data.name;
+            }
+       }, false);
 
-       Trux.models.User.prototype.getName = function () {
-            return this.data.name;
-       }
+       var Frodo = new Trux.models.User({name:'Frodo Baggins'});
 
-       Trux.models.User.prototype.setName = function () {
-            this.data.name = name;
-       }
-
-       Trux.branch(Trux.Model, Trux.models.User);
-
-       var user = new Trux.models.User({name:'Frodo Baggins'});</code></pre>
+       console.log(Frodo.getName()); // logs 'Frodo Baggins'</code></pre>
 
 
 
@@ -345,7 +338,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line75">line 75</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -459,7 +452,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line89">line 89</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -576,7 +569,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line82">line 82</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -693,127 +686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line68">line 68</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The Model's unique id.
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Null</span>
-|
-
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the Model's unique id</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line61">line 61</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -970,7 +843,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line196">line 196</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -1130,7 +1003,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line166">line 166</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -1183,113 +1056,6 @@
 
     
 
-    <h4 class="name" id="getId"><span class="type-signature"></span>getId<span class="signature">()</span><span class="type-signature"> &rarr; {Integer|String}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Gets the id for this Model.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line139">line 139</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    id - the Model's unique id
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Integer</span>
-|
-
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="persist"><span class="type-signature"></span>persist<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
@@ -1298,7 +1064,7 @@
 
 <div class="description">
     Persits the Model's data throughout its bound components.
-Emits the Model's change event.
+Emits either the Model's change event or, if it belongs to a Collection, the Collection's change event.
 </div>
 
 
@@ -1342,7 +1108,7 @@ Emits the Model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line149">line 149</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -1446,7 +1212,7 @@ Emits the Model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line255">line 255</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -1538,7 +1304,7 @@ Emits the Model's change event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line109">line 109</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -1692,166 +1458,7 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    this - this Model
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setId"><span class="type-signature"></span>setId<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set the id for the Model.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the id of this Model</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line129">line 129</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -2036,7 +1643,7 @@ Also sets the private _backup for this instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line226">line 226</a>
+        <a href="Trux.Model.js.html">Trux.Model.js</a>, <a href="Trux.Model.js.html#line193">line 193</a>
     </li></ul></dd>
     
 
@@ -2102,7 +1709,7 @@ Also sets the private _backup for this instance.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 31 2016 15:08:39 GMT+1100 (AEDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Feb 07 2016 16:18:03 GMT+1100 (AEDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

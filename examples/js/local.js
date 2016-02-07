@@ -90,7 +90,6 @@ var Book = React.createClass({
     componentDidMount:function () {
         this.truxId = 'Book ' + this.props.index;
         this.state.model.bindComponent(this);
-        console.log(this.state.model);
     },
 
     /**
@@ -168,18 +167,29 @@ var Book = React.createClass({
     }
 });
 
+/**
+ * Create an Editor component
+ */
 var Editor = React.createClass({
 
     propTypes:{
         collection:React.PropTypes.object.isRequired
     },
 
+    /**
+     * Set the collection.
+     *
+     */
     getInitialState:function () {
         return {
             collection:this.props.collection
         };
     },
 
+    /**
+     * Render the component. Loop through the collection's models and render a Book component for each.
+     *
+     */
     render:function () {
         var _this = this;
 
@@ -202,8 +212,16 @@ var Editor = React.createClass({
 (function (window) {
     'use strict';
 
+    /**
+     * Define a global app object.
+     *
+     */
     window.app = {
 
+        /**
+         * Our dummy data.
+         *
+         */
         books:[{
                 'id':performance.now(),
                 'title':'Lord Of The Kings',
@@ -219,22 +237,63 @@ var Editor = React.createClass({
             }
         ],
 
+        /**
+         * Load the data into local storage for use in this example.
+         *
+         */
         setupData:function () {
             localStorage.setItem('truxExampleData', JSON.stringify(this.books));
             return this;
         },
 
+        /**
+         * Setup the custom Book model.
+         *
+         */
         setupBook:function () {
 
-            Trux.models.Book = Trux.createSubClass({
+            /**
+             * Extend Trux.Model and create a new class; Book.
+             *
+             */
+            Trux.models.Book = Trux.extend({
+
+                /**
+                 * Sets the id of the model.
+                 *
+                 */
+                setId: function (id) {
+                    this.id = id;
+                },
+
+                /**
+                 * Gets the id of the model.
+                 *
+                 */
+                getId: function () {
+                    return this.id;
+                },
+
+                /**
+                 * Sets the title of the book.
+                 *
+                 */
                 getTitle: function () {
                     return this.data.title;
                 },
 
+                /**
+                 * Gets the author of the book.
+                 *
+                 */
                 getAuthor: function () {
                     return this.data.author;
                 },
 
+                /**
+                 * Local storage update method.
+                 *
+                 */
                 updateLocal: function () {
                     var stored = JSON.parse(localStorage.getItem('truxExampleData'));
                     var item = false;
@@ -258,35 +317,50 @@ var Editor = React.createClass({
                         this.emitChangeEvent();
                     }
                 }
+            }, function (_this) {
+
+                /**
+                 * Set the id of the Book on instantiation.
+                 *
+                 */
+                _this.setId(_this.data.id);
             });
 
             return this;
         },
 
+        /**
+         * Setup the Genre collection.
+         *
+         */
         setupGenre:function () {
             var _this = this;
 
-            Trux.collections.Genre =  function() {
-                Trux.Collection.call(this, Trux.models.Book);
+            Trux.collections.Genre = Trux.extend({
 
-                this.fetchLocal = function(key) {
+                /**
+                 * Custom method for fetching data from local storage.
+                 *
+                 */
+                fetchLocal: function (key) {
                     this.setModels(JSON.parse(localStorage.getItem(key)));
-                };
-            };
-
-            Trux.branch(Trux.Collection, Trux.collections.Genre);
+                }
+            }, false, Trux.Collection);
 
             return this;
         },
 
+        /**
+         * Run the app.
+         *
+         */
         run:function () {
 
             this.setupData()
                 .setupBook()
                 .setupGenre();
 
-            var fantasy = new Trux.collections.Genre();
-            console.log(fantasy);
+            var fantasy = new Trux.collections.Genre(Trux.models.Book);
             fantasy.fetchLocal('truxExampleData');
 
             ReactDOM.render(

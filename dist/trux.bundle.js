@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.qwest=e()}}(function(){var define,module,exports;return function e(t,n,r){function o(i,a){if(!n[i]){if(!t[i]){var p="function"==typeof require&&require;if(!a&&p)return p(i,!0);if(s)return s(i,!0);var u=new Error("Cannot find module '"+i+"'");throw u.code="MODULE_NOT_FOUND",u}var c=n[i]={exports:{}};t[i][0].call(c.exports,function(e){var n=t[i][1][e];return o(n?n:e)},c,c.exports,e,t,n,r)}return n[i].exports}for(var s="function"==typeof require&&require,i=0;i<r.length;i++)o(r[i]);return o}({1:[function(e,t,n){function r(){c=!1,a.length?u=a.concat(u):f=-1,u.length&&o()}function o(){if(!c){var e=setTimeout(r);c=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,c=!1,clearTimeout(e)}}function s(e,t){this.fun=e,this.array=t}function i(){}var a,p=t.exports={},u=[],c=!1,f=-1;p.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new s(e,t)),1!==u.length||c||setTimeout(o,0)},s.prototype.run=function(){this.fun.apply(null,this.array)},p.title="browser",p.browser=!0,p.env={},p.argv=[],p.version="",p.versions={},p.on=i,p.addListener=i,p.once=i,p.off=i,p.removeListener=i,p.removeAllListeners=i,p.emit=i,p.binding=function(e){throw new Error("process.binding is not supported")},p.cwd=function(){return"/"},p.chdir=function(e){throw new Error("process.chdir is not supported")},p.umask=function(){return 0}},{}],2:[function(e,t,n){!function(e){"use strict";var n=function(e){var t=function(e,t,n){n="function"==typeof n?n():null===n?"":void 0===n?"":n,e[e.length]=encodeURIComponent(t)+"="+encodeURIComponent(n)},n=function(e,r,o){var s,i,a;if("[object Array]"===Object.prototype.toString.call(r))for(s=0,i=r.length;i>s;s++)n(e+"["+("object"==typeof r[s]?s:"")+"]",r[s],o);else if(r&&"[object Object]"===r.toString())for(a in r)r.hasOwnProperty(a)&&(e?n(e+"["+a+"]",r[a],o,t):n(a,r[a],o,t));else if(e)t(o,e,r);else for(a in r)t(o,a,r[a]);return o};return n("",e,[]).join("&").replace(/%20/g,"+")};"object"==typeof t&&"object"==typeof t.exports?t.exports=n:"function"==typeof define&&define.amd?define([],function(){return n}):e.param=n}(this)},{}],3:[function(e,t,n){(function(e){!function(t){function n(e){return"function"==typeof e}function r(e){return"object"==typeof e}function o(t){"undefined"!=typeof setImmediate?setImmediate(t):"undefined"!=typeof e&&e.nextTick?e.nextTick(t):setTimeout(t,0)}var s;t[0][t[1]]=function i(e){var t,a=[],p=[],u=function(e,n){return null==t&&null!=e&&(t=e,a=n,p.length&&o(function(){for(var e=0;e<p.length;e++)p[e]()})),t};return u.then=function(u,c){var f=i(e),l=function(){function e(t){var o,i=0;try{if(t&&(r(t)||n(t))&&n(o=t.then)){if(t===f)throw new TypeError;o.call(t,function(){i++||e.apply(s,arguments)},function(e){i++||f(!1,[e])})}else f(!0,arguments)}catch(a){i++||f(!1,[a])}}try{var o=t?u:c;n(o)?e(o.apply(s,a||[])):f(t,a)}catch(i){f(!1,[i])}};return null!=t?o(l):p.push(l),f},e&&(u=e(u)),u}}("undefined"==typeof t?[window,"pinkySwear"]:[t,"exports"])}).call(this,e("_process"))},{_process:1}],qwest:[function(_dereq_,module,exports){module.exports=function(){var global=window||this,pinkyswear=_dereq_("pinkyswear"),jparam=_dereq_("jquery-param"),defaultXdrResponseType="json",defaultDataType="post",limit=null,requests=0,request_stack=[],getXHR=function(){return global.XMLHttpRequest?new global.XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")},xhr2=""===getXHR().responseType,qwest=function(method,url,data,options,before){method=method.toUpperCase(),data=data||null,options=options||{};var nativeResponseParsing=!1,crossOrigin,xhr,xdr=!1,timeoutInterval,aborted=!1,attempts=0,headers={},mimeTypes={text:"*/*",xml:"text/xml",json:"application/json",post:"application/x-www-form-urlencoded"},accept={text:"*/*",xml:"application/xml; q=1.0, text/xml; q=0.8, */*; q=0.1",json:"application/json; q=1.0, text/*; q=0.8, */*; q=0.1"},vars="",i,j,serialized,response,sending=!1,delayed=!1,timeout_start,promise=pinkyswear(function(e){if(e["catch"]=function(t){return e.then(null,t)},e.complete=function(t){return e.then(t,t)},"pinkyswear"in options)for(i in options.pinkyswear)e[i]=options.pinkyswear[i];return e.send=function(){if(!sending){if(requests==limit)return void request_stack.push(e);if(++requests,sending=!0,timeout_start=(new Date).getTime(),xhr=getXHR(),crossOrigin&&("withCredentials"in xhr||!global.XDomainRequest||(xhr=new XDomainRequest,xdr=!0,"GET"!=method&&"POST"!=method&&(method="POST"))),xdr?xhr.open(method,url):(xhr.open(method,url,options.async,options.user,options.password),xhr2&&options.async&&(xhr.withCredentials=options.withCredentials)),!xdr)for(var t in headers)headers[t]&&xhr.setRequestHeader(t,headers[t]);if(xhr2&&"document"!=options.responseType&&"auto"!=options.responseType)try{xhr.responseType=options.responseType,nativeResponseParsing=xhr.responseType==options.responseType}catch(n){}xhr2||xdr?(xhr.onload=handleResponse,xhr.onerror=handleError):xhr.onreadystatechange=function(){4==xhr.readyState&&handleResponse()},"auto"!=options.responseType&&"overrideMimeType"in xhr&&xhr.overrideMimeType(mimeTypes[options.responseType]),before&&before(xhr),xdr?setTimeout(function(){xhr.send("GET"!=method?data:null)},0):xhr.send("GET"!=method?data:null)}},e}),handleResponse=function(){var i,responseType;if(--requests,sending=!1,(new Date).getTime()-timeout_start>=options.timeout)return void(options.attempts&&++attempts==options.attempts?promise(!1,[xhr,response,new Error("Timeout ("+url+")")]):promise.send());request_stack.length&&request_stack.shift().send();try{if(nativeResponseParsing&&"response"in xhr&&null!==xhr.response)response=xhr.response;else if("document"==options.responseType){var frame=document.createElement("iframe");frame.style.display="none",document.body.appendChild(frame),frame.contentDocument.open(),frame.contentDocument.write(xhr.response),frame.contentDocument.close(),response=frame.contentDocument,document.body.removeChild(frame)}else{if(responseType=options.responseType,"auto"==responseType)if(xdr)responseType=defaultXdrResponseType;else{var ct=xhr.getResponseHeader("Content-Type")||"";responseType=ct.indexOf(mimeTypes.json)>-1?"json":ct.indexOf(mimeTypes.xml)>-1?"xml":"text"}switch(responseType){case"json":try{response="JSON"in global?JSON.parse(xhr.responseText):eval("("+xhr.responseText+")")}catch(e){throw"Error while parsing JSON body : "+e}break;case"xml":try{global.DOMParser?response=(new DOMParser).parseFromString(xhr.responseText,"text/xml"):(response=new ActiveXObject("Microsoft.XMLDOM"),response.async="false",response.loadXML(xhr.responseText))}catch(e){response=void 0}if(!response||!response.documentElement||response.getElementsByTagName("parsererror").length)throw"Invalid XML";break;default:response=xhr.responseText}}if("status"in xhr&&!/^2|1223/.test(xhr.status))throw xhr.status+" ("+xhr.statusText+")";promise(!0,[xhr,response])}catch(e){promise(!1,[xhr,response,e])}},handleError=function(e){--requests,promise(!1,[xhr,null,new Error("Connection aborted")])};switch(options.async="async"in options?!!options.async:!0,options.cache="cache"in options?!!options.cache:!1,options.dataType="dataType"in options?options.dataType.toLowerCase():defaultDataType,options.responseType="responseType"in options?options.responseType.toLowerCase():"auto",options.user=options.user||"",options.password=options.password||"",options.withCredentials=!!options.withCredentials,options.timeout="timeout"in options?parseInt(options.timeout,10):3e4,options.attempts="attempts"in options?parseInt(options.attempts,10):1,i=url.match(/\/\/(.+?)\//),crossOrigin=i&&(i[1]?i[1]!=location.host:!1),"ArrayBuffer"in global&&data instanceof ArrayBuffer?options.dataType="arraybuffer":"Blob"in global&&data instanceof Blob?options.dataType="blob":"Document"in global&&data instanceof Document?options.dataType="document":"FormData"in global&&data instanceof FormData&&(options.dataType="formdata"),options.dataType){case"json":data=JSON.stringify(data);break;case"post":data=jparam(data)}if(options.headers){var format=function(e,t,n){return t+n.toUpperCase()};for(i in options.headers)headers[i.replace(/(^|-)([^-])/g,format)]=options.headers[i]}return"Content-Type"in headers||"GET"==method||options.dataType in mimeTypes&&mimeTypes[options.dataType]&&(headers["Content-Type"]=mimeTypes[options.dataType]),headers.Accept||(headers.Accept=options.responseType in accept?accept[options.responseType]:"*/*"),crossOrigin||"X-Requested-With"in headers||(headers["X-Requested-With"]="XMLHttpRequest"),options.cache||"Cache-Control"in headers||(headers["Cache-Control"]="no-cache"),"GET"==method&&data&&(vars+=data),vars&&(url+=(/\?/.test(url)?"&":"?")+vars),options.async&&promise.send(),promise};return{base:"",get:function(e,t,n,r){return qwest("GET",this.base+e,t,n,r)},post:function(e,t,n,r){return qwest("POST",this.base+e,t,n,r)},put:function(e,t,n,r){return qwest("PUT",this.base+e,t,n,r)},"delete":function(e,t,n,r){return qwest("DELETE",this.base+e,t,n,r)},map:function(e,t,n,r,o){return qwest(e.toUpperCase(),this.base+t,n,r,o)},xhr2:xhr2,limit:function(e){limit=e},setDefaultXdrResponseType:function(e){defaultXdrResponseType=e.toLowerCase()},setDefaultDataType:function(e){defaultDataType=e.toLowerCase()}}}()},{"jquery-param":2,pinkyswear:3}]},{},[2,3])("qwest")}),function(){"use strict";function e(){}function t(e,t){for(var n=e.length;n--;)if(e[n].listener===t)return n;return-1}function n(e){return function(){return this[e].apply(this,arguments)}}var r=e.prototype,o=this,s=o.EventEmitter;r.getListeners=function(e){var t,n,r=this._getEvents();if(e instanceof RegExp){t={};for(n in r)r.hasOwnProperty(n)&&e.test(n)&&(t[n]=r[n])}else t=r[e]||(r[e]=[]);return t},r.flattenListeners=function(e){var t,n=[];for(t=0;t<e.length;t+=1)n.push(e[t].listener);return n},r.getListenersAsObject=function(e){var t,n=this.getListeners(e);return n instanceof Array&&(t={},t[e]=n),t||n},r.addListener=function(e,n){var r,o=this.getListenersAsObject(e),s="object"==typeof n;for(r in o)o.hasOwnProperty(r)&&-1===t(o[r],n)&&o[r].push(s?n:{listener:n,once:!1});return this},r.on=n("addListener"),r.addOnceListener=function(e,t){return this.addListener(e,{listener:t,once:!0})},r.once=n("addOnceListener"),r.defineEvent=function(e){return this.getListeners(e),this},r.defineEvents=function(e){for(var t=0;t<e.length;t+=1)this.defineEvent(e[t]);return this},r.removeListener=function(e,n){var r,o,s=this.getListenersAsObject(e);for(o in s)s.hasOwnProperty(o)&&(r=t(s[o],n),-1!==r&&s[o].splice(r,1));return this},r.off=n("removeListener"),r.addListeners=function(e,t){return this.manipulateListeners(!1,e,t)},r.removeListeners=function(e,t){return this.manipulateListeners(!0,e,t)},r.manipulateListeners=function(e,t,n){var r,o,s=e?this.removeListener:this.addListener,i=e?this.removeListeners:this.addListeners;if("object"!=typeof t||t instanceof RegExp)for(r=n.length;r--;)s.call(this,t,n[r]);else for(r in t)t.hasOwnProperty(r)&&(o=t[r])&&("function"==typeof o?s.call(this,r,o):i.call(this,r,o));return this},r.removeEvent=function(e){var t,n=typeof e,r=this._getEvents();if("string"===n)delete r[e];else if(e instanceof RegExp)for(t in r)r.hasOwnProperty(t)&&e.test(t)&&delete r[t];else delete this._events;return this},r.removeAllListeners=n("removeEvent"),r.emitEvent=function(e,t){var n,r,o,s,i,a=this.getListenersAsObject(e);for(s in a)if(a.hasOwnProperty(s))for(n=a[s].slice(0),o=n.length;o--;)r=n[o],r.once===!0&&this.removeListener(e,r.listener),i=r.listener.apply(this,t||[]),i===this._getOnceReturnValue()&&this.removeListener(e,r.listener);return this},r.trigger=n("emitEvent"),r.emit=function(e){var t=Array.prototype.slice.call(arguments,1);return this.emitEvent(e,t)},r.setOnceReturnValue=function(e){return this._onceReturnValue=e,this},r._getOnceReturnValue=function(){return this.hasOwnProperty("_onceReturnValue")?this._onceReturnValue:!0},r._getEvents=function(){return this._events||(this._events={})},e.noConflict=function(){return o.EventEmitter=s,e},"function"==typeof define&&define.amd?define(function(){return e}):"object"==typeof module&&module.exports?module.exports=e:o.EventEmitter=e}.call(this);
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.qwest=e()}}(function(){var define,module,exports;return function e(t,n,r){function o(i,a){if(!n[i]){if(!t[i]){var p="function"==typeof require&&require;if(!a&&p)return p(i,!0);if(s)return s(i,!0);var u=new Error("Cannot find module '"+i+"'");throw u.code="MODULE_NOT_FOUND",u}var c=n[i]={exports:{}};t[i][0].call(c.exports,function(e){var n=t[i][1][e];return o(n?n:e)},c,c.exports,e,t,n,r)}return n[i].exports}for(var s="function"==typeof require&&require,i=0;i<r.length;i++)o(r[i]);return o}({1:[function(e,t,n){!function(e){"use strict";var n=function(e){var t=function(e,t,n){n="function"==typeof n?n():null===n?"":void 0===n?"":n,e[e.length]=encodeURIComponent(t)+"="+encodeURIComponent(n)},n=function(e,r,o){var s,i,a;if("[object Array]"===Object.prototype.toString.call(r))for(s=0,i=r.length;i>s;s++)n(e+"["+("object"==typeof r[s]?s:"")+"]",r[s],o);else if(r&&"[object Object]"===r.toString())for(a in r)r.hasOwnProperty(a)&&(e?n(e+"["+a+"]",r[a],o,t):n(a,r[a],o,t));else if(e)t(o,e,r);else for(a in r)t(o,a,r[a]);return o};return n("",e,[]).join("&").replace(/%20/g,"+")};"object"==typeof t&&"object"==typeof t.exports?t.exports=n:"function"==typeof define&&define.amd?define([],function(){return n}):e.param=n}(this)},{}],2:[function(e,t,n){!function(e){function t(e){return"function"==typeof e}function n(e){return"object"==typeof e}function r(e){"undefined"!=typeof setImmediate?setImmediate(e):"undefined"!=typeof process&&process.nextTick?process.nextTick(e):setTimeout(e,0)}var o;e[0][e[1]]=function s(e){var i,a=[],p=[],u=function(e,t){return null==i&&null!=e&&(i=e,a=t,p.length&&r(function(){for(var e=0;e<p.length;e++)p[e]()})),i};return u.then=function(u,c){var f=s(e),d=function(){function e(r){var s,i=0;try{if(r&&(n(r)||t(r))&&t(s=r.then)){if(r===f)throw new TypeError;s.call(r,function(){i++||e.apply(o,arguments)},function(e){i++||f(!1,[e])})}else f(!0,arguments)}catch(a){i++||f(!1,[a])}}try{var r=i?u:c;t(r)?e(r.apply(o,a||[])):f(i,a)}catch(s){f(!1,[s])}};return null!=i?r(d):p.push(d),f},e&&(u=e(u)),u}}("undefined"==typeof t?[window,"pinkySwear"]:[t,"exports"])},{}],qwest:[function(_dereq_,module,exports){module.exports=function(){var global=window||this,pinkyswear=_dereq_("pinkyswear"),jparam=_dereq_("jquery-param"),defaultXdrResponseType="json",defaultDataType="post",limit=null,requests=0,request_stack=[],getXHR=function(){return global.XMLHttpRequest?new global.XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")},xhr2=""===getXHR().responseType,qwest=function(method,url,data,options,before){method=method.toUpperCase(),data=data||null,options=options||{};var nativeResponseParsing=!1,crossOrigin,xhr,xdr=!1,timeoutInterval,aborted=!1,attempts=0,headers={},mimeTypes={text:"*/*",xml:"text/xml",json:"application/json",post:"application/x-www-form-urlencoded"},accept={text:"*/*",xml:"application/xml; q=1.0, text/xml; q=0.8, */*; q=0.1",json:"application/json; q=1.0, text/*; q=0.8, */*; q=0.1"},i,j,serialized,response,sending=!1,delayed=!1,timeout_start,promise=pinkyswear(function(e){if(e["catch"]=function(t){return e.then(null,t)},e.complete=function(t){return e.then(t,t)},"pinkyswear"in options)for(i in options.pinkyswear)e[i]=options.pinkyswear[i];return e.send=function(){if(!sending){if(requests==limit)return void request_stack.push(e);if(++requests,sending=!0,timeout_start=(new Date).getTime(),xhr=getXHR(),crossOrigin&&("withCredentials"in xhr||!global.XDomainRequest||(xhr=new XDomainRequest,xdr=!0,"GET"!=method&&"POST"!=method&&(method="POST"))),xdr?xhr.open(method,url):(xhr.open(method,url,options.async,options.user,options.password),xhr2&&options.async&&(xhr.withCredentials=options.withCredentials)),!xdr)for(var t in headers)headers[t]&&xhr.setRequestHeader(t,headers[t]);if(xhr2&&"document"!=options.responseType&&"auto"!=options.responseType)try{xhr.responseType=options.responseType,nativeResponseParsing=xhr.responseType==options.responseType}catch(n){}xhr2||xdr?(xhr.onload=handleResponse,xhr.onerror=handleError):xhr.onreadystatechange=function(){4==xhr.readyState&&handleResponse()},"auto"!=options.responseType&&"overrideMimeType"in xhr&&xhr.overrideMimeType(mimeTypes[options.responseType]),before&&before(xhr),xdr?(xhr.onprogress=function(){},xhr.ontimeout=function(){},xhr.onerror=function(){},setTimeout(function(){xhr.send("GET"!=method?data:null)},0)):xhr.send("GET"!=method?data:null)}},e}),handleResponse=function(){var i,responseType;if(--requests,sending=!1,(new Date).getTime()-timeout_start>=options.timeout)return void(options.attempts&&++attempts==options.attempts?promise(!1,[xhr,response,new Error("Timeout ("+url+")")]):promise.send());request_stack.length&&request_stack.shift().send();try{if(nativeResponseParsing&&"response"in xhr&&null!==xhr.response)response=xhr.response;else if("document"==options.responseType){var frame=document.createElement("iframe");frame.style.display="none",document.body.appendChild(frame),frame.contentDocument.open(),frame.contentDocument.write(xhr.response),frame.contentDocument.close(),response=frame.contentDocument,document.body.removeChild(frame)}else{if(responseType=options.responseType,"auto"==responseType)if(xdr)responseType=defaultXdrResponseType;else{var ct=xhr.getResponseHeader("Content-Type")||"";responseType=ct.indexOf(mimeTypes.json)>-1?"json":ct.indexOf(mimeTypes.xml)>-1?"xml":"text"}switch(responseType){case"json":try{response="JSON"in global?JSON.parse(xhr.responseText):eval("("+xhr.responseText+")")}catch(e){throw"Error while parsing JSON body : "+e}break;case"xml":try{global.DOMParser?response=(new DOMParser).parseFromString(xhr.responseText,"text/xml"):(response=new ActiveXObject("Microsoft.XMLDOM"),response.async="false",response.loadXML(xhr.responseText))}catch(e){response=void 0}if(!response||!response.documentElement||response.getElementsByTagName("parsererror").length)throw"Invalid XML";break;default:response=xhr.responseText}}if("status"in xhr&&!/^2|1223/.test(xhr.status))throw xhr.status+" ("+xhr.statusText+")";promise(!0,[xhr,response])}catch(e){promise(!1,[xhr,response,e])}},handleError=function(e){--requests,promise(!1,[xhr,null,new Error("Connection aborted")])};switch(options.async="async"in options?!!options.async:!0,options.cache="cache"in options?!!options.cache:!1,options.dataType="dataType"in options?options.dataType.toLowerCase():defaultDataType,options.responseType="responseType"in options?options.responseType.toLowerCase():"auto",options.user=options.user||"",options.password=options.password||"",options.withCredentials=!!options.withCredentials,options.timeout="timeout"in options?parseInt(options.timeout,10):3e4,options.attempts="attempts"in options?parseInt(options.attempts,10):1,i=url.match(/\/\/(.+?)\//),crossOrigin=i&&(i[1]?i[1]!=location.host:!1),"ArrayBuffer"in global&&data instanceof ArrayBuffer?options.dataType="arraybuffer":"Blob"in global&&data instanceof Blob?options.dataType="blob":"Document"in global&&data instanceof Document?options.dataType="document":"FormData"in global&&data instanceof FormData&&(options.dataType="formdata"),options.dataType){case"json":data=null!==data?JSON.stringify(data):data;break;case"post":data=jparam(data)}if(options.headers){var format=function(e,t,n){return t+n.toUpperCase()};for(i in options.headers)headers[i.replace(/(^|-)([^-])/g,format)]=options.headers[i]}return"Content-Type"in headers||"GET"==method||options.dataType in mimeTypes&&mimeTypes[options.dataType]&&(headers["Content-Type"]=mimeTypes[options.dataType]),headers.Accept||(headers.Accept=options.responseType in accept?accept[options.responseType]:"*/*"),crossOrigin||"X-Requested-With"in headers||(headers["X-Requested-With"]="XMLHttpRequest"),options.cache||"Cache-Control"in headers||(headers["Cache-Control"]="no-cache"),"GET"==method&&data&&"string"==typeof data&&(url+=(/\?/.test(url)?"&":"?")+data),options.async&&promise.send(),promise};return{base:"",get:function(e,t,n,r){return qwest("GET",this.base+e,t,n,r)},post:function(e,t,n,r){return qwest("POST",this.base+e,t,n,r)},put:function(e,t,n,r){return qwest("PUT",this.base+e,t,n,r)},"delete":function(e,t,n,r){return qwest("DELETE",this.base+e,t,n,r)},map:function(e,t,n,r,o){return qwest(e.toUpperCase(),this.base+t,n,r,o)},xhr2:xhr2,limit:function(e){limit=e},setDefaultXdrResponseType:function(e){defaultXdrResponseType=e.toLowerCase()},setDefaultDataType:function(e){defaultDataType=e.toLowerCase()}}}()},{"jquery-param":1,pinkyswear:2}]},{},[1,2])("qwest")}),function(){"use strict";function e(){}function t(e,t){for(var n=e.length;n--;)if(e[n].listener===t)return n;return-1}function n(e){return function(){return this[e].apply(this,arguments)}}var r=e.prototype,o=this,s=o.EventEmitter;r.getListeners=function(e){var t,n,r=this._getEvents();if(e instanceof RegExp){t={};for(n in r)r.hasOwnProperty(n)&&e.test(n)&&(t[n]=r[n])}else t=r[e]||(r[e]=[]);return t},r.flattenListeners=function(e){var t,n=[];for(t=0;t<e.length;t+=1)n.push(e[t].listener);return n},r.getListenersAsObject=function(e){var t,n=this.getListeners(e);return n instanceof Array&&(t={},t[e]=n),t||n},r.addListener=function(e,n){var r,o=this.getListenersAsObject(e),s="object"==typeof n;for(r in o)o.hasOwnProperty(r)&&-1===t(o[r],n)&&o[r].push(s?n:{listener:n,once:!1});return this},r.on=n("addListener"),r.addOnceListener=function(e,t){return this.addListener(e,{listener:t,once:!0})},r.once=n("addOnceListener"),r.defineEvent=function(e){return this.getListeners(e),this},r.defineEvents=function(e){for(var t=0;t<e.length;t+=1)this.defineEvent(e[t]);return this},r.removeListener=function(e,n){var r,o,s=this.getListenersAsObject(e);for(o in s)s.hasOwnProperty(o)&&(r=t(s[o],n),-1!==r&&s[o].splice(r,1));return this},r.off=n("removeListener"),r.addListeners=function(e,t){return this.manipulateListeners(!1,e,t)},r.removeListeners=function(e,t){return this.manipulateListeners(!0,e,t)},r.manipulateListeners=function(e,t,n){var r,o,s=e?this.removeListener:this.addListener,i=e?this.removeListeners:this.addListeners;if("object"!=typeof t||t instanceof RegExp)for(r=n.length;r--;)s.call(this,t,n[r]);else for(r in t)t.hasOwnProperty(r)&&(o=t[r])&&("function"==typeof o?s.call(this,r,o):i.call(this,r,o));return this},r.removeEvent=function(e){var t,n=typeof e,r=this._getEvents();if("string"===n)delete r[e];else if(e instanceof RegExp)for(t in r)r.hasOwnProperty(t)&&e.test(t)&&delete r[t];else delete this._events;return this},r.removeAllListeners=n("removeEvent"),r.emitEvent=function(e,t){var n,r,o,s,i,a=this.getListenersAsObject(e);for(s in a)if(a.hasOwnProperty(s))for(n=a[s].slice(0),o=n.length;o--;)r=n[o],r.once===!0&&this.removeListener(e,r.listener),i=r.listener.apply(this,t||[]),i===this._getOnceReturnValue()&&this.removeListener(e,r.listener);return this},r.trigger=n("emitEvent"),r.emit=function(e){var t=Array.prototype.slice.call(arguments,1);return this.emitEvent(e,t)},r.setOnceReturnValue=function(e){return this._onceReturnValue=e,this},r._getOnceReturnValue=function(){return this.hasOwnProperty("_onceReturnValue")?this._onceReturnValue:!0},r._getEvents=function(){return this._events||(this._events={})},e.noConflict=function(){return o.EventEmitter=s,e},"function"==typeof define&&define.amd?define(function(){return e}):"object"==typeof module&&module.exports?module.exports=e:o.EventEmitter=e}.call(this);
 (function () {
     'use strict';
 
@@ -10,30 +10,35 @@
      */
     this.Trux = {
         /**
-         * Creates a new sub class from the optional base parameter.
+         * Extends a base class and returns a new class.
          * If no base parameter is passed, Trux.Model is assumed.
          *
          * @param {Object} props - custom props for the new class
+         * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
          * @param {Function} base - the base constructor to create this sub class from
          * @return {Function} _constructor - the new constructor
          */
-        createSubClass: function (props, base) {
+        extend: function (props, setup, base) {
             var _base = (typeof base === 'function') ? base : Trux.Model;
-            var TruxSubClass = function (arg) {
+            var TruxClassExtension = function (arg) {
                 _base.call(this, arg);
+
+                if (typeof setup === 'function') {
+                    setup(this);
+                }
             };
 
-            TruxSubClass.prototype = Object.create(_base.prototype);
+            TruxClassExtension.prototype = Object.create(_base.prototype);
 
-            if (typeof props !== 'object') return TruxSubClass;
+            if (typeof props !== 'object') return TruxClassExtension;
 
             for (var prop in props) {
                 if (props.hasOwnProperty(prop)) {
-                    TruxSubClass.prototype[prop] = props[prop];
+                    TruxClassExtension.prototype[prop] = props[prop];
                 }
             }
 
-            return TruxSubClass;
+            return TruxClassExtension;
         },
 
         /**
@@ -41,14 +46,14 @@
          *
          * @prop {Object} models - an object to store custom Trux Model classes
          */
-        models:{},
+        models: {},
 
         /**
          * Store for custom Trux Collection classes.
          *
          * @prop {Object} collections - an object to store custom Trux Collection classes
          */
-        collections:{},
+        collections: {},
 
         /**
          * The base constructor for models and collections.
@@ -202,7 +207,6 @@
 
     /**
      * A client side interface for a remote data Model.
-     * <p>Each Model is expected to have a unique <em>id</em> property.</p>
      *
      * @param {Object} data - the data which defines this Model
      * @return {Object} this - this Model
@@ -211,21 +215,15 @@
        var MyModel = new Trux.Model({message:'hello world'});
      * @example
        //advanced usage
-       Trux.models.User = function(data) {
-           Trux.Model.call(this);
-       }
+       Trux.models.User = Trux.extend({
+            getName: function () {
+                return this.data.name;
+            }
+       }, false);
 
-       Trux.models.User.prototype.getName = function () {
-            return this.data.name;
-       }
+       var Frodo = new Trux.models.User({name:'Frodo Baggins'});
 
-       Trux.models.User.prototype.setName = function () {
-            this.data.name = name;
-       }
-
-       Trux.branch(Trux.Model, Trux.models.User);
-
-       var user = new Trux.models.User({name:'Frodo Baggins'});
+       console.log(Frodo.getName()); // logs 'Frodo Baggins'
      * @constructor
      */
     Trux.Model = function (data) {
@@ -251,13 +249,6 @@
          * @private
          */
         var _backup = null;
-
-        /**
-         * The Model's unique id.
-         *
-         * @prop {Null|String|Number} id - the Model's unique id
-         */
-        this.id = null;
 
         /**
          * The data which defines this Model, initially null.
@@ -320,28 +311,8 @@
     Trux.Model.prototype = Object.create(Trux.Base.prototype);
 
     /**
-     * Set the id for the Model.
-     *
-     * @prop {String|Number} id - the id of this Model
-     * @return {Object} this - this Model
-     */
-     Trux.Model.prototype.setId = function (id) {
-         this.id = id;
-         return this;
-     };
-
-    /**
-     * Gets the id for this Model.
-     *
-     * @return {Integer|String} id - the Model's unique id
-     */
-    Trux.Model.prototype.getId = function () {
-        return this.data.id;
-    };
-
-    /**
      * Persits the Model's data throughout its bound components.
-     * Emits the Model's change event.
+     * Emits either the Model's change event or, if it belongs to a Collection, the Collection's change event.
      *
      * @return {Object} this - this Model
      */
@@ -393,9 +364,10 @@
      * @return {Object} this - this Trux class instance
      */
     Trux.Model.prototype.create = function (data, options) {
+        var _this = this;
+
         qwest.post(this.POST, data, this.requestOptions)
             .then(function (xhr, response) {
-                console.log(response);
                 if (typeof response !== 'object') return;
 
                 _this.setData(response);
@@ -470,19 +442,21 @@
        var MyCollection = new Trux.Collection(Trux.Model);
      * @example
        //advanced usage
-       Trux.collections.Posts = function () {
-           Trux.Collection.call(this, Trux.models.Post); //assumes you have created a custom Trux.Model - Post
-       };
+       Trux.collections.Posts = Trux.extend({
+            getCategories: function () {
+                categories = [];
 
-       Trux.collections.Posts.prototype.getCategories = function () {
-           categories = [];
+                this.models.forEach(function (model) {
+                    categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
+                });
 
-           this.models.forEach(function (model) {
-               categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
-           });
+                return categories;
+            }
+       }, false, Trux.Collection);
 
-           return categories;
-       }
+       var Blog = new Trux.collections.Posts(Trux.models.Post); //assumes you've created a custom Post model.
+
+       console.log(Blog.getCategories()); // logs all your post's categories.
      * @constructor
      */
     Trux.Collection = function (modelConstructor) {
@@ -563,6 +537,7 @@
      * @return {Object} _this - class instance
      */
     Trux.Collection.prototype.setModels = function (models) {
+
         if(!Array.isArray(models)) return;
 
         this.purgeModels();
@@ -570,33 +545,12 @@
         var length = models.length;
         var i;
 
-
         for (i = 0 ; i < length ; i++) {
             var model = new this.modelConstructor(models[i]);
             this.append(model);
         }
 
         return this;
-    };
-
-    /**
-     * Finds a model contained within this collection via its unique id.
-     *
-     * @param {Integer|String} id - a unique id which corresponds to a model stored in this collection
-     * @return {Object|Boolean} model - an object if the model was found, false if not
-     */
-    Trux.Collection.prototype.findById = function (id) {
-        var length = this.models.length;
-        var i;
-        var model = false;
-
-        for(i = 0 ; i < length ; i ++) {
-            if(this.models[i].data.id == id || this.models[i].data.id == parseInt(id, 10)) {
-                model = this.models[i];
-            }
-        }
-
-        return model;
     };
 
     /**

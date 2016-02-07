@@ -27,7 +27,7 @@ gulp.task('lib', function () {
     .pipe(gulp.dest(paths.com.dest));
 });
 
-gulp.task('app', function () {
+gulp.task('app', ['lib'], function () {
     return gulp.src(paths.app)
     .pipe(order([
         'Trux.js',

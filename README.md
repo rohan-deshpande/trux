@@ -1,8 +1,8 @@
-> A micro data framework for react js
+#[Trux](https://github.com/rohan-deshpande/trux)
 
-Trux is a simple, lightweight and effective way of managing mutable data for your client side React app.
+Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
 
-Trux allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as interfaces between your data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.
+It allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as interfaces between your data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.
 
 **In Trux, your data stores are the sources of truth for your app's data dependent React components.**
 
@@ -12,14 +12,20 @@ Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.
 
 Checkout the short guide below, the examples and the docs to get an idea of how to use Trux.
 
-> Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After developing Trux, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+> Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
 ## Installation
-Bower!
+Bower up your app with Trux!
 
 ```
 bower install trux
 ```
+Or simply
+
+```html
+<script type="text/javascript" src="/path/to/trux.bundle.min.js"></script>
+```
+
 
 ## Files
 The following files are included in the `dist` directory of the package
@@ -31,13 +37,7 @@ The following files are included in the `dist` directory of the package
 
 ## Basic Usage
 
-Include `trux.bundle.js` or `trux.bundle.min.js` before your closing `<body>` tag:
-
-```html
-<script type="text/javascript" src="/js/trux.bundle.min.js"></script>
-```
-
-In your app, construct a new `Trux.Model`, pass it some data and bind a component to it, remembering to set the component's `appDataDidChange` method.
+After including Trux in your app, construct a new `Trux.Model`, pass it some data and bind a component to it, remembering to set the component's `appDataDidChange` method. Then, render the component into the DOM.
 
 ```javascript
 /**
@@ -87,6 +87,15 @@ var MyComponent = React.createClass({
         return <div>{this.state.model.data.message}</div>;
     }
 });
+
+/**
+ * Render the component into the DOM
+ *
+ */ 
+ReactDOM.Render(
+	<MyComponent model={MyModel} />, 
+	document.getElementById('app')
+);
 ```
 
 Mutate the data inside of `MyModel` then call it's `emitChangeEvent()` method.
@@ -96,37 +105,27 @@ MyModel.data.message = 'goodbye cruel world';
 MyModel.emitChangeEvent();
 ```
 
-You will see the change reflected in `MyComponent`
+These changes will now be reflected in `MyComponent`.
 
 
 ## Extending
 
-The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create sub classes that have custom methods while still maintaining access to the methods and properties of their parent classes. Of course you can then extend your own custom classes into new ones as well.
+The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create extended classes that have custom methods while still maintaining access to the methods and properties of their parent classes. Of course you can then extend your own custom classes into new ones as well.
 
 Let's look at a simple way to do this.
 
 ```javascript
 /**
- * Declare a custom Trux.Model class. Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
+ * Declare an Trux.Model class. 
+ * Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
+ * Give the User model some custom methods.
  *
  */
-Trux.models.User = function (data) {
-	Trux.Model.call(this);
-};
-
-/**
- * Custom User model method.
- *
- */
-Trux.models.User.prototype.getFullName = function () {
-	return this.data.firstName + ' ' + this.data.lastName;
-}
-
-/**
- * Branch Trux.Model into Trux.models.User.
- *
- */
-Trux.branch(Trux.Model, Trux.models.User);
+Trux.models.User = Trux.extend({
+    getFullName: function () {
+        return this.data.firstName + ' ' + this.data.lastName;
+    }
+});
 
 /**
  * Declare a new User model and give it some data.
@@ -142,16 +141,17 @@ var Bilbo = new Trux.models.User({
  *
  */
 console.log(Bilbo.getFullName()); // logs Bilbo Baggins
+
 ```
 
-From this short example you can see how we can easily branch Trux classes into new classes with custom methods for whatever purpose we like.
+From this short example you can see how we can easily extend Trux classes creating new classes with custom methods for whatever purpose we like.
 
 
 ## Working with remote data
 
 Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com).
 
-The provided methods within both `Trux.Model` and `Trux.Collection` do make some assumptions as to how data is being sent back from your API. If this doesn't gel with your setup, you can simply branch new versions of these and write your own REST methods.
+The provided methods within both `Trux.Model` and `Trux.Collection` do make some assumptions as to how data is being sent back from your API. If this doesn't gel with your setup, you can simply extend these classes and write your own REST methods or alternatively override the base methods yourself.
 
 For more info on how this is achieved, please check the `remote.html` example which uses Parse and read the docs.
 
