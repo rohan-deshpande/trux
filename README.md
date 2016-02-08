@@ -15,12 +15,13 @@ Checkout the short guide below, the examples and the [docs](http://rohandeshpand
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
 ## Installation
-Bower up your app with Trux!
 
 ```
+npm install truxjs
 bower install trux
 ```
-Or simply
+
+Or simply download the repo and...
 
 ```html
 <script type="text/javascript" src="/path/to/trux.bundle.min.js"></script>
@@ -98,14 +99,7 @@ ReactDOM.Render(
 );
 ```
 
-Mutate the data inside of `MyModel` then call it's `emitChangeEvent()` method.
-
-```javascript
-MyModel.data.message = 'goodbye cruel world';
-MyModel.emitChangeEvent();
-```
-
-These changes will now be reflected in `MyComponent`.
+Now, when you call `MyModel.update()` after mutating `data.message` the change will be reflected in `MyComponent`.
 
 
 ## Extending
