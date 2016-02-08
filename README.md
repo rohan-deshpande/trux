@@ -6,16 +6,16 @@ A simple data framework for React.js
 
 ## Contents
 
-* [Introduction] (#introduction-)
-* [Why Trux?](#why-trux-)
-* [Installation] (#installation-)
-* [Files] (#files-)
-* [Basic Usage] (#basic-usage-)
-* [Extending] (#extending-)
-* [Working with remote data] (#working-with-remote-data-)
-* [License (MIT)] (#license-)
+* [Introduction] (#introduction)
+* [Why Trux?](#why-trux)
+* [Installation] (#installation)
+* [Files] (#files)
+* [Basic Usage] (#basic-usage)
+* [Extending] (#extending)
+* [Working with remote data] (#working-with-remote-data)
+* [License (MIT)] (#license)
 
-## Introduction [￪](#contents)
+## Introduction
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
 
@@ -31,7 +31,7 @@ Checkout the short guide below, the examples and the [docs](http://rohandeshpand
 
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
-## Why Trux? [￪](#contents)
+## Why Trux?
 
 Trux is super easy to drop into your React app and get your back and front talking to one another in a Flux-like fashion, especially if you have an existing API.
 
@@ -39,7 +39,7 @@ Your app doesn't need to be structured in a specific way, all you need to do is 
 
 If you've already got an app going using Flux or Redux and you're happy with how it works, Trux may not be for you, but if you're looking for a simple way to get unidirectional data flows persisting throughout your app, Trux might be just what you need. 
 
-## Installation [￪](#contents)
+## Installation
 
 ```
 npm install truxjs
@@ -53,7 +53,7 @@ Or simply download the repo and...
 ```
 
 
-## Files [￪](#contents)
+## Files
 
 The following files are included in the `dist` directory of the package
 
@@ -62,7 +62,7 @@ The following files are included in the `dist` directory of the package
 * `trux.bundle.js` A stable compiled build of Trux which includes its dependencies
 * `trux.bundle.min.js` Same as the above but minified
 
-## Basic Usage [￪](#contents)
+## Basic Usage
 
 After including Trux in your app, construct a new `Trux.Model`, pass it some data and bind a component to it, remembering to set the component's `appDataDidChange` method. Then, render the component into the DOM.
 
@@ -128,7 +128,7 @@ ReactDOM.Render(
 Now, when you call `MyModel.update()` after mutating `data.message` the change will be reflected in `MyComponent`.
 
 
-## Extending [￪](#contents)
+## Extending
 
 The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create extended classes that have custom methods while still maintaining access to the methods and properties of their parent classes. Of course you can then extend your own custom classes into new ones as well.
 
@@ -167,7 +167,7 @@ console.log(Bilbo.getFullName()); // logs Bilbo Baggins
 From this short example you can see how we can easily extend Trux classes creating new classes with custom methods for whatever purpose we like.
 
 
-## Working with remote data [￪](#contents)
+## Working with remote data
 
 Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com).
 
@@ -175,7 +175,7 @@ The provided methods within both `Trux.Model` and `Trux.Collection` do make some
 
 For more info on how this is achieved, please check the `remote.html` example which uses Parse and read the docs.
 
-## License [￪](#contents)
+## License
 
 Copyright (c) 2016 Rohan Deshpande and other contributors
 
