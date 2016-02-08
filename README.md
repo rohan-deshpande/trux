@@ -1,6 +1,16 @@
-#[Trux](https://github.com/rohan-deshpande/trux) 
+# [Trux](https://github.com/rohan-deshpande/trux) 
 
-###`API ⇆ Trux ➝ Components`
+`API ⇆ Trux ➝ Components`
+
+* [Introduction] (#introduction)
+* [Why Trux?](#why-trux)
+* [Installation] (#installation)
+* [Files] (#files)
+* [Basic Usage] (#basic-usage)
+* [Extending] (#extending)
+* [Working with remote data] (#working-with-remote-data)
+
+## Introduction
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
 
