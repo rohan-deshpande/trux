@@ -39,4 +39,5 @@ Thumbs.db
 bower_components
 bower_test
 node_modules
+npm_test
 source/com
