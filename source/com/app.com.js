@@ -18,6 +18,8 @@
          * @return {Function} _constructor - the new constructor
          */
         extend: function (props, setup, base) {
+            console.log('Trux.extend will be deprecated soon, please use Trux.Model.extend or Trux.Collection.extend instead');
+
             var _base = (typeof base === 'function') ? base : Trux.Model;
             var TruxClassExtension = function (arg) {
                 _base.call(this, arg);
@@ -426,6 +428,35 @@
         this.data = null;
     };
 
+    /**
+     * Extends Trux.Model and returns the constructor for the new class.
+     *
+     * @param {Object} props - custom props for the new class
+     * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
+     * @return {Function} TruxModel - the new constructor
+     */
+    Trux.Model.extend = function (props, setup) {
+        var TruxModel = function (data) {
+            Trux.Model.call(this, data);
+
+            if (typeof setup === 'function') {
+                setup(this);
+            }
+        };
+
+        TruxModel.prototype = Object.create(Trux.Model.prototype);
+
+        if (typeof props !== 'object') return TruxModel;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                TruxModel.prototype[prop] = props[prop];
+            }
+        }
+
+        return TruxModel;
+    };
+
 }(Trux));
 
 (function (Trux) {
@@ -581,5 +612,34 @@
      */
     Trux.Collection.prototype.purgeModels = function () {
         this.models = [];
+    };
+
+    /**
+     * Extends Trux.Collection and returns the constructor for the new class.
+     *
+     * @param {Object} props - custom props for the new class
+     * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
+     * @return {Function} TruxCollection - the new constructor
+     */
+    Trux.Collection.extend = function (props, setup) {
+        var TruxCollection = function (modelConstructor) {
+            Trux.Collection.call(this, modelConstructor);
+
+            if (typeof setup === 'function') {
+                setup(this);
+            }
+        };
+
+        TruxCollection.prototype = Object.create(Trux.Collection.prototype);
+
+        if (typeof props !== 'object') return TruxCollection;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                TruxCollection.prototype[prop] = props[prop];
+            }
+        }
+
+        return TruxCollection;
     };
 }(Trux));

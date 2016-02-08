@@ -1,3 +1,13 @@
+Trux.models.Test = Trux.Model.extend({'hi':'hello world'});
+
+var testModel = new Trux.models.Test({'bye':'goodbye cruel world'});
+
+Trux.collections.Test = Trux.Collection.extend();
+
+var testCollection = new Trux.collections.Test(Trux.models.Test);
+
+console.log(testCollection);
+
 var Library = React.createClass({
 
     /**
@@ -311,11 +321,7 @@ var Editor = React.createClass({
 
                     localStorage.setItem('truxExampleData', JSON.stringify(stored));
 
-                    if (this.collection) {
-                        this.collection.emitChangeEvent();
-                    } else {
-                        this.emitChangeEvent();
-                    }
+                    this.persist();
                 }
             }, function (_this) {
 
@@ -362,6 +368,8 @@ var Editor = React.createClass({
 
             var fantasy = new Trux.collections.Genre(Trux.models.Book);
             fantasy.fetchLocal('truxExampleData');
+
+            console.log(fantasy);
 
             ReactDOM.render(
                 <div>

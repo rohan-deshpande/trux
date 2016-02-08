@@ -18,6 +18,8 @@
          * @return {Function} _constructor - the new constructor
          */
         extend: function (props, setup, base) {
+            console.log('Trux.extend will be deprecated soon, please use Trux.Model.extend or Trux.Collection.extend instead');
+
             var _base = (typeof base === 'function') ? base : Trux.Model;
             var TruxClassExtension = function (arg) {
                 _base.call(this, arg);
