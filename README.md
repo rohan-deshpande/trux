@@ -6,16 +6,17 @@ A simple data framework for React.js
 
 ## Contents
 
-* [Introduction] (#introduction)
-* [Why Trux?](#why-trux)
-* [Installation] (#installation)
-* [Files] (#files)
-* [Basic Usage] (#basic-usage)
-* [Extending] (#extending)
-* [Working with remote data] (#working-with-remote-data)
-* [License (MIT)] (#license)
+* [Introduction] (#introduction-)
+* [Why Trux?](#why-trux-)
+* [Installation] (#installation-)
+* [Files] (#files-)
+* [Basic Usage] (#basic-usage-)
+* [Extending] (#extending-)
+* [Working with remote data] (#working-with-remote-data-)
+* [License (MIT)] (#license-)
 
-## Introduction [￪](#contents)
+## Introduction 
+[￪](#contents)
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
 
