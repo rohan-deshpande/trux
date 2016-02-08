@@ -29,7 +29,7 @@ Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.
 
 Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
 
-> Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+> Trux was developed for my project management & analytics application, **Tr**akktion and was inspired by [Fl**ux**](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
 
 ## Why Trux?
 
