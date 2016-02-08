@@ -1,4 +1,6 @@
-#[Trux](https://github.com/rohan-deshpande/trux)
+#[Trux](https://github.com/rohan-deshpande/trux) 
+
+###`API ⇆ Trux ➝ Components`
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
 
@@ -13,6 +15,14 @@ Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.
 Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
 
 > Trux was developed for my project management & analytics application, **Trakktion** and was inspired by [Flux](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+
+## Why Trux?
+
+Trux is super easy to drop into your React app and get your back and front talking to one another in a Flux-like fashion, especially if you have an existing API.
+
+Your app doesn't need to be structured in a specific way, all you need to do is install Trux and then define some models/collections to pass to your components. When you set your RESTful routes up for your data stores, Trux will handle the requesting/broadcasting for you. 
+
+If you've already got an app going using Flux or Redux and you're happy with how it works, Trux may not be for you, but if you're looking for a simple way to get unidirectional data flows persisting throughout your app, Trux might be just what you need. 
 
 ## Installation
 
