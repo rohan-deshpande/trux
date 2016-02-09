@@ -1,13 +1,3 @@
-Trux.models.Test = Trux.Model.extend({'hi':'hello world'});
-
-var testModel = new Trux.models.Test({'bye':'goodbye cruel world'});
-
-Trux.collections.Test = Trux.Collection.extend();
-
-var testCollection = new Trux.collections.Test(Trux.models.Test);
-
-console.log(testCollection);
-
 var Library = React.createClass({
 
     /**
@@ -266,7 +256,7 @@ var Editor = React.createClass({
              * Extend Trux.Model and create a new class; Book.
              *
              */
-            Trux.models.Book = Trux.extend({
+            Trux.models.Book = Trux.Model.extend({
 
                 /**
                  * Sets the id of the model.
@@ -342,7 +332,7 @@ var Editor = React.createClass({
         setupGenre:function () {
             var _this = this;
 
-            Trux.collections.Genre = Trux.extend({
+            Trux.collections.Genre = Trux.Collection.extend({
 
                 /**
                  * Custom method for fetching data from local storage.
@@ -351,7 +341,7 @@ var Editor = React.createClass({
                 fetchLocal: function (key) {
                     this.setModels(JSON.parse(localStorage.getItem(key)));
                 }
-            }, false, Trux.Collection);
+            });
 
             return this;
         },
