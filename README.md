@@ -1,4 +1,4 @@
-# [Trux](https://github.com/rohan-deshpande/trux) 
+# [Trux](https://github.com/rohan-deshpande/trux)
 
 `API ⇆ Trux ➝ Components`
 
@@ -6,14 +6,15 @@ A simple data framework for React.js
 
 ## Contents
 
-* [Introduction] (#introduction)
+* [Introduction](#introduction)
 * [Why Trux?](#why-trux)
-* [Installation] (#installation)
-* [Files] (#files)
-* [Basic Usage] (#basic-usage)
-* [Extending] (#extending)
-* [Working with remote data] (#working-with-remote-data)
-* [License (MIT)] (#license)
+* [Installation](#installation)
+* [Files](#files)
+* [Basic Usage](#basic-usage)
+* [Extending](#extending)
+* [Working with remote data](#working-with-remote-data)
+* [Documentation](http://rohandeshpande.com/trux)
+* [License (MIT)](#license)
 
 ## Introduction
 
@@ -25,7 +26,7 @@ It allows you to create client side data store objects which contain bindings to
 
 Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data store classes, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases.
 
-Trux focuses on inheritance and provides a `Trux.extend` method to extend `Trux.Model` or `Trux.Collection` into sub classes with custom methods & properties.
+Trux focuses on inheritance and provides a way to extend `Trux.Model` or `Trux.Collection` into sub classes with custom methods & properties.
 
 Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
 
@@ -35,9 +36,9 @@ Checkout the short guide below, the examples and the [docs](http://rohandeshpand
 
 Trux is super easy to drop into your React app and get your back and front talking to one another in a Flux-like fashion, especially if you have an existing API.
 
-Your app doesn't need to be structured in a specific way, all you need to do is install Trux and then define some models/collections to pass to your components. When you set your RESTful routes up for your data stores, Trux will handle the requesting/broadcasting for you. 
+Your app doesn't need to be structured in a specific way, all you need to do is install Trux and then define some models/collections to pass to your components. When you set your RESTful routes up for your data stores, Trux will handle the requesting/broadcasting for you.
 
-If you've already got an app going using Flux or Redux and you're happy with how it works, Trux may not be for you, but if you're looking for a simple way to get unidirectional data flows persisting throughout your app, Trux might be just what you need. 
+If you've already got an app going using Flux or Redux and you're happy with how it works, Trux may not be for you, but if you're looking for a simple way to get unidirectional data flows persisting throughout your app, Trux might be just what you need.
 
 ## Installation
 
@@ -136,12 +137,12 @@ Let's look at a simple way to do this.
 
 ```javascript
 /**
- * Declare an Trux.Model class.
+ * Create a Trux.Model extension.
  * Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
  * Give the User model some custom methods.
  *
  */
-Trux.models.User = Trux.extend({
+Trux.models.User = Trux.Model.extend({
     getFullName: function () {
         return this.data.firstName + ' ' + this.data.lastName;
     }

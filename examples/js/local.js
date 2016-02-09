@@ -256,7 +256,7 @@ var Editor = React.createClass({
              * Extend Trux.Model and create a new class; Book.
              *
              */
-            Trux.models.Book = Trux.extend({
+            Trux.models.Book = Trux.Model.extend({
 
                 /**
                  * Sets the id of the model.
@@ -311,11 +311,7 @@ var Editor = React.createClass({
 
                     localStorage.setItem('truxExampleData', JSON.stringify(stored));
 
-                    if (this.collection) {
-                        this.collection.emitChangeEvent();
-                    } else {
-                        this.emitChangeEvent();
-                    }
+                    this.persist();
                 }
             }, function (_this) {
 
@@ -336,7 +332,7 @@ var Editor = React.createClass({
         setupGenre:function () {
             var _this = this;
 
-            Trux.collections.Genre = Trux.extend({
+            Trux.collections.Genre = Trux.Collection.extend({
 
                 /**
                  * Custom method for fetching data from local storage.
@@ -345,7 +341,7 @@ var Editor = React.createClass({
                 fetchLocal: function (key) {
                     this.setModels(JSON.parse(localStorage.getItem(key)));
                 }
-            }, false, Trux.Collection);
+            });
 
             return this;
         },
@@ -362,6 +358,8 @@ var Editor = React.createClass({
 
             var fantasy = new Trux.collections.Genre(Trux.models.Book);
             fantasy.fetchLocal('truxExampleData');
+
+            console.log(fantasy);
 
             ReactDOM.render(
                 <div>

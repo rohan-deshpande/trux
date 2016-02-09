@@ -21,7 +21,7 @@ Parse.initialize("hZCMU3Jy9R6SfMqONzRVXQ0u7JXKCEVSkoWe7GMk", "4bhdnwddpjR0yVKzbM
  * Define a custom TruxModel constructor.
  *
  */
-Trux.models.Movie = Trux.extend({
+Trux.models.Movie = Trux.Model.extend({
 
     /**
      * Set the model's id

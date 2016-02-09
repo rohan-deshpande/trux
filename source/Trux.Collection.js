@@ -152,4 +152,33 @@
     Trux.Collection.prototype.purgeModels = function () {
         this.models = [];
     };
+
+    /**
+     * Extends Trux.Collection and returns the constructor for the new class.
+     *
+     * @param {Object} props - custom props for the new class
+     * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
+     * @return {Function} TruxCollection - the new constructor
+     */
+    Trux.Collection.extend = function (props, setup) {
+        var TruxCollection = function (modelConstructor) {
+            Trux.Collection.call(this, modelConstructor);
+
+            if (typeof setup === 'function') {
+                setup(this);
+            }
+        };
+
+        TruxCollection.prototype = Object.create(Trux.Collection.prototype);
+
+        if (typeof props !== 'object') return TruxCollection;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                TruxCollection.prototype[prop] = props[prop];
+            }
+        }
+
+        return TruxCollection;
+    };
 }(Trux));

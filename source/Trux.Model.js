@@ -223,4 +223,33 @@
         this.data = null;
     };
 
+    /**
+     * Extends Trux.Model and returns the constructor for the new class.
+     *
+     * @param {Object} props - custom props for the new class
+     * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
+     * @return {Function} TruxModel - the new constructor
+     */
+    Trux.Model.extend = function (props, setup) {
+        var TruxModel = function (data) {
+            Trux.Model.call(this, data);
+
+            if (typeof setup === 'function') {
+                setup(this);
+            }
+        };
+
+        TruxModel.prototype = Object.create(Trux.Model.prototype);
+
+        if (typeof props !== 'object') return TruxModel;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                TruxModel.prototype[prop] = props[prop];
+            }
+        }
+
+        return TruxModel;
+    };
+
 }(Trux));
