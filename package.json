@@ -2,13 +2,19 @@
     "name": "truxjs",
     "description": "A simple data framework for React.js",
     "version": "2.0.1",
+    "homepage": "https://github.com/rohan-deshpande/trux",
     "repository": {
       "type": "git",
       "url": "git://github.com/rohan-deshpande/trux"
     },
     "author": {
       "name": "Rohan Deshpande",
+      "email": "rohan@creativelifeform.com",
       "url": "http://rohandeshpande.com/"
+    },
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/rohan-deshpande/trux/blob/master/LICENSE"
     },
     "files": [
       "dist"
