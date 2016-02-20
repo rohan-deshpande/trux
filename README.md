@@ -131,7 +131,7 @@ Now, when you call `MyModel.update()` after mutating `data.message` the change w
 
 ## Extending
 
-The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create extended classes that have custom methods while still maintaining access to the methods and properties of their parent classes. Of course you can then extend your own custom classes into new ones as well.
+The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create extended classes that have custom methods while still maintaining access to the methods and properties of their parent classes.
 
 Let's look at a simple way to do this.
 

@@ -140,7 +140,7 @@
      * @return void
      */
     Trux.Collection.prototype.prepend = function (model) {
-        model.collection = _this;
+        model.collection = this;
         this.models.unshift(model);
     };
 
