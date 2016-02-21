@@ -291,6 +291,7 @@
         this.setData = function (data) {
             this.data = data;
             _backup = JSON.parse(JSON.stringify(data));
+
             return this;
         };
 
@@ -301,6 +302,7 @@
          */
         this.restoreData = function () {
             this.data = JSON.parse(JSON.stringify(_backup));
+
             return this;
         };
 
@@ -343,11 +345,11 @@
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
-                _this.setData(response);
-
                 if (typeof options.onDone === 'function') {
                     options.onDone(response);
                 }
+
+                _this.setData(response);
             })
             .catch(function (xhr, response, e) {
                 if (typeof options.onFail === 'function') {
@@ -373,11 +375,11 @@
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
-                _this.setData(response);
-
                 if (typeof options.onDone === 'function') {
                     options.onDone(response);
                 }
+
+                _this.setData(response);
             })
             .catch(function (xhr, response, e) {
                 if (typeof options.onFail === 'function') {
@@ -404,18 +406,18 @@
             .then(function (xhr, response) {
                 if (typeof response !== 'object') return;
 
-                _this.setData(response).persist();
-
                 if (typeof options.onDone === 'function') {
                     options.onDone(response);
                 }
+
+                _this.setData(response).persist();
             })
             .catch(function (xhr, response, e) {
-                _this.restoreData().persist();
-
                 if (typeof options.onFail === 'function') {
                     options.onFail(xhr, response, e);
                 }
+
+                _this.restoreData().persist();
             });
 
         return this;
@@ -545,11 +547,11 @@
 
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
-            _this.setModels(response);
-
             if (options && typeof options.onDone === 'function') {
                 options.onDone(response);
             }
+
+            _this.setModels(response);
         })
         .catch(function (xhr, response, e) {
             if (options && typeof options.onFail === 'function') {
