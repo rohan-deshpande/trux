@@ -181,7 +181,8 @@ var Item = React.createClass({
                          * Again we need to do this manually due to Parse not sending back a complete object on update.
                          *
                          */
-                        model.setData(f).persist();
+                        model.setData(f);
+                        model.persist();
                         _this.setState({edit:false});
                     }
                 });

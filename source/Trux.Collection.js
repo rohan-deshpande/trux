@@ -82,11 +82,11 @@
 
         qwest.get(this.GET, null, this.requestOptions)
         .then(function (xhr, response) {
+            _this.setModels(response);
+
             if (options && typeof options.onDone === 'function') {
                 options.onDone(response);
             }
-
-            _this.setModels(response);
         })
         .catch(function (xhr, response, e) {
             if (options && typeof options.onFail === 'function') {
@@ -118,8 +118,6 @@
             var model = new this.modelConstructor(models[i]);
             this.append(model);
         }
-
-        return this;
     };
 
     /**
