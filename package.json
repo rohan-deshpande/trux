@@ -1,7 +1,7 @@
 {
     "name": "truxjs",
     "description": "A simple data framework for React.js",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "homepage": "https://github.com/rohan-deshpande/trux",
     "repository": {
       "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "trux",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A simple data framework for React.js",
   "main": "dist/trux.js",
   "keywords": [
