@@ -245,12 +245,12 @@
         var _this = this;
 
         /**
-         * Private backup of the Model's data, initially null.
+         * Private backup of the Model's data.
          *
-         * @prop {Null|Object} _this -  private backup of the Model's data, initially null
+         * @prop {Object} _this -  private backup of the Model's data
          * @private
          */
-        var _backup = null;
+        var _backup = JSON.parse(JSON.stringify(data));
 
         /**
          * The data which defines this Model, initially null.
@@ -258,13 +258,6 @@
          * @prop {Null|Object} data - the data which defines this Model, initially null
          */
         this.data = data;
-
-        /**
-         * A public backup of this Model's data, initially null.
-         *
-         * @prop {Null|Object} backup - a public backup of this Model's data, initially null
-         */
-        this.backup = null;
 
         /**
          * The collection this Model belongs to, if it does belong to one. Initially false.
