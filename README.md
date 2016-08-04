@@ -6,8 +6,9 @@ A simple data framework for React.js
 
 ## Contents
 
-* [What's New](#whats-new)
 * [Introduction](#introduction)
+* [What's New](#whats-new)
+	* [v2.1.0](#v2-1-0)
 * [Why Trux?](#why-trux)
 * [Installation](#installation)
 * [Files](#files)
@@ -16,26 +17,6 @@ A simple data framework for React.js
 * [Working with remote data](#working-with-remote-data)
 * [Documentation](http://rohandeshpande.com/trux)
 * [License (MIT)](#license)
-
-## What's New
-
-`v2.1.0` brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
-
-```javascript
-Trux.Model.modify({
-
-	/**
-     * Gets the id of the model.
-     *
-     * @return {String|Integer} id - the id of the model
-     */
-	getId: function () {
-		return this.id;
-	}
-});
-```
-
-This is different to the `extend` method as it means that **every** model or collection you create after this will inherit the properties passed to the `modify` method.
 
 ## Introduction
 
@@ -52,6 +33,27 @@ Trux focuses on inheritance and provides a way to extend `Trux.Model` or `Trux.C
 Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
 
 > Trux was developed for my project management & analytics application, **Tr**akktion and was inspired by [Fl**ux**](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+
+## What's New
+### `v2.1.0`
+
+This release brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
+
+```javascript
+Trux.Model.modify({
+
+	/**
+     * Gets the id of the model.
+     *
+     * @return {String|Integer} id - the id of the model
+     */
+	getId: function () {
+		return this.id;
+	}
+});
+```
+
+This is different to the `extend` method as it means that **every** model or collection you create after this will inherit the properties passed to the `modify` method.
 
 ## Why Trux?
 
