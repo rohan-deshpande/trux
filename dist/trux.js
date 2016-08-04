@@ -449,6 +449,24 @@
         return TruxModel;
     };
 
+    /**
+     * Modifies the Trux.Model class with the passed properties.
+     * This will enable all custom models to inherit the properties passed to this method.
+     *
+     * @param {Object} props - the props to add to the Trux.Model class
+     * @return {Object} this - class instance
+     */
+    Trux.Model.modify = function (props) {
+        if (typeof props !== 'object') return this;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                Trux.Model.prototype[prop] = props[prop];
+            }
+        }
+
+        return this;
+    };
 }(Trux));
 
 (function (Trux) {
@@ -631,5 +649,24 @@
         }
 
         return TruxCollection;
+    };
+
+    /**
+     * Modifies the Trux.Collection class with the passed properties.
+     * This will enable all custom models to inherit the properties passed to this method.
+     *
+     * @param {Object} props - the props to add to the Trux.Collection class
+     * @return {Object} this - class instance
+     */
+    Trux.Collection.modify = function (props) {
+        if (typeof props !== 'object') return this;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                Trux.Collection.prototype[prop] = props[prop];
+            }
+        }
+
+        return this;
     };
 }(Trux));

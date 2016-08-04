@@ -6,6 +6,7 @@ A simple data framework for React.js
 
 ## Contents
 
+* [What's New](#whats-new)
 * [Introduction](#introduction)
 * [Why Trux?](#why-trux)
 * [Installation](#installation)
@@ -15,6 +16,27 @@ A simple data framework for React.js
 * [Working with remote data](#working-with-remote-data)
 * [Documentation](http://rohandeshpande.com/trux)
 * [License (MIT)](#license)
+
+## What's New
+# `v2.1.0`
+
+`v2.1.0` brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
+
+```
+Trux.Model.modify({
+
+	/**
+     * Gets the id of the model.
+     *
+     * @return {String|Integer} id - the id of the model
+     */
+	getId: function () {
+		return this.id;
+	}
+});
+```
+
+This is different to the `extend` method as it means that **every** model or collection you create after this will inherit the properties passed to the `modify` method.
 
 ## Introduction
 

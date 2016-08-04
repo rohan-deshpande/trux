@@ -179,4 +179,23 @@
 
         return TruxCollection;
     };
+
+    /**
+     * Modifies the Trux.Collection class with the passed properties.
+     * This will enable all custom models to inherit the properties passed to this method.
+     *
+     * @param {Object} props - the props to add to the Trux.Collection class
+     * @return {Object} this - class instance
+     */
+    Trux.Collection.modify = function (props) {
+        if (typeof props !== 'object') return this;
+
+        for (var prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                Trux.Collection.prototype[prop] = props[prop];
+            }
+        }
+
+        return this;
+    };
 }(Trux));
