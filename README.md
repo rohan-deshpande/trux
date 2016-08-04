@@ -21,7 +21,7 @@ A simple data framework for React.js
 
 `v2.1.0` brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
 
-```
+```javascript
 Trux.Model.modify({
 
 	/**
