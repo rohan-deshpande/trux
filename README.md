@@ -18,7 +18,6 @@ A simple data framework for React.js
 * [License (MIT)](#license)
 
 ## What's New
-# `v2.1.0`
 
 `v2.1.0` brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
 
