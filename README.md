@@ -8,7 +8,7 @@ A simple data framework for React.js
 
 * [Introduction](#introduction)
 * [What's New](#whats-new)
-	* [v2.1.0](#v2-1-0)
+	* [v2.1.0](#v210)
 * [Why Trux?](#why-trux)
 * [Installation](#installation)
 * [Files](#files)
