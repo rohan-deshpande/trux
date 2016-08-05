@@ -246,11 +246,12 @@
 
         /**
          * Private backup of the Model's data.
+         * Will store an empty object if no data was passed to the constructor.
          *
-         * @prop {Object} _this -  private backup of the Model's data
+         * @prop {Object} _backup - private backup of the Model's data
          * @private
          */
-        var _backup = JSON.parse(JSON.stringify(data));
+        var _backup = (!data || Object.keys(data).length === 0) ? {} : JSON.parse(JSON.stringify(data));
 
         /**
          * The data which defines this Model, initially null.
@@ -282,7 +283,7 @@
          */
         this.setData = function (data) {
             this.data = data;
-            _backup = JSON.parse(JSON.stringify(data));
+            _backup = (!data || Object.keys(data).length === 0) ? {} : JSON.parse(JSON.stringify(data));
         };
 
         /**
@@ -291,7 +292,7 @@
          * @return {Object} this - this Model
          */
         this.restoreData = function () {
-            this.data = JSON.parse(JSON.stringify(_backup));
+            this.data = (!_backup || Object.keys(_backup).length === 0) ? {} : JSON.parse(JSON.stringify(_backup));
         };
 
         return this;
