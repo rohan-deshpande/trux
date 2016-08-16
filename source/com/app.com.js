@@ -553,18 +553,18 @@
         var _this = this;
 
         qwest.get(this.GET, null, this.requestOptions)
-        .then(function (xhr, response) {
-            _this.setModels(response);
+            .then(function (xhr, response) {
+                _this.setModels(response);
 
-            if (options && typeof options.onDone === 'function') {
-                options.onDone(response);
-            }
-        })
-        .catch(function (xhr, response, e) {
-            if (options && typeof options.onFail === 'function') {
-                options.onFail(xhr, response, e);
-            }
-        });
+                if (options && typeof options.onDone === 'function') {
+                    options.onDone(response);
+                }
+            })
+            .catch(function (xhr, response, e) {
+                if (options && typeof options.onFail === 'function') {
+                    options.onFail(xhr, response, e);
+                }
+            });
 
         return this;
     };

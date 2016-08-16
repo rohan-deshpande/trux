@@ -12,7 +12,7 @@
          * Extends a base class and returns a new class.
          * If no base parameter is passed, Trux.Model is assumed.
          *
-         * @deprecated 
+         * @deprecated
          * @param {Object} props - custom props for the new class
          * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
          * @param {Function} base - the base constructor to create this sub class from
@@ -306,13 +306,19 @@
 
     /**
      * Persits the Model's data throughout its bound components.
-     * Emits either the Model's change event or, if it belongs to a Collection, the Collection's change event.
+     * Emits either the Model's change event or, if it belongs to a Collection, fetches the collection and emits itschange event.
      *
-     * @return {Object} this - this Model
+     * @return void
      */
     Trux.Model.prototype.persist = function () {
-        if (this.collection) {
-            this.collection.emitChangeEvent();
+        var collection = this.collection;
+
+        if (collection) {
+            collection.fetch({
+                onDone: function () {
+                    collection.emitChangeEvent();
+                }
+            });
         } else {
             this.emitChangeEvent();
         }
@@ -553,18 +559,18 @@
         var _this = this;
 
         qwest.get(this.GET, null, this.requestOptions)
-        .then(function (xhr, response) {
-            _this.setModels(response);
+            .then(function (xhr, response) {
+                _this.setModels(response);
 
-            if (options && typeof options.onDone === 'function') {
-                options.onDone(response);
-            }
-        })
-        .catch(function (xhr, response, e) {
-            if (options && typeof options.onFail === 'function') {
-                options.onFail(xhr, response, e);
-            }
-        });
+                if (options && typeof options.onDone === 'function') {
+                    options.onDone(response);
+                }
+            })
+            .catch(function (xhr, response, e) {
+                if (options && typeof options.onFail === 'function') {
+                    options.onFail(xhr, response, e);
+                }
+            });
 
         return this;
     };
