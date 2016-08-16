@@ -136,13 +136,13 @@
 
                 _this.setData(response);
 
-                if (typeof options.onDone === 'function') {
+                if (options && options.onDone) {
                     options.onDone(response);
                 }
             })
-            .catch(function (xhr, response, e) {
-                if (typeof options.onFail === 'function') {
-                    options.onFail(xhr, response, e);
+            .catch(function (e, xhr, response) {
+                if (options && options.onFail) {
+                    options.onFail(e, xhr, response);
                 }
             });
 
@@ -166,13 +166,13 @@
 
                 _this.setData(response);
 
-                if (typeof options.onDone === 'function') {
+                if (options && options.onDone) {
                     options.onDone(response);
                 }
             })
-            .catch(function (xhr, response, e) {
-                if (typeof options.onFail === 'function') {
-                    options.onFail(xhr, response, e);
+            .catch(function (e, xhr, response) {
+                if (options && options.onFail) {
+                    options.onFail(e, xhr, response);
                 }
             });
 
@@ -198,7 +198,7 @@
                 _this.setData(response);
                 _this.persist();
 
-                if (typeof options.onDone === 'function') {
+                if (options && options.onDone) {
                     options.onDone(response);
                 }
             })
@@ -206,8 +206,8 @@
                 _this.restoreData();
                 _this.persist();
 
-                if (typeof options.onFail === 'function') {
-                    options.onFail(xhr, response, e);
+                if (options && options.onFail) {
+                    options.onFail(e, xhr, response);
                 }
             });
 

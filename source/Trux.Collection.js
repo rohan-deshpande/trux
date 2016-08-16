@@ -84,13 +84,13 @@
             .then(function (xhr, response) {
                 _this.setModels(response);
 
-                if (options && typeof options.onDone === 'function') {
+                if (options && options.onDone) {
                     options.onDone(response);
                 }
             })
-            .catch(function (xhr, response, e) {
-                if (options && typeof options.onFail === 'function') {
-                    options.onFail(xhr, response, e);
+            .catch(function (e, xhr, response) {
+                if (options && options.onFail) {
+                    options.onFail(e, xhr, response);
                 }
             });
 
