@@ -12,7 +12,7 @@
          * Extends a base class and returns a new class.
          * If no base parameter is passed, Trux.Model is assumed.
          *
-         * @deprecated
+         * @deprecated 
          * @param {Object} props - custom props for the new class
          * @param {Boolean|Function} setup - an optional function to run within the new class' constructor
          * @param {Function} base - the base constructor to create this sub class from
