@@ -100,19 +100,25 @@
 
     /**
      * Persits the Model's data throughout its bound components.
-     * Emits either the Model's change event or, if it belongs to a Collection, fetches the collection and emits itschange event.
+     * Emits either the Model's change event or, if it belongs to a Collection, performs logic to either fetch the collection or simply update its bound components.
      *
      * @return void
      */
     Trux.Model.prototype.persist = function () {
-        var _this = this;
+        var collection = this.collection;
 
-        if (_this.collection) {
-            _this.collection.fetch({
+        if (collection && collection.sync === true) {
+            collection.fetch({
                 onDone: function () {
-                    _this.collection.emitChangeEvent();
+                    collection.emitChangeEvent();
                 }
             });
+
+            return;
+        }
+
+        if (collection && !collection.sync) {
+            collection.emitChangeEvent();
 
             return;
         }

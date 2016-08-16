@@ -55,6 +55,14 @@
         this.models = [];
 
         /**
+         * Determines whether to sync the collection with remote when a model within the collection is updated.
+         * Defaults to true.
+         *
+         * @prop {Boolean} sync
+         */
+        this.sync = true;
+
+        /**
          * An easy way of determining what kind of class this is.
          *
          * @prop {String} className -  easy way of determining what kind of class this is
