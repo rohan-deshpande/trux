@@ -105,17 +105,19 @@
      * @return void
      */
     Trux.Model.prototype.persist = function () {
-        var collection = this.collection;
+        var _this = this;
 
-        if (collection) {
-            collection.fetch({
+        if (_this.collection) {
+            _this.collection.fetch({
                 onDone: function () {
-                    collection.emitChangeEvent();
+                    _this.collection.emitChangeEvent();
                 }
             });
-        } else {
-            this.emitChangeEvent();
+
+            return;
         }
+
+        this.emitChangeEvent();
     };
 
     /**
