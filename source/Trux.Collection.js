@@ -56,11 +56,11 @@
 
         /**
          * Determines whether to sync the collection with remote when a model within the collection is updated.
-         * Defaults to true.
+         * Defaults to false.
          *
          * @prop {Boolean} sync
          */
-        this.sync = true;
+        this.sync = false;
 
         /**
          * An easy way of determining what kind of class this is.

@@ -113,14 +113,9 @@
                     collection.emitChangeEvent();
                 }
             });
-
-            return;
-        }
-
-        if (collection && !collection.sync) {
+        } else if (collection && collection.sync === false) {
             collection.emitChangeEvent();
 
-            return;
         }
 
         this.emitChangeEvent();
