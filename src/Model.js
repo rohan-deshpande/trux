@@ -123,7 +123,16 @@ export default class Model extends Store {
     return this;
   }
 
-  extend(props, setup) {
+  /**
+   * Extends Model and returns the constructor for the new class.
+   * Convenience method for ES5.
+   *
+   * @deprecated
+   * @param {object} props - custom props for the new class
+   * @param {function|undefined} setup - an optional function to run within the new class' constructor
+   * @return {function} Extension - the extended class
+   */
+  static extend(props, setup) {
     const Extension = class extends Model {
       constructor(data) {
         super(data);
@@ -145,15 +154,20 @@ export default class Model extends Store {
     return Extension;
   }
 
-  modify(props) {
-    if (typeof props === 'object') {
-      for (let prop in props) {
-        if (props.hasOwnProperty(prop)) {
-          Model.prototype[prop] = props[prop];
-        }
+  /**
+   * Modifies the Model class with the passed properties.
+   * This will enable all custom models to inherit the properties passed to this method.
+   *
+   * @param {object} props - the props to add to the Trux.Model class
+   * @return void
+   */
+  static modify(props) {
+    if (typeof props !== 'object') return;
+
+    for (let prop in props) {
+      if (props.hasOwnProperty(prop)) {
+        Model.prototype[prop] = props[prop];
       }
     }
-
-    return this;
   }
 }
