@@ -1,40 +1,39 @@
 {
-    "name": "truxjs",
-    "description": "A simple data framework for React.js",
-    "version": "2.1.0",
-    "homepage": "https://github.com/rohan-deshpande/trux",
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/rohan-deshpande/trux"
-    },
-    "author": {
-      "name": "Rohan Deshpande",
-      "email": "rohan@creativelifeform.com",
-      "url": "http://rohandeshpande.com/"
-    },
-    "license": {
-        "type": "MIT",
-        "url": "https://github.com/rohan-deshpande/trux/blob/master/LICENSE"
-    },
-    "files": [
-      "dist"
-    ],
-    "keywords": [
-      "reactjs",
-      "react",
-      "flux"
-    ],
-    "dependencies": {
-      "wolfy87-eventemitter": "^4.3.0",
-      "qwest": "^3.0.0"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.8",
-        "gulp-concat": "^2.5.0",
-        "gulp-order": "^1.1.1",
-        "gulp-uglify": "^1.1.0",
-        "gulp-rename": "^1.2.2",
-        "minami": "~1.1.1",
-        "jsdoc": "~3.4.0"
-    }
+  "name": "truxjs",
+  "description": "A simple data framework for React.js",
+  "version": "2.1.0",
+  "homepage": "https://github.com/rohan-deshpande/trux",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rohan-deshpande/trux"
+  },
+  "author": {
+    "name": "Rohan Deshpande",
+    "email": "rohan@creativelifeform.com",
+    "url": "http://rohandeshpande.com/"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "reactjs",
+    "react",
+    "flux"
+  ],
+  "dependencies": {
+    "eslint": "^3.19.0",
+    "qwest": "^3.0.0",
+    "whatwg-fetch": "^2.0.3",
+    "wolfy87-eventemitter": "^4.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-concat": "^2.5.0",
+    "gulp-order": "^1.1.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "minami": "~1.1.1",
+    "jsdoc": "~3.4.0"
+  }
 }
