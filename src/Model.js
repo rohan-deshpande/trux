@@ -65,7 +65,7 @@ export default class Model extends Store {
    *
    * @return {Object} Promise
    */
-  get() {
+  get(actions = {}) {
     return fetch(
       this.GET,
       {

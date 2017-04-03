@@ -98,7 +98,11 @@ export default class Collection extends Store {
         headers: new Headers(this.requestHeaders)
       }
     ).then((response) => {
-      // todo
+      if (response.ok) {
+        return response.json().then((json) => {
+          this.fill(json);
+        });
+      }
     });
   }
 
