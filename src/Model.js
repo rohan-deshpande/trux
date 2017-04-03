@@ -8,20 +8,6 @@ export default class Model extends Store {
    *
    * @param {object} data - the data which defines this Model
    * @return {object} this - this Model
-   * @example
-     //basic usage
-     var MyModel = new Trux.Model({message:'hello world'});
-   * @example
-     //advanced usage
-     Trux.models.User = Trux.extend({
-          getName: function () {
-              return this.data.name;
-          }
-     }, false);
-
-     var Frodo = new Trux.models.User({name:'Frodo Baggins'});
-
-     console.log(Frodo.getName()); // logs 'Frodo Baggins'
    * @constructor
    */
   constructor(data) {

@@ -8,26 +8,6 @@ export default class Collection extends Store {
    *
    * @param {function} model - the constructor for the model which this collection contains
    * @return {object} this - collection
-   * @example
-     //basic usage
-     var MyCollection = new Trux.Collection(Trux.Model);
-   * @example
-     //advanced usage
-     Trux.collections.Posts = Trux.extend({
-          getCategories: function () {
-              categories = [];
-
-              this.models.forEach(function (model) {
-                  categories.push(model.getCategory()); // getCategory would be a custom method on the Post model.
-              });
-
-              return categories;
-          }
-     }, false, Trux.Collection);
-
-     var Blog = new Trux.collections.Posts(Trux.models.Post); //assumes you've created a custom Post model.
-
-     console.log(Blog.getCategories()); // logs all your post's categories.
    * @constructor
    */
   constructor(model) {
@@ -45,50 +25,56 @@ export default class Collection extends Store {
    * Appends these models into this.models.
    *
    * @param {array} models - array of model data objects
-   * @return void
+   * @return {object} Collection
    */
   fill(models) {
+    const length = models.length;
+
     if (!Array.isArray(models)) {
       throw new TypeError('collections can only be filled with arrays');
     }
 
     this.purge();
 
-    const length = models.length;
-
     for (let i = 0; i < length; i++) {
       this.append(new this.model(models[i]));
     }
+
+    return this;
   }
 
   /**
    * Appends a model to the collection's models.
    *
    * @param {object} model - a model, must be an instance of this.model
-   * @return void
+   * @return {object} Collection
    */
   append(model) {
     if (!(model instanceof this.model)) {
-      throw new TypeError('collections can only contain one kind of model');
+      throw new Error('collections can only contain one kind of model');
     }
 
     model.collection = this;
     this.models.push(model);
+
+    return this;
   }
 
   /**
    * Prepends a model to the collection's models.
    *
    * @param {object} model - a model, must be an instance of this.model
-   * @return void
+   * @return {object} Collection
    */
   prepend(model) {
     if (!(model instanceof this.model)) {
-      throw new TypeError('collections can only contain one kind of model');
+      throw new Error('collections can only contain one kind of model');
     }
 
     model.collection = this;
     this.models.unshift(model);
+
+    return this;
   }
 
   /**

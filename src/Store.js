@@ -29,7 +29,9 @@ export default class Store {
      *
      * @prop {object} requestHeaders - request headers
      */
-    this.requestHeaders = {};
+    this.requestHeaders = {
+      'Content-Type': 'application/json',
+    };
 
     /**
      * The GET route for this object
@@ -77,7 +79,7 @@ export default class Store {
         return;
       }
 
-      for (var prop in store.components) {
+      for (let prop in store.components) {
         if (store.components.hasOwnProperty(prop)) {
           store.components[prop].storeDataDidChange();
         }
@@ -124,6 +126,31 @@ export default class Store {
    */
   emitChangeEvent() {
     this.emitter.emitEvent('change');
+  }
+
+  /**
+   * Adds a request header.
+   *
+   * @param {string} key - the key for the header
+   * @param {mixed} value - the value for the header
+   * @return {object} Store
+   */
+  addRequestHeader(key, value) {
+    this.requestHeaders[key] = value;
+
+    return this;
+  }
+
+  /**
+   * Deletes a request header.
+   *
+   * @param {string} key - the key for the header to delete
+   * @return {object} Store
+   */
+  deleteRequestHeader(key) {
+    delete this.requestHeaders[key];
+
+    return this;
   }
 
   /**
