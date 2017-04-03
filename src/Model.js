@@ -32,14 +32,14 @@ export default class Model extends Store {
     /**
      * The data which defines this model, initially null.
      *
-     * @prop {Null|Object} data - the data which defines this Model, initially null
+     * @prop {object|null} data - the data which defines this Model, initially null
      */
-    this.data = data;
+    this.data = data || null;
 
     /**
      * The collection this model belongs to, if it does belong to one. Initially false.
      *
-     * @prop {Boolean|Object} collection - the collection this model belongs to
+     * @prop {boolean|object} collection - the collection this model belongs to
      */
     this.collection = false;
 
@@ -47,7 +47,7 @@ export default class Model extends Store {
      * Fills the model with data.
      * Also sets the private backup for this model.
      *
-     * @param {Object} data - the data that defines this model
+     * @param {object} data - the data that defines this model
      * @return void
      */
     this.fill = (data) => {
@@ -104,13 +104,13 @@ export default class Model extends Store {
     });
   }
 
-  update() {
+  update(data) {
     return fetch(
       this.PUT,
       {
         method: 'PUT',
         body: data,
-        headers: new Headers(this.requestHeaders)
+        headers: new Headers(this.requestHeaders),
       }
     ).then((response) => {
       // todo
