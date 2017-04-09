@@ -1,4 +1,4 @@
-import EventEmitter from 'EventEmitter';
+import EventEmitter from 'wolfy87-eventemitter';
 
 export default class Store {
   constructor() {
