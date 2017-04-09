@@ -81,7 +81,7 @@ export default class Store {
 
       for (let prop in store.components) {
         if (store.components.hasOwnProperty(prop)) {
-          store.components[prop].storeDataDidChange();
+          store.components[prop].storeDidUpdate();
         }
       }
     }
@@ -101,6 +101,10 @@ export default class Store {
    */
   bindComponent(component) {
     this.components[component.truxId] = component;
+
+    if (typeof component.storeDidUpdate !== 'function') {
+      console.warn('The component you have bound to this store does not contain a storeDidUpdate method');
+    }
   }
 
   /**
@@ -110,10 +114,13 @@ export default class Store {
    * @NOTE for react, this should be called within the component's componentWillUnmount method.
    *
    * @param {object} component - the React class to unbind from this instance
+   * @throws Error
    * @return void
    */
   unbindComponent(component) {
-    if (typeof this.components[component.truxId] === 'undefined') return;
+    if (typeof this.components[component.truxId] === 'undefined') {
+      throw new Error('The component you are attempting to unbind is not bound to this store');
+    }
 
     delete this.components[component.truxId];
   }

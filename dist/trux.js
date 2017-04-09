@@ -73,45 +73,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Store = __webpack_require__(1);
-
-var _Store2 = _interopRequireDefault(_Store);
-
-var _Model = __webpack_require__(4);
-
-var _Model2 = _interopRequireDefault(_Model);
-
-var _Collection = __webpack_require__(3);
-
-var _Collection2 = _interopRequireDefault(_Collection);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Trux = {
-  Store: _Store2.default,
-  Model: _Model2.default,
-  Collection: _Collection2.default
-};
-
-exports.default = Trux;
-module.exports = exports['default'];
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -214,7 +180,7 @@ var Store = function () {
 
       for (var prop in store.components) {
         if (store.components.hasOwnProperty(prop)) {
-          store.components[prop].storeDataDidChange();
+          store.components[prop].storeDidUpdate();
         }
       }
     }
@@ -238,6 +204,10 @@ var Store = function () {
     key: 'bindComponent',
     value: function bindComponent(component) {
       this.components[component.truxId] = component;
+
+      if (typeof component.storeDidUpdate !== 'function') {
+        console.warn('The component you have bound to this store does not contain a storeDidUpdate method');
+      }
     }
 
     /**
@@ -247,13 +217,16 @@ var Store = function () {
      * @NOTE for react, this should be called within the component's componentWillUnmount method.
      *
      * @param {object} component - the React class to unbind from this instance
+     * @throws Error
      * @return void
      */
 
   }, {
     key: 'unbindComponent',
     value: function unbindComponent(component) {
-      if (typeof this.components[component.truxId] === 'undefined') return;
+      if (typeof this.components[component.truxId] === 'undefined') {
+        throw new Error('The component you are attempting to unbind is not bound to this store');
+      }
 
       delete this.components[component.truxId];
     }
@@ -334,7 +307,7 @@ exports.default = Store;
 module.exports = exports['default'];
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -539,7 +512,7 @@ module.exports = exports['default'];
 //# sourceMappingURL=rd-fetch.js.map
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -553,11 +526,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Store2 = __webpack_require__(1);
+var _Store2 = __webpack_require__(0);
 
 var _Store3 = _interopRequireDefault(_Store2);
 
-var _rdFetch = __webpack_require__(2);
+var _rdFetch = __webpack_require__(1);
 
 var _rdFetch2 = _interopRequireDefault(_rdFetch);
 
@@ -761,7 +734,7 @@ exports.default = Collection;
 module.exports = exports['default'];
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -775,11 +748,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Store2 = __webpack_require__(1);
+var _Store2 = __webpack_require__(0);
 
 var _Store3 = _interopRequireDefault(_Store2);
 
-var _rdFetch = __webpack_require__(2);
+var _rdFetch = __webpack_require__(1);
 
 var _rdFetch2 = _interopRequireDefault(_rdFetch);
 
@@ -1007,6 +980,40 @@ var Model = function (_Store) {
 }(_Store3.default);
 
 exports.default = Model;
+module.exports = exports['default'];
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Store = __webpack_require__(0);
+
+var _Store2 = _interopRequireDefault(_Store);
+
+var _Model = __webpack_require__(3);
+
+var _Model2 = _interopRequireDefault(_Model);
+
+var _Collection = __webpack_require__(2);
+
+var _Collection2 = _interopRequireDefault(_Collection);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Trux = {
+  Store: _Store2.default,
+  Model: _Model2.default,
+  Collection: _Collection2.default
+};
+
+exports.default = Trux;
 module.exports = exports['default'];
 
 /***/ }),
