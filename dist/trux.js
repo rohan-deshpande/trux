@@ -854,6 +854,7 @@ var Model = function (_Store) {
         headers: this.requestHeaders
       }).then(function (response) {
         _this2.fill(response.json);
+        _this2.persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
@@ -879,6 +880,7 @@ var Model = function (_Store) {
         body: data
       }).then(function (response) {
         _this3.fill(response.json);
+        _this3.persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {

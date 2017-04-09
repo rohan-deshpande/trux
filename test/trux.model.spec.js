@@ -2,7 +2,7 @@
 
 import chai from 'chai';
 import Trux from '../dist/trux.js';
-import { serve, endpoints, restoreData } from './server.js';
+import { startServer, stopServer, endpoints } from './server.js';
 import sinon from 'sinon';
 import fetch from 'node-fetch';
 
@@ -100,7 +100,7 @@ describe(`${test} statics`, () => {
 
 describe(`${test} requests`, () => {
   before(() => {
-    serve();
+    startServer();
   });
 
   it('model.fetch should fill the model with the correct data', (done) => {
@@ -117,23 +117,36 @@ describe(`${test} requests`, () => {
       });
   });
 
-  it('model.update should update the remote data', (done) => {
+  it('model.update should update the remote data and update the component', (done) => {
     const post = new Trux.Model();
+    const component = {
+      truxId: 'postView',
+      storeDidUpdate: () => {
+        component.title = post.data.title;
+        component.author = post.data.author;
+      },
+      title: '',
+      author: ''
+    }
     post.PUT = endpoints.putPost;
+    post.bindComponent(component);
+
+    assert.isTrue(component.author === '');
 
     post.update({
       'title': 'foo',
       'author': 'bar'
     }).then((response) => {
-      console.log(response);
+      assert.isTrue(JSON.stringify(post.data) === JSON.stringify(response.json));
+      assert.isTrue(component.author === 'bar');
+      assert.isTrue(component.title === 'foo');
       done();
     }).catch((error) => {
-      console.log(error);
       done();
     });
   });
 
   after(() => {
-    restoreData();
+    stopServer();
   });
 });

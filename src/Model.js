@@ -78,6 +78,7 @@ export default class Model extends Store {
       headers: this.requestHeaders
     }).then((response) => {
       this.fill(response.json);
+      this.persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
@@ -98,6 +99,7 @@ export default class Model extends Store {
       body: data
     }).then((response) => {
       this.fill(response.json);
+      this.persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
