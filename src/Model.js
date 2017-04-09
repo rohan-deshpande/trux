@@ -1,5 +1,5 @@
 import Store from './Store';
-import { fetch } from 'whatwg-fetch';
+import Fetch from 'rd-fetch';
 
 export default class Model extends Store {
 
@@ -41,8 +41,15 @@ export default class Model extends Store {
       backup = (!data || Object.keys(data).length === 0) ? {} : JSON.parse(JSON.stringify(data));
     };
 
+    /**
+     * Restores the model's data from a previously stored backup.
+     *
+     * @return {object} Model
+     */
     this.restore = () => {
       this.data = (!backup || Object.keys(backup).length === 0) ? {} : JSON.parse(JSON.stringify(backup));
+
+      return this;
     };
   }
 
@@ -61,45 +68,58 @@ export default class Model extends Store {
   }
 
   /**
-   * Requests the remote data for the Model, then sets the Model data with the response.
+   * Requests the remote data for the model, then sets the model data with the response.
    *
    * @return {Object} Promise
    */
-  get(actions = {}) {
-    return fetch(
-      this.GET,
-      {
-        method: 'GET',
-        headers: new Headers(this.requestHeaders)
-      }
-    ).then((response) => {
-      // todo
+  get() {
+    return Fetch.json(this.GET, {
+      method: 'GET',
+      headers: this.requestHeaders
+    }).then((response) => {
+      this.fill(response.json);
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      return Promise.reject(error);
     });
   }
 
+  /**
+   * Creates a new model in the remote data store.
+   *
+   * @param {object} data - the data for the new model
+   * @return {object} Promise
+   */
   create(data) {
-    return fetch(
-      this.POST,
-      {
-        method: 'POST',
-        body: data,
-        headers: new Headers(this.requestHeaders)
-      }
-    ).then((response) => {
-      // todo
+    return Fetch.json(this.POST, {
+      method: 'POST',
+      headers: this.requestHeaders,
+      body: data
+    }).then((response) => {
+      this.fill(response.json);
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      return Promise.reject(error);
     });
   }
 
   update(data) {
-    return fetch(
-      this.PUT,
-      {
-        method: 'PUT',
-        body: data,
-        headers: new Headers(this.requestHeaders),
-      }
-    ).then((response) => {
-      // todo
+    return Fetch.json(this.PUT, {
+      method: 'PUT',
+      headers: this.requestHeaders,
+      body: data
+    }).then((response) => {
+      this.fill(response.json);
+      this.persist();
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      this.restore();
+      this.persist();
+
+      return Promise.reject(error);
     });
   }
 

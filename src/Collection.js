@@ -1,5 +1,5 @@
 import Store from './Store';
-import { fetch } from 'whatwg-fetch';
+import Fetch from 'rd-fetch';
 
 export default class Collection extends Store {
 
@@ -89,20 +89,17 @@ export default class Collection extends Store {
   /**
    * Gets a collection from a remote resource.
    *
+   * @return {object} Promise
    */
   get() {
-    return fetch(
-      this.GET,
-      {
-        method: 'GET',
-        headers: new Headers(this.requestHeaders)
-      }
-    ).then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          this.fill(json);
-        });
-      }
+    return Fetch.json(this.GET, {
+
+    }).then((response) => {
+      this.fill(response.json);
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      return Promise.reject(error);
     });
   }
 
