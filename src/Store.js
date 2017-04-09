@@ -161,6 +161,15 @@ export default class Store {
   }
 
   /**
+   * Helper to get the current unix timestamp in ms.
+   *
+   * @return {number}
+   */
+  getUnixTimestamp() {
+    return Date.now();
+  }
+
+  /**
    * Set the store's request headers.
    *
    * @param {object} headers - headers object
@@ -178,5 +187,36 @@ export default class Store {
    */
   get requestHeaders() {
     return this._requestHeaders;
+  }
+
+  /**
+   * Sets the wasFetched and wasFetchedAt properties.
+   *
+   * @param {boolean} wasFetched
+   * @return {object} Store
+   */
+  set wasFetched(wasFetched) {
+    this._wasFetched = (wasFetched) ? true : false;
+    this._wasFetchedAt = (wasFetched) ? this.getUnixTimestamp() : this.wasFetchedAt;
+
+    return this;
+  }
+
+  /**
+   * Gets the wasFetched property.
+   *
+   * @return {boolean}
+   */
+  get wasFetched() {
+    return this._wasFetched;
+  }
+
+  /**
+   * Gets the wasFetchedAt property.
+   *
+   * @return {number}
+   */
+  get wasFetchedAt() {
+    return this._wasFetchedAt;
   }
 }

@@ -34,11 +34,13 @@ export default class Model extends Store {
      * Also sets the private backup for this model.
      *
      * @param {object} data - the data that defines this model
-     * @return void
+     * @return {object} Model
      */
     this.fill = (data) => {
       this.data = data;
       backup = (!data || Object.keys(data).length === 0) ? {} : JSON.parse(JSON.stringify(data));
+
+      return this;
     };
 
     /**
@@ -57,7 +59,7 @@ export default class Model extends Store {
    * Persits the model's data throughout its bound components.
    * Emits the model's change event and, if it belongs to a collection, the collection's change event also.
    *
-   * @return void
+   * @return {object} Model
    */
   persist() {
     if (this.collection) {
@@ -65,6 +67,8 @@ export default class Model extends Store {
     }
 
     this.emitChangeEvent();
+
+    return this;
   }
 
   /**
@@ -77,11 +81,11 @@ export default class Model extends Store {
       method: 'GET',
       headers: this.requestHeaders
     }).then((response) => {
-      this.fill(response.json);
-      this.persist();
+      this.fill(response.json).wasFetched(true).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
+      this.wasFetched(false);
       return Promise.reject(error);
     });
   }
@@ -98,33 +102,11 @@ export default class Model extends Store {
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
-      this.fill(response.json);
-      this.persist();
+      this.fill(response.json).wasCreated(true).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
-      return Promise.reject(error);
-    });
-  }
-
-  /**
-   * Deletes the model in the remote data store.
-   *
-   * @return {object} Promise
-   */
-  destroy() {
-    return Fetch.json(this.DELETE, {
-      method: 'DELETE',
-      headers: this.requestHeaders
-    }).then((response) => {
-      this.purge();
-      this.persist();
-
-      return Promise.resolve(response);
-    }).catch((error) => {
-      this.restore();
-      this.persist();
-
+      this.wasCreated(false);
       return Promise.reject(error);
     });
   }
@@ -142,13 +124,31 @@ export default class Model extends Store {
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
-      this.fill(response.json);
-      this.persist();
+      this.fill(response.json).wasUpdated(true).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
-      this.restore();
-      this.persist();
+      this.restore().persist();
+
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * Deletes the model in the remote data store.
+   *
+   * @return {object} Promise
+   */
+  destroy() {
+    return Fetch.json(this.DELETE, {
+      method: 'DELETE',
+      headers: this.requestHeaders
+    }).then((response) => {
+      this.purge().wasDestroyed(true).persist();
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      this.restore().wasDestroyed(false).persist();
 
       return Promise.reject(error);
     });
@@ -163,6 +163,99 @@ export default class Model extends Store {
     this.data = null;
 
     return this;
+  }
+
+  /**
+   * Sets the wasCreated and wasCreatedAt properties.
+   *
+   * @param {boolean} wasCreated
+   * @return {object} Model
+   */
+  set wasCreated(wasCreated) {
+    this._wasCreated = (wasCreated) ? true : false;
+    this._wasCreatedAt = (wasCreated) ? this.getUnixTimestamp() : this.wasCreatedAt;
+
+    return this;
+  }
+
+  /**
+   * Gets the wasCreated property.
+   *
+   * @return {boolean}
+   */
+  get wasCreated() {
+    return this._wasCreated;
+  }
+
+  /**
+   * Gets the wasCreatedAt timestamp.
+   *
+   * @return {number}
+   */
+  get wasCreatedAt() {
+    return this._wasCreatedAt;
+  }
+
+  /**
+   * Sets the wasUpdated and wasUpdatedAt properties.
+   *
+   * @param {boolean} wasUpdated
+   * @return {object} Model
+   */
+  set wasUpdated(wasUpdated) {
+    this._wasUpdated = (wasUpdated) ? true : false;
+    this._wasUpdatedAt = (wasUpdated) ? this.getUnixTimestamp() : this.wasUpdatedAt;
+
+    return this;
+  }
+
+  /**
+   * Gets the wasUpdated property.
+   *
+   * @return {boolean}
+   */
+  get wasUpdated() {
+    return this._wasUpdated;
+  }
+
+  /**
+   * Gets the wasUpdatedAt property.
+   *
+   * @return {number}
+   */
+  get wasUpdatedAt() {
+    return this._wasUpdatedAt;
+  }
+
+  /**
+   * Sets the wasDestroyed and wasDestroyedAt properties.
+   *
+   * @param {boolean} wasDestroyed
+   * @return {object} Model
+   */
+  set wasDestroyed(wasDestroyed) {
+    this._wasDestroyed = (wasDestroyed) ? true : false;
+    this._wasDestroyedAt = (wasDestroyed) ? this.getUnixTimestamp() : this.wasDestroyedAt;
+
+    return this;
+  }
+
+  /**
+   * Gets the wasDestroyed property.
+   *
+   * @return  {boolean}
+   */
+  get wasDestroyed() {
+    return this._wasDestroyed;
+  }
+
+  /**
+   * Gets the wasDestroyedAt property.
+   *
+   * @return {number}
+   */
+  get wasDestroyedAt() {
+    return this._wasDestroyedAt;
   }
 
   /**
