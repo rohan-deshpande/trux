@@ -81,11 +81,12 @@ export default class Model extends Store {
       method: 'GET',
       headers: this.requestHeaders
     }).then((response) => {
-      this.fill(response.json).wasFetched(true).persist();
+      this.wasFetched = true;
+      this.fill(response.json).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
-      this.wasFetched(false);
+      this.wasFetched = false;
       return Promise.reject(error);
     });
   }
@@ -102,11 +103,13 @@ export default class Model extends Store {
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
-      this.fill(response.json).wasCreated(true).persist();
+      this.wasCreated = true;
+      this.fill(response.json).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
-      this.wasCreated(false);
+      this.wasCreated = false;
+      
       return Promise.reject(error);
     });
   }
@@ -124,10 +127,12 @@ export default class Model extends Store {
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
-      this.fill(response.json).wasUpdated(true).persist();
+      this.wasUpdated = false;
+      this.fill(response.json).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
+      this.wasUpdated = false;
       this.restore().persist();
 
       return Promise.reject(error);
@@ -144,11 +149,13 @@ export default class Model extends Store {
       method: 'DELETE',
       headers: this.requestHeaders
     }).then((response) => {
-      this.purge().wasDestroyed(true).persist();
+      this.wasDestroyed = true;
+      this.purge().persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
-      this.restore().wasDestroyed(false).persist();
+      this.wasDestroyed = false;
+      this.restore().persist();
 
       return Promise.reject(error);
     });
@@ -169,13 +176,11 @@ export default class Model extends Store {
    * Sets the wasCreated and wasCreatedAt properties.
    *
    * @param {boolean} wasCreated
-   * @return {object} Model
+   * @return void
    */
   set wasCreated(wasCreated) {
     this._wasCreated = (wasCreated) ? true : false;
     this._wasCreatedAt = (wasCreated) ? this.getUnixTimestamp() : this.wasCreatedAt;
-
-    return this;
   }
 
   /**
@@ -200,13 +205,11 @@ export default class Model extends Store {
    * Sets the wasUpdated and wasUpdatedAt properties.
    *
    * @param {boolean} wasUpdated
-   * @return {object} Model
+   * @return void
    */
   set wasUpdated(wasUpdated) {
     this._wasUpdated = (wasUpdated) ? true : false;
     this._wasUpdatedAt = (wasUpdated) ? this.getUnixTimestamp() : this.wasUpdatedAt;
-
-    return this;
   }
 
   /**
@@ -231,13 +234,11 @@ export default class Model extends Store {
    * Sets the wasDestroyed and wasDestroyedAt properties.
    *
    * @param {boolean} wasDestroyed
-   * @return {object} Model
+   * @return void
    */
   set wasDestroyed(wasDestroyed) {
     this._wasDestroyed = (wasDestroyed) ? true : false;
     this._wasDestroyedAt = (wasDestroyed) ? this.getUnixTimestamp() : this.wasDestroyedAt;
-
-    return this;
   }
 
   /**

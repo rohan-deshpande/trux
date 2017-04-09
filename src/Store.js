@@ -173,11 +173,10 @@ export default class Store {
    * Set the store's request headers.
    *
    * @param {object} headers - headers object
+   * @return void
    */
   set requestHeaders(headers) {
     this._requestHeaders = headers;
-
-    return this;
   }
 
   /**
@@ -193,13 +192,11 @@ export default class Store {
    * Sets the wasFetched and wasFetchedAt properties.
    *
    * @param {boolean} wasFetched
-   * @return {object} Store
+   * @return void
    */
   set wasFetched(wasFetched) {
     this._wasFetched = (wasFetched) ? true : false;
     this._wasFetchedAt = (wasFetched) ? this.getUnixTimestamp() : this.wasFetchedAt;
-
-    return this;
   }
 
   /**

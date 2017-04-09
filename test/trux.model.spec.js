@@ -99,7 +99,7 @@ describe(`${test} statics`, () => {
 });
 
 describe(`${test} requests`, () => {
-  before(() => {
+  beforeEach(() => {
     startServer();
   });
 
@@ -117,6 +117,21 @@ describe(`${test} requests`, () => {
       });
   });
 
+  it('model.fetch should set the wasFetched and wasFetchedAt properties', (done) => {
+    const profile = new Trux.Model();
+    profile.GET = endpoints.profile;
+
+    profile.fetch()
+      .then(() => {
+        assert.isTrue(profile.wasFetched);
+        assert.isTrue(typeof profile.wasFetchedAt !== 'undefined');
+        done();
+      })
+      .catch(() => {
+        done('fetch failed');
+      });
+  });
+
   it('model.update should update the remote data and update the component', (done) => {
     const post = new Trux.Model();
     const component = {
@@ -127,7 +142,8 @@ describe(`${test} requests`, () => {
       },
       title: '',
       author: ''
-    }
+    };
+
     post.PUT = endpoints.putPost;
     post.bindComponent(component);
 
@@ -141,12 +157,12 @@ describe(`${test} requests`, () => {
       assert.isTrue(component.author === 'bar');
       assert.isTrue(component.title === 'foo');
       done();
-    }).catch((error) => {
-      done();
+    }).catch(() => {
+      done('update failed');
     });
   });
 
-  after(() => {
+  afterEach(() => {
     stopServer();
   });
 });

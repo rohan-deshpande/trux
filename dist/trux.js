@@ -276,17 +276,28 @@ var Store = function () {
     }
 
     /**
+     * Helper to get the current unix timestamp in ms.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'getUnixTimestamp',
+    value: function getUnixTimestamp() {
+      return Date.now();
+    }
+
+    /**
      * Set the store's request headers.
      *
      * @param {object} headers - headers object
+     * @return void
      */
 
   }, {
     key: 'requestHeaders',
     set: function set(headers) {
       this._requestHeaders = headers;
-
-      return this;
     }
 
     /**
@@ -297,6 +308,42 @@ var Store = function () {
     ,
     get: function get() {
       return this._requestHeaders;
+    }
+
+    /**
+     * Sets the wasFetched and wasFetchedAt properties.
+     *
+     * @param {boolean} wasFetched
+     * @return void
+     */
+
+  }, {
+    key: 'wasFetched',
+    set: function set(wasFetched) {
+      this._wasFetched = wasFetched ? true : false;
+      this._wasFetchedAt = wasFetched ? this.getUnixTimestamp() : this.wasFetchedAt;
+    }
+
+    /**
+     * Gets the wasFetched property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasFetched;
+    }
+
+    /**
+     * Gets the wasFetchedAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasFetchedAt',
+    get: function get() {
+      return this._wasFetchedAt;
     }
   }]);
 
@@ -800,11 +847,13 @@ var Model = function (_Store) {
      * Also sets the private backup for this model.
      *
      * @param {object} data - the data that defines this model
-     * @return void
+     * @return {object} Model
      */
     _this.fill = function (data) {
       _this.data = data;
       backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
+
+      return _this;
     };
 
     /**
@@ -824,7 +873,7 @@ var Model = function (_Store) {
    * Persits the model's data throughout its bound components.
    * Emits the model's change event and, if it belongs to a collection, the collection's change event also.
    *
-   * @return void
+   * @return {object} Model
    */
 
 
@@ -836,6 +885,8 @@ var Model = function (_Store) {
       }
 
       this.emitChangeEvent();
+
+      return this;
     }
 
     /**
@@ -853,11 +904,12 @@ var Model = function (_Store) {
         method: 'GET',
         headers: this.requestHeaders
       }).then(function (response) {
-        _this2.fill(response.json);
-        _this2.persist();
+        _this2.wasFetched = true;
+        _this2.fill(response.json).persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
+        _this2.wasFetched = false;
         return Promise.reject(error);
       });
     }
@@ -879,37 +931,12 @@ var Model = function (_Store) {
         headers: this.requestHeaders,
         body: data
       }).then(function (response) {
-        _this3.fill(response.json);
-        _this3.persist();
+        _this3.wasCreated = true;
+        _this3.fill(response.json).persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
-        return Promise.reject(error);
-      });
-    }
-
-    /**
-     * Deletes the model in the remote data store.
-     *
-     * @return {object} Promise
-     */
-
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      var _this4 = this;
-
-      return _rdFetch2.default.json(this.DELETE, {
-        method: 'DELETE',
-        headers: this.requestHeaders
-      }).then(function (response) {
-        _this4.purge();
-        _this4.persist();
-
-        return Promise.resolve(response);
-      }).catch(function (error) {
-        _this4.restore();
-        _this4.persist();
+        _this3.wasCreated = false;
 
         return Promise.reject(error);
       });
@@ -926,7 +953,7 @@ var Model = function (_Store) {
   }, {
     key: 'update',
     value: function update(data) {
-      var _this5 = this;
+      var _this4 = this;
 
       var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUT';
 
@@ -935,13 +962,40 @@ var Model = function (_Store) {
         headers: this.requestHeaders,
         body: data
       }).then(function (response) {
-        _this5.fill(response.json);
-        _this5.persist();
+        _this4.wasUpdated = false;
+        _this4.fill(response.json).persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
-        _this5.restore();
-        _this5.persist();
+        _this4.wasUpdated = false;
+        _this4.restore().persist();
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Deletes the model in the remote data store.
+     *
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var _this5 = this;
+
+      return _rdFetch2.default.json(this.DELETE, {
+        method: 'DELETE',
+        headers: this.requestHeaders
+      }).then(function (response) {
+        _this5.wasDestroyed = true;
+        _this5.purge().persist();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this5.wasDestroyed = false;
+        _this5.restore().persist();
 
         return Promise.reject(error);
       });
@@ -959,6 +1013,114 @@ var Model = function (_Store) {
       this.data = null;
 
       return this;
+    }
+
+    /**
+     * Sets the wasCreated and wasCreatedAt properties.
+     *
+     * @param {boolean} wasCreated
+     * @return void
+     */
+
+  }, {
+    key: 'wasCreated',
+    set: function set(wasCreated) {
+      this._wasCreated = wasCreated ? true : false;
+      this._wasCreatedAt = wasCreated ? this.getUnixTimestamp() : this.wasCreatedAt;
+    }
+
+    /**
+     * Gets the wasCreated property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasCreated;
+    }
+
+    /**
+     * Gets the wasCreatedAt timestamp.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasCreatedAt',
+    get: function get() {
+      return this._wasCreatedAt;
+    }
+
+    /**
+     * Sets the wasUpdated and wasUpdatedAt properties.
+     *
+     * @param {boolean} wasUpdated
+     * @return void
+     */
+
+  }, {
+    key: 'wasUpdated',
+    set: function set(wasUpdated) {
+      this._wasUpdated = wasUpdated ? true : false;
+      this._wasUpdatedAt = wasUpdated ? this.getUnixTimestamp() : this.wasUpdatedAt;
+    }
+
+    /**
+     * Gets the wasUpdated property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasUpdated;
+    }
+
+    /**
+     * Gets the wasUpdatedAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasUpdatedAt',
+    get: function get() {
+      return this._wasUpdatedAt;
+    }
+
+    /**
+     * Sets the wasDestroyed and wasDestroyedAt properties.
+     *
+     * @param {boolean} wasDestroyed
+     * @return void
+     */
+
+  }, {
+    key: 'wasDestroyed',
+    set: function set(wasDestroyed) {
+      this._wasDestroyed = wasDestroyed ? true : false;
+      this._wasDestroyedAt = wasDestroyed ? this.getUnixTimestamp() : this.wasDestroyedAt;
+    }
+
+    /**
+     * Gets the wasDestroyed property.
+     *
+     * @return  {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasDestroyed;
+    }
+
+    /**
+     * Gets the wasDestroyedAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasDestroyedAt',
+    get: function get() {
+      return this._wasDestroyedAt;
     }
 
     /**
