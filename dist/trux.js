@@ -845,8 +845,8 @@ var Model = function (_Store) {
      */
 
   }, {
-    key: 'get',
-    value: function get() {
+    key: 'fetch',
+    value: function fetch() {
       var _this2 = this;
 
       return _rdFetch2.default.json(this.GET, {
@@ -885,17 +885,23 @@ var Model = function (_Store) {
         return Promise.reject(error);
       });
     }
+
+    /**
+     * Deletes the model in the remote data store.
+     *
+     * @return {object} Promise
+     */
+
   }, {
-    key: 'update',
-    value: function update(data) {
+    key: 'destroy',
+    value: function destroy() {
       var _this4 = this;
 
-      return _rdFetch2.default.json(this.PUT, {
-        method: 'PUT',
-        headers: this.requestHeaders,
-        body: data
+      return _rdFetch2.default.json(this.DELETE, {
+        method: 'DELETE',
+        headers: this.requestHeaders
       }).then(function (response) {
-        _this4.fill(response.json);
+        _this4.purge();
         _this4.persist();
 
         return Promise.resolve(response);
@@ -906,6 +912,45 @@ var Model = function (_Store) {
         return Promise.reject(error);
       });
     }
+
+    /**
+     * Updates the model in the remote data store.
+     *
+     * @param {object} data - the data to update the model with
+     * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'update',
+    value: function update(data) {
+      var _this5 = this;
+
+      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUT';
+
+      return _rdFetch2.default.json(this[method], {
+        method: method,
+        headers: this.requestHeaders,
+        body: data
+      }).then(function (response) {
+        _this5.fill(response.json);
+        _this5.persist();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this5.restore();
+        _this5.persist();
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Purges the model of its data.
+     *
+     * @return {object} Model
+     */
+
   }, {
     key: 'purge',
     value: function purge() {
@@ -933,12 +978,12 @@ var Model = function (_Store) {
         function Extension(data) {
           _classCallCheck(this, Extension);
 
-          var _this5 = _possibleConstructorReturn(this, (Extension.__proto__ || Object.getPrototypeOf(Extension)).call(this, data));
+          var _this6 = _possibleConstructorReturn(this, (Extension.__proto__ || Object.getPrototypeOf(Extension)).call(this, data));
 
           if (typeof setup === 'function') {
-            setup(_this5);
+            setup(_this6);
           }
-          return _this5;
+          return _this6;
         }
 
         return Extension;

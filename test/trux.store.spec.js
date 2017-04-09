@@ -6,12 +6,13 @@ import sinon from 'sinon';
 
 chai.expect();
 
+const test = 'Store';
 const expect = chai.expect;
 const assert = chai.assert;
 const store = new Trux.Store();
 let sandbox;
 
-describe('Constructor', () => {
+describe(`${test} constructor`, () => {
   it('should setup the components object store', (done) => {
     assert.isTrue(typeof store.components === 'object');
     done();
@@ -40,7 +41,7 @@ describe('Constructor', () => {
 });
 
 
-describe('Prototype', () => {
+describe(`${test} prototype`, () => {
   it('should have a bindComponent method', (done) => {
     assert.isTrue(typeof store.bindComponent === 'function');
     done();
@@ -73,7 +74,7 @@ describe('Prototype', () => {
 });
 
 
-describe('Binding & Unbinding', () => {
+describe(`${test} binding & unbinding`, () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
   });
@@ -124,14 +125,14 @@ describe('Binding & Unbinding', () => {
   });
 });
 
-describe('Mutating Request Headers', () => {
-  it('should be able to add a request header', (done) => {
+describe(`${test} request headers`, () => {
+  it('should be able to add header by key, val', (done) => {
     store.addRequestHeader('Accept', 'application/json');
     assert.isTrue(store.requestHeaders['Accept'] === 'application/json');
     done();
   });
 
-  it('should be able to delete a request header', (done) => {
+  it('should be able to delete header by key', (done) => {
     store.deleteRequestHeader('Accept');
     assert.isTrue(typeof store.requestHeaders['Accept'] === 'undefined');
     done();

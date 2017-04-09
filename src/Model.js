@@ -72,7 +72,7 @@ export default class Model extends Store {
    *
    * @return {Object} Promise
    */
-  get() {
+  fetch() {
     return Fetch.json(this.GET, {
       method: 'GET',
       headers: this.requestHeaders
@@ -105,9 +105,38 @@ export default class Model extends Store {
     });
   }
 
-  update(data) {
-    return Fetch.json(this.PUT, {
-      method: 'PUT',
+  /**
+   * Deletes the model in the remote data store.
+   *
+   * @return {object} Promise
+   */
+  destroy() {
+    return Fetch.json(this.DELETE, {
+      method: 'DELETE',
+      headers: this.requestHeaders
+    }).then((response) => {
+      this.purge();
+      this.persist();
+
+      return Promise.resolve(response);
+    }).catch((error) => {
+      this.restore();
+      this.persist();
+
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * Updates the model in the remote data store.
+   *
+   * @param {object} data - the data to update the model with
+   * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+   * @return {object} Promise
+   */
+  update(data, method = 'PUT') {
+    return Fetch.json(this[method], {
+      method: method,
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
@@ -123,6 +152,11 @@ export default class Model extends Store {
     });
   }
 
+  /**
+   * Purges the model of its data.
+   *
+   * @return {object} Model
+   */
   purge() {
     this.data = null;
 
