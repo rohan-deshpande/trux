@@ -38,35 +38,35 @@ export default class Store {
      *
      * @prop {string} GET - the GET route for this object
      */
-    this.GET = false;
+    this.GET = '';
 
     /**
      * The POST route for this object
      *
      * @prop {string} POST - the POST route for this object
      */
-    this.POST = false;
+    this.POST = '';
 
     /**
      * The PUT route for this object
      * @prop {string} PUT - the PUT route for this object
      *
      */
-    this.PUT = false;
+    this.PUT = '';
 
     /**
      * The PATCH route for this object
      *
      * @prop {string} PATCH - the PATCH route for this object
      */
-    this.PATCH = false;
+    this.PATCH = '';
 
     /**
      * The DELETE route for this object
      *
      * @prop {string} DELETE - the DELETE route for this object
      */
-    this.DELETE = false;
+    this.DELETE = '';
 
     /**
      * Broadcast changes to all bound components.
@@ -156,12 +156,20 @@ export default class Store {
   /**
    * Set the store's request headers.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers
    * @param {object} headers - headers object
    */
   set requestHeaders(headers) {
-    this.requestHeaders = headers;
+    this._requestHeaders = headers;
 
     return this;
+  }
+
+  /**
+   * Gets the store's request headers.
+   *
+   * @return {object}
+   */
+  get requestHeaders() {
+    return this._requestHeaders;
   }
 }

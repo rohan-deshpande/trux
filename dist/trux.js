@@ -73,11 +73,45 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Store = __webpack_require__(1);
+
+var _Store2 = _interopRequireDefault(_Store);
+
+var _Model = __webpack_require__(4);
+
+var _Model2 = _interopRequireDefault(_Model);
+
+var _Collection = __webpack_require__(3);
+
+var _Collection2 = _interopRequireDefault(_Collection);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Trux = {
+  Store: _Store2.default,
+  Model: _Model2.default,
+  Collection: _Collection2.default
+};
+
+exports.default = Trux;
+module.exports = exports['default'];
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -137,35 +171,35 @@ var Store = function () {
      *
      * @prop {string} GET - the GET route for this object
      */
-    this.GET = false;
+    this.GET = '';
 
     /**
      * The POST route for this object
      *
      * @prop {string} POST - the POST route for this object
      */
-    this.POST = false;
+    this.POST = '';
 
     /**
      * The PUT route for this object
      * @prop {string} PUT - the PUT route for this object
      *
      */
-    this.PUT = false;
+    this.PUT = '';
 
     /**
      * The PATCH route for this object
      *
      * @prop {string} PATCH - the PATCH route for this object
      */
-    this.PATCH = false;
+    this.PATCH = '';
 
     /**
      * The DELETE route for this object
      *
      * @prop {string} DELETE - the DELETE route for this object
      */
-    this.DELETE = false;
+    this.DELETE = '';
 
     /**
      * Broadcast changes to all bound components.
@@ -271,16 +305,25 @@ var Store = function () {
     /**
      * Set the store's request headers.
      *
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers
      * @param {object} headers - headers object
      */
 
   }, {
     key: 'requestHeaders',
     set: function set(headers) {
-      this.requestHeaders = headers;
+      this._requestHeaders = headers;
 
       return this;
+    }
+
+    /**
+     * Gets the store's request headers.
+     *
+     * @return {object}
+     */
+    ,
+    get: function get() {
+      return this._requestHeaders;
     }
   }]);
 
@@ -291,7 +334,7 @@ exports.default = Store;
 module.exports = exports['default'];
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -496,7 +539,7 @@ module.exports = exports['default'];
 //# sourceMappingURL=rd-fetch.js.map
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -510,11 +553,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Store2 = __webpack_require__(0);
+var _Store2 = __webpack_require__(1);
 
 var _Store3 = _interopRequireDefault(_Store2);
 
-var _rdFetch = __webpack_require__(1);
+var _rdFetch = __webpack_require__(2);
 
 var _rdFetch2 = _interopRequireDefault(_rdFetch);
 
@@ -718,7 +761,7 @@ exports.default = Collection;
 module.exports = exports['default'];
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -732,11 +775,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Store2 = __webpack_require__(0);
+var _Store2 = __webpack_require__(1);
 
 var _Store3 = _interopRequireDefault(_Store2);
 
-var _rdFetch = __webpack_require__(1);
+var _rdFetch = __webpack_require__(2);
 
 var _rdFetch2 = _interopRequireDefault(_rdFetch);
 
@@ -965,36 +1008,6 @@ var Model = function (_Store) {
 
 exports.default = Model;
 module.exports = exports['default'];
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.Collection = exports.Model = exports.Store = undefined;
-
-var _Store = __webpack_require__(0);
-
-var _Store2 = _interopRequireDefault(_Store);
-
-var _Model = __webpack_require__(3);
-
-var _Model2 = _interopRequireDefault(_Model);
-
-var _Collection = __webpack_require__(2);
-
-var _Collection2 = _interopRequireDefault(_Collection);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.Store = _Store2.default;
-exports.Model = _Model2.default;
-exports.Collection = _Collection2.default;
 
 /***/ }),
 /* 5 */
