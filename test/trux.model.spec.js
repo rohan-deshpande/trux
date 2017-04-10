@@ -103,6 +103,10 @@ describe(`${test} requests`, () => {
     startServer();
   });
 
+  afterEach(() => {
+    stopServer();
+  });
+
   it('model.fetch should fill the model with the correct data', (done) => {
     const profile = new Trux.Model();
     profile.GET = endpoints.profile;
@@ -132,10 +136,54 @@ describe(`${test} requests`, () => {
       });
   });
 
+  it('model.create should create a record and update the component', (done) => {
+    const comment = new Trux.Model();
+    const component = {
+      truxId: 'comment',
+      storeDidUpdate: () => {
+        component.body = comment.data.body;
+      },
+      body: ''
+    };
+
+    comment.POST = endpoints.comments;
+    comment.bindComponent(component);
+
+    assert.isTrue(component.body === '');
+
+    comment.create({
+      body: 'foo',
+      postId: 1
+    }).then((response) => {
+      assert.isTrue(JSON.stringify(comment.data) === JSON.stringify(response.json));
+      assert.isTrue(component.body === 'foo');
+      done();
+    }).catch(() => {
+      done('post failed');
+    });
+  });
+
+  it('model.create should set the wasCreated and wasCreatedAt properties', (done) => {
+    const comment = new Trux.Model();
+
+    comment.POST = endpoints.comments;
+
+    comment.create({
+      body: 'bar',
+      postId: 1
+    }).then(() => {
+      assert.isTrue(comment.wasCreated);
+      assert.isTrue(typeof comment.wasCreatedAt !== 'undefined');
+      done();
+    }).catch(() => {
+      done('post failed');
+    });
+  });
+
   it('model.update should update the remote data and update the component', (done) => {
     const post = new Trux.Model();
     const component = {
-      truxId: 'postView',
+      truxId: 'post',
       storeDidUpdate: () => {
         component.title = post.data.title;
         component.author = post.data.author;
@@ -144,7 +192,7 @@ describe(`${test} requests`, () => {
       author: ''
     };
 
-    post.PUT = endpoints.putPost;
+    post.PUT = `${endpoints.posts}/1`;
     post.bindComponent(component);
 
     assert.isTrue(component.author === '');
@@ -165,7 +213,7 @@ describe(`${test} requests`, () => {
   it('model.update should set the wasUpdated and wasUpdatedAt properties', (done) => {
     const post = new Trux.Model();
 
-    post.PUT = endpoints.putPost;
+    post.PUT = `${endpoints.posts}/1`;
 
     post.update({ title: 'baz' })
       .then(() => {
@@ -178,7 +226,58 @@ describe(`${test} requests`, () => {
       });
   });
 
-  afterEach(() => {
-    stopServer();
+  it('model.delete should delete the remote record and nullify trux model data', (done) => {
+    const comment = new Trux.Model();
+
+    comment.DELETE = `${endpoints.comments}/1`;
+
+    comment.destroy()
+      .then(() => {
+        assert.isTrue(comment.data === null);
+        done();
+      })
+      .catch(() => {
+        done('delete failed');
+      });
+  });
+
+  it('model.delete should unbind all components from itself', (done) => {
+    const comment = new Trux.Model();
+    const body = {
+      truxId: 'comment',
+      content: 'foo',
+      storeDidUpdate: () => {
+        body.content = 'bar';
+      }
+    };
+
+    comment.bindComponent(body);
+    comment.DELETE = `${endpoints.comments}/2`;
+
+    comment.destroy()
+      .then(() => {
+        assert.isTrue(Object.keys(comment.components).length === 0);
+        assert.isTrue(body.content === 'foo');
+        done();
+      })
+      .catch(() => {
+        done('delete failed');
+      });
+  });
+
+  it('model.delete should set the wasDestroyed and wasDestroyedAt properties', (done) => {
+    const comment = new Trux.Model();
+
+    comment.DELETE = `${endpoints.comments}/3`;
+
+    comment.destroy()
+      .then(() => {
+        assert.isTrue(comment.wasDestroyed);
+        assert.isTrue(typeof comment.wasDestroyedAt !== 'undefined');
+        done();
+      })
+      .catch(() => {
+        done('delete failed');
+      });
   });
 });

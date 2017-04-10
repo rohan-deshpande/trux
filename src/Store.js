@@ -126,6 +126,21 @@ export default class Store {
   }
 
   /**
+   * Unbinds all components from this store.
+   *
+   * @return {object} Store
+   */
+  unbindAllComponents() {
+    for (let truxId in this.components) {
+      if (this.components.hasOwnProperty(truxId)) {
+        delete this.components[truxId];
+      }
+    }
+
+    return this;
+  }
+
+  /**
    * Emits a change event from this store.
    *
    * @fires this.emitter.change

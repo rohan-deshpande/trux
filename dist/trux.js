@@ -232,6 +232,24 @@ var Store = function () {
     }
 
     /**
+     * Unbinds all components from this store.
+     *
+     * @return {object} Store
+     */
+
+  }, {
+    key: 'unbindAllComponents',
+    value: function unbindAllComponents() {
+      for (var truxId in this.components) {
+        if (this.components.hasOwnProperty(truxId)) {
+          delete this.components[truxId];
+        }
+      }
+
+      return this;
+    }
+
+    /**
      * Emits a change event from this store.
      *
      * @fires this.emitter.change
@@ -890,7 +908,7 @@ var Model = function (_Store) {
     }
 
     /**
-     * Requests the remote data for the model, then sets the model data with the response.
+     * Fetches the remote data for the model, then fills the model with the JSON response.
      *
      * @return {Object} Promise
      */
@@ -910,6 +928,7 @@ var Model = function (_Store) {
         return Promise.resolve(response);
       }).catch(function (error) {
         _this2.wasFetched = false;
+
         return Promise.reject(error);
       });
     }
@@ -975,7 +994,7 @@ var Model = function (_Store) {
     }
 
     /**
-     * Deletes the model in the remote data store.
+     * Sends a request to delete from the remote data store, then purges and unbinds all components from the model.
      *
      * @return {object} Promise
      */
@@ -990,7 +1009,7 @@ var Model = function (_Store) {
         headers: this.requestHeaders
       }).then(function (response) {
         _this5.wasDestroyed = true;
-        _this5.purge().persist();
+        _this5.purge().unbindAllComponents();
 
         return Promise.resolve(response);
       }).catch(function (error) {

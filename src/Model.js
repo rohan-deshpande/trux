@@ -72,7 +72,7 @@ export default class Model extends Store {
   }
 
   /**
-   * Requests the remote data for the model, then sets the model data with the response.
+   * Fetches the remote data for the model, then fills the model with the JSON response.
    *
    * @return {Object} Promise
    */
@@ -87,6 +87,7 @@ export default class Model extends Store {
       return Promise.resolve(response);
     }).catch((error) => {
       this.wasFetched = false;
+
       return Promise.reject(error);
     });
   }
@@ -140,7 +141,7 @@ export default class Model extends Store {
   }
 
   /**
-   * Deletes the model in the remote data store.
+   * Sends a request to delete from the remote data store, then purges and unbinds all components from the model.
    *
    * @return {object} Promise
    */
@@ -150,7 +151,7 @@ export default class Model extends Store {
       headers: this.requestHeaders
     }).then((response) => {
       this.wasDestroyed = true;
-      this.purge().persist();
+      this.purge().unbindAllComponents();
 
       return Promise.resolve(response);
     }).catch((error) => {

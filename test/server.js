@@ -7,8 +7,8 @@ const protocol = 'http';
 const host = 'localhost';
 const port = 3000;
 const endpoint = `${protocol}://${host}:${port}`;
-const DB_PATH = path.join(__dirname, 'db.json');
-const DB = {
+const db = path.join(__dirname, 'db.json');
+const schema = {
   'posts': [
     {
       'title': 'trux',
@@ -31,15 +31,15 @@ const DB = {
 let connection;
 
 export const endpoints = {
-  'post': `${endpoint}/posts/1`,
-  'putPost': `${endpoint}/posts/1`,
-  'profile': `${endpoint}/profile`
+  'profile': `${endpoint}/profile`,
+  'posts': `${endpoint}/posts`,
+  'comments': `${endpoint}/comments`,
 };
 
 export function startServer() {
-  fs.writeFileSync(DB_PATH, JSON.stringify(DB, null, 2));
+  fs.writeFileSync(db, JSON.stringify(schema, null, 2));
 
-  const router = jsonServer.router(DB_PATH);
+  const router = jsonServer.router(db);
 
   connection = server.listen(port, () => {
     // set middlewares
@@ -57,8 +57,6 @@ export function startServer() {
 
 export function stopServer() {
   connection.close(() => {
-    fs.unlink(DB_PATH, (error) => {
-      if (error) console.log(error);
-    });
+    fs.unlinkSync(db);
   });
 }
