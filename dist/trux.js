@@ -624,6 +624,10 @@ var Collection = function (_Store) {
 
     var _this = _possibleConstructorReturn(this, (Collection.__proto__ || Object.getPrototypeOf(Collection)).call(this));
 
+    if (typeof model !== 'function') {
+      throw new TypeError('You must supply a model constructor to a collection');
+    }
+
     _this.model = model;
     _this.models = [];
 

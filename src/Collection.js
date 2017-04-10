@@ -13,6 +13,10 @@ export default class Collection extends Store {
   constructor(model) {
     super();
 
+    if (typeof model !== 'function') {
+      throw new TypeError('You must supply a model constructor to a collection');
+    }
+
     this.model = model;
     this.models = [];
 

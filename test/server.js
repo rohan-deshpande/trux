@@ -1,4 +1,4 @@
-const path  = require('path');
+const path = require('path');
 const fs = require('fs');
 const jsonServer = require('json-server');
 const middlewares = jsonServer.defaults();
@@ -51,12 +51,11 @@ export function startServer() {
     // setup the body-parser for POST, PUT & PATCH requests
     server.use(jsonServer.bodyParser);
 
+    // set test routes
     server.get('/profile/auth', (req, res) => {
       res.writeHead(200, 'OK', { 'Authorization': token });
       res.end(JSON.stringify(schema.profile));
     });
-
-    // set test routes
 
     // use router
     server.use(router);
