@@ -2,7 +2,7 @@
 
 import chai from 'chai';
 import Trux from '../dist/trux.js';
-import { startServer, stopServer, endpoints } from './server.js';
+import { startServer, stopServer, endpoints, token } from './server.js';
 import sinon from 'sinon';
 import fetch from 'node-fetch';
 
@@ -133,6 +133,20 @@ describe(`${test} requests`, () => {
       })
       .catch(() => {
         done('fetch failed');
+      });
+  });
+
+  it('can chain request methods for custom uses eg., token retrieval from Authorization header', (done) => {
+    const profile = new Trux.Model();
+    profile.GET = endpoints.auth;
+    
+    profile.fetch()
+      .then((response) => {
+        assert.isTrue(response.headers.get('authorization') === token);
+        done();
+      })
+      .catch((error) => {
+        done('request failed')
       });
   });
 

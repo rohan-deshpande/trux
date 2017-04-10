@@ -30,10 +30,13 @@ const schema = {
 
 let connection;
 
+export const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
+
 export const endpoints = {
   'profile': `${endpoint}/profile`,
   'posts': `${endpoint}/posts`,
   'comments': `${endpoint}/comments`,
+  'auth': `${endpoint}/profile/auth`
 };
 
 export function startServer() {
@@ -47,6 +50,11 @@ export function startServer() {
 
     // setup the body-parser for POST, PUT & PATCH requests
     server.use(jsonServer.bodyParser);
+
+    server.get('/profile/auth', (req, res) => {
+      res.writeHead(200, 'OK', { 'Authorization': token });
+      res.end(JSON.stringify(schema.profile));
+    });
 
     // set test routes
 
