@@ -109,7 +109,7 @@ export default class Model extends Store {
       return Promise.resolve(response);
     }).catch((error) => {
       this.wasCreated = false;
-      
+
       return Promise.reject(error);
     });
   }
@@ -127,7 +127,7 @@ export default class Model extends Store {
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
-      this.wasUpdated = false;
+      this.wasUpdated = true;
       this.fill(response.json).persist();
 
       return Promise.resolve(response);

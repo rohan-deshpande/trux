@@ -162,6 +162,22 @@ describe(`${test} requests`, () => {
     });
   });
 
+  it('model.update should set the wasUpdated and wasUpdatedAt properties', (done) => {
+    const post = new Trux.Model();
+
+    post.PUT = endpoints.putPost;
+
+    post.update({ title: 'baz' })
+      .then(() => {
+        assert.isTrue(post.wasUpdated);
+        assert.isTrue(typeof post.wasUpdatedAt !== 'undefined');
+        done();
+      })
+      .catch(() => {
+        done('update failed');
+      });
+  });
+
   afterEach(() => {
     stopServer();
   });

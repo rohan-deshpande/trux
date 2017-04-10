@@ -962,7 +962,7 @@ var Model = function (_Store) {
         headers: this.requestHeaders,
         body: data
       }).then(function (response) {
-        _this4.wasUpdated = false;
+        _this4.wasUpdated = true;
         _this4.fill(response.json).persist();
 
         return Promise.resolve(response);
