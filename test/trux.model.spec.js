@@ -72,11 +72,18 @@ describe(`${test} statics`, () => {
 
   it('static extend method should generate a constructor which is an extension of Trux.Model', (done) => {
     let baz = 1;
-    const Extension = Trux.Model.extend({ 'foo': 'bar' }, () => { baz = 2; });
+    const Extension = Trux.Model.extend({
+      'foo': 'bar',
+      'baz': function() {
+        return 'qux';
+      }
+    },
+    () => { baz = 2; });
     const extended = new Extension(data);
 
     assert.isTrue(extended.data.id === 1);
     assert.isTrue(extended.foo === 'bar');
+    assert.isTrue(extended.baz() === 'qux');
     assert.isTrue(baz === 2);
     done();
   });

@@ -725,7 +725,10 @@ var Collection = function (_Store) {
     value: function fetch() {
       var _this2 = this;
 
-      return _rdFetch2.default.json(this.GET, {}).then(function (response) {
+      return _rdFetch2.default.json(this.GET, {
+        method: 'GET',
+        headers: this.requestHeaders
+      }).then(function (response) {
         _this2.fill(response.json);
 
         return Promise.resolve(response);

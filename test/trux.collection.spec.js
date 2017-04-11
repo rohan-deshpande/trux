@@ -14,12 +14,10 @@ const test = 'Collection';
 const expect = chai.expect;
 const assert = chai.assert;
 const users = [{ id: 1, name: 'foo' }, { id: 2, name: 'bar' }, { id: 3, name: 'baz' }];
-const user = Trux.Model.extend({
-  getId: () => {
-    return this.data.id;
-  },
-  getName: () => {
-    return this.data.name;
+const User = Trux.Model.extend();
+const Post = Trux.Model.extend({
+  getTitle: function() {
+    return this.data.title;
   }
 });
 
@@ -30,21 +28,21 @@ describe(`${test} constructor`, () => {
   });
 
   it('should set the model constructor', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
-    assert.isTrue(collection.model instanceof user.constructor);
+    assert.isTrue(collection.model instanceof User.constructor);
     done();
   });
 
   it('should set the models property as an array', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.isTrue(Array.isArray(collection.models));
     done();
   });
 
   it('should return an instance of the collection', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.isTrue(collection instanceof Trux.Collection);
     done();
@@ -53,35 +51,35 @@ describe(`${test} constructor`, () => {
 
 describe(`${test} methods`, () => {
   it('should have a fill method', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.isTrue(typeof collection.fill === 'function');
     done();
   });
 
   it('should have a purge method', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.isTrue(typeof collection.purge === 'function');
     done();
   });
 
   it('should have a fetch method', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.isTrue(typeof collection.fetch === 'function');
     done();
   });
 
   it('should throw a type error when fill is called with the wrong argument type', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.throws(() => collection.fill({ id: 1 }), TypeError, 'collections can only be filled with arrays of models');
     done();
   });
 
   it('should throw an error when trying to append or prepend an invalid model', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
 
     assert.throws(() => collection.append({ id: 1 }), Error, 'collections can only contain one kind of trux model');
     assert.throws(() => collection.prepend({ id: 1 }), Error, 'collections can only contain one kind of trux model');
@@ -89,7 +87,7 @@ describe(`${test} methods`, () => {
   });
 
   it('should fill with models when fill is called and passed an array of models', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
     const usersNum = users.length;
 
     assert.isTrue(collection.models.length === 0);
@@ -99,7 +97,7 @@ describe(`${test} methods`, () => {
   });
 
   it('should empty its models when purge is called', (done) => {
-    let collection = new Trux.Collection(user);
+    const collection = new Trux.Collection(User);
     collection.fill(users);
 
     assert.isTrue(collection.models.length > 0);
@@ -110,8 +108,27 @@ describe(`${test} methods`, () => {
   });
 });
 
-describe.skip(`${test} requests`, () => {
+describe(`${test} requests`, () => {
+  beforeEach(() => {
+    startServer();
+  });
+
+  afterEach(() => {
+    stopServer();
+  });
+
   it('should fill the collection with models after the fetch request has resolved', (done) => {
-    done();
+    const posts = new Trux.Collection(Post);
+
+    posts.GET = endpoints.posts;
+    posts.fetch()
+      .then(() => {
+        assert.isTrue(posts.models.length !== 0);
+        assert.isTrue(posts.models[0].getTitle() === 'baz');
+        done();
+      })
+      .catch(() => {
+        done('fetch failed');
+      });
   });
 });

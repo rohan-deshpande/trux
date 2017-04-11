@@ -97,7 +97,8 @@ export default class Collection extends Store {
    */
   fetch() {
     return Fetch.json(this.GET, {
-
+      method: 'GET',
+      headers: this.requestHeaders
     }).then((response) => {
       this.fill(response.json);
 

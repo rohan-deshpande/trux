@@ -10,12 +10,12 @@ const endpoint = `${protocol}://${host}:${port}`;
 const schema = {
   'posts': [
     {
-      'title': 'trux',
+      'title': 'baz',
       'author': 'foo',
       'id': 1
     },
     {
-      'title': 'xrut',
+      'title': 'qux',
       'author': 'bar',
       'id': 1
     }
@@ -23,7 +23,7 @@ const schema = {
   'comments': [
     {
       'id': 1,
-      'body': 'some comment',
+      'body': 'foobar',
       'postId': 1
     }
   ],
