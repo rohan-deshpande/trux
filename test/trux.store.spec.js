@@ -1,4 +1,4 @@
-/*global describe, it, xit, before, beforeEach, after, afterEach */
+/*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
 import Trux from '../dist/trux.js';
@@ -10,7 +10,7 @@ const test = 'Store';
 const expect = chai.expect;
 const assert = chai.assert;
 const store = new Trux.Store();
-let sandbox;
+let fakes;
 
 describe(`${test} constructor`, () => {
   it('should setup the components object store', (done) => {
@@ -76,7 +76,11 @@ describe(`${test} prototype`, () => {
 
 describe(`${test} binding & unbinding`, () => {
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    fakes = sinon.collection;
+  });
+
+  afterEach(() => {
+    fakes.restore();
   });
 
   it('should bind the component to the store', (done) => {
@@ -91,7 +95,7 @@ describe(`${test} binding & unbinding`, () => {
   it('should log a warning if a component is bound that does not have a storeDidUpdate method', (done) => {
     let component = { truxId: 'foo' };
 
-    sinon.stub(console, 'warn');
+    fakes.stub(console, 'warn');
     store.bindComponent(component);
     expect(console.warn.calledWith('The component you have bound to this store does not contain a storeDidUpdate method')).to.be.true;
     done();
@@ -118,10 +122,6 @@ describe(`${test} binding & unbinding`, () => {
     store.emitChangeEvent();
     assert.isTrue(foo === 2);
     done();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 });
 

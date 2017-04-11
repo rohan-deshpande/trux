@@ -95,7 +95,7 @@ export default class Collection extends Store {
    *
    * @return {object} Promise
    */
-  get() {
+  fetch() {
     return Fetch.json(this.GET, {
 
     }).then((response) => {

@@ -721,8 +721,8 @@ var Collection = function (_Store) {
      */
 
   }, {
-    key: 'get',
-    value: function get() {
+    key: 'fetch',
+    value: function fetch() {
       var _this2 = this;
 
       return _rdFetch2.default.json(this.GET, {}).then(function (response) {

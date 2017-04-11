@@ -1,9 +1,8 @@
-/*global describe, it, xit, before, beforeEach, after, afterEach */
+/*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
 import Trux from '../dist/trux.js';
 import { startServer, stopServer, endpoints, token } from './server.js';
-import sinon from 'sinon';
 import fetch from 'node-fetch';
 
 chai.expect();
@@ -11,11 +10,9 @@ chai.expect();
 global.fetch = fetch;
 
 const test = 'Model';
-const expect = chai.expect;
 const assert = chai.assert;
-const data = { id: 1, name: 'rohan deshpande' };
+const data = { id: 1, name: 'foobar' };
 const model = new Trux.Model(data);
-let sandbox;
 
 describe(`${test} constructor`, () => {
   it('should be filled with the data supplied to the constructor', (done) => {
@@ -113,7 +110,7 @@ describe(`${test} requests`, () => {
 
     profile.fetch()
       .then(() => {
-        assert.isTrue(profile.data.name === 'rohandeshpande');
+        assert.isTrue(profile.data.name === 'foo');
         done();
       })
       .catch(() => {
@@ -139,14 +136,14 @@ describe(`${test} requests`, () => {
   it('can chain request methods for custom uses eg., token retrieval from Authorization header', (done) => {
     const profile = new Trux.Model();
     profile.GET = endpoints.auth;
-    
+
     profile.fetch()
       .then((response) => {
         assert.isTrue(response.headers.get('authorization') === token);
         done();
       })
-      .catch((error) => {
-        done('request failed')
+      .catch(() => {
+        done('request failed');
       });
   });
 

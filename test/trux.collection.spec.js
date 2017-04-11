@@ -22,7 +22,6 @@ const user = Trux.Model.extend({
     return this.data.name;
   }
 });
-let sandbox;
 
 describe(`${test} constructor`, () => {
   it('shound throw an error if no model constructor supplied', (done) => {
@@ -53,6 +52,27 @@ describe(`${test} constructor`, () => {
 });
 
 describe(`${test} methods`, () => {
+  it('should have a fill method', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.isTrue(typeof collection.fill === 'function');
+    done();
+  });
+
+  it('should have a purge method', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.isTrue(typeof collection.purge === 'function');
+    done();
+  });
+
+  it('should have a fetch method', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.isTrue(typeof collection.fetch === 'function');
+    done();
+  });
+
   it('should throw a type error when fill is called with the wrong argument type', (done) => {
     let collection = new Trux.Collection(user);
 
@@ -64,6 +84,34 @@ describe(`${test} methods`, () => {
     let collection = new Trux.Collection(user);
 
     assert.throws(() => collection.append({ id: 1 }), Error, 'collections can only contain one kind of trux model');
+    assert.throws(() => collection.prepend({ id: 1 }), Error, 'collections can only contain one kind of trux model');
+    done();
+  });
+
+  it('should fill with models when fill is called and passed an array of models', (done) => {
+    let collection = new Trux.Collection(user);
+    const usersNum = users.length;
+
+    assert.isTrue(collection.models.length === 0);
+    collection.fill(users);
+    assert.isTrue(collection.models.length === usersNum);
+    done();
+  });
+
+  it('should empty its models when purge is called', (done) => {
+    let collection = new Trux.Collection(user);
+    collection.fill(users);
+
+    assert.isTrue(collection.models.length > 0);
+    collection.purge();
+    assert.isTrue(collection.models.length === 0);
+
+    done();
+  });
+});
+
+describe.skip(`${test} requests`, () => {
+  it('should fill the collection with models after the fetch request has resolved', (done) => {
     done();
   });
 });

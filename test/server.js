@@ -11,7 +11,12 @@ const schema = {
   'posts': [
     {
       'title': 'trux',
-      'author': 'rohaneshpande',
+      'author': 'foo',
+      'id': 1
+    },
+    {
+      'title': 'xrut',
+      'author': 'bar',
       'id': 1
     }
   ],
@@ -23,7 +28,7 @@ const schema = {
     }
   ],
   'profile': {
-    'name': 'rohandeshpande'
+    'name': 'foo'
   }
 };
 
