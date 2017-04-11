@@ -7,7 +7,6 @@ const protocol = 'http';
 const host = 'localhost';
 const port = 3000;
 const endpoint = `${protocol}://${host}:${port}`;
-const db = path.join(__dirname, 'db.json');
 const schema = {
   'posts': [
     {
@@ -40,9 +39,7 @@ export const endpoints = {
 };
 
 export function startServer() {
-  fs.writeFileSync(db, JSON.stringify(schema, null, 2));
-
-  const router = jsonServer.router(db);
+  const router = jsonServer.router(schema);
 
   connection = server.listen(port, () => {
     // set middlewares
@@ -63,7 +60,5 @@ export function startServer() {
 }
 
 export function stopServer() {
-  connection.close(() => {
-    fs.unlinkSync(db);
-  });
+  connection.close();
 }
