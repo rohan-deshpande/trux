@@ -32,7 +32,38 @@ describe(`${test} constructor`, () => {
 
   it('should set the model constructor', (done) => {
     let collection = new Trux.Collection(user);
+
     assert.isTrue(collection.model instanceof user.constructor);
+    done();
+  });
+
+  it('should set the models property as an array', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.isTrue(Array.isArray(collection.models));
+    done();
+  });
+
+  it('should return an instance of the collection', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.isTrue(collection instanceof Trux.Collection);
+    done();
+  });
+});
+
+describe(`${test} methods`, () => {
+  it('should throw a type error when fill is called with the wrong argument type', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.throws(() => collection.fill({ id: 1 }), TypeError, 'collections can only be filled with arrays of models');
+    done();
+  });
+
+  it('should throw an error when trying to append or prepend an invalid model', (done) => {
+    let collection = new Trux.Collection(user);
+
+    assert.throws(() => collection.append({ id: 1 }), Error, 'collections can only contain one kind of trux model');
     done();
   });
 });

@@ -650,7 +650,7 @@ var Collection = function (_Store) {
       var length = models.length;
 
       if (!Array.isArray(models)) {
-        throw new TypeError('collections can only be filled with arrays');
+        throw new TypeError('collections can only be filled with arrays of models');
       }
 
       this.purge();
@@ -673,7 +673,7 @@ var Collection = function (_Store) {
     key: 'append',
     value: function append(model) {
       if (!(model instanceof this.model)) {
-        throw new Error('collections can only contain one kind of model');
+        throw new Error('collections can only contain one kind of trux model');
       }
 
       model.collection = this;
@@ -693,7 +693,7 @@ var Collection = function (_Store) {
     key: 'prepend',
     value: function prepend(model) {
       if (!(model instanceof this.model)) {
-        throw new Error('collections can only contain one kind of model');
+        throw new Error('collections can only contain one kind of trux model');
       }
 
       model.collection = this;

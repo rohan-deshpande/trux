@@ -35,7 +35,7 @@ export default class Collection extends Store {
     const length = models.length;
 
     if (!Array.isArray(models)) {
-      throw new TypeError('collections can only be filled with arrays');
+      throw new TypeError('collections can only be filled with arrays of models');
     }
 
     this.purge();
@@ -55,7 +55,7 @@ export default class Collection extends Store {
    */
   append(model) {
     if (!(model instanceof this.model)) {
-      throw new Error('collections can only contain one kind of model');
+      throw new Error('collections can only contain one kind of trux model');
     }
 
     model.collection = this;
@@ -72,7 +72,7 @@ export default class Collection extends Store {
    */
   prepend(model) {
     if (!(model instanceof this.model)) {
-      throw new Error('collections can only contain one kind of model');
+      throw new Error('collections can only contain one kind of trux model');
     }
 
     model.collection = this;
