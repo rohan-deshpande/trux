@@ -1242,13 +1242,11 @@ var _Collection2 = _interopRequireDefault(_Collection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Trux = {
+exports.default = {
   Store: _Store2.default,
   Model: _Model2.default,
   Collection: _Collection2.default
 };
-
-exports.default = Trux;
 module.exports = exports['default'];
 
 /***/ }),

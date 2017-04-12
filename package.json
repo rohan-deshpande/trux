@@ -1,7 +1,7 @@
 {
   "name": "truxjs",
-  "description": "A simple data framework for reactive user interfaces\"",
-  "version": "2.1.0",
+  "description": "A unidirectional data layer for reactive user interfaces\"",
+  "version": "3.0.0",
   "homepage": "https://github.com/rohan-deshpande/trux",
   "repository": "git://github.com/rohan-deshpande/trux",
   "author": "Rohan Deshpande <rohan@creativelifeform.com> (http://rohandeshpande.com/)",
@@ -16,13 +16,14 @@
     "dist"
   ],
   "keywords": [
-    "reactjs",
     "react",
-    "flux"
+    "reactjs",
+    "vue",
+    "flux",
+    "unidirectional"
   ],
   "dependencies": {
     "rd-fetch": "^1.0.1",
-    "sinon": "^2.1.0",
     "wolfy87-eventemitter": "^4.3.0"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "json-server": "^0.9.6",
     "minami": "~1.1.1",
     "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
     "node-fetch": "^1.6.3",
     "webpack": "^2.3.3",
     "yargs": "^7.0.2"

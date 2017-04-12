@@ -1,9 +1,8 @@
-/*global describe, it, xit, before, beforeEach, after, afterEach */
+/*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
 import Trux from '../dist/trux.js';
 import { startServer, stopServer, endpoints } from './server.js';
-import sinon from 'sinon';
 import fetch from 'node-fetch';
 
 chai.expect();
@@ -11,7 +10,6 @@ chai.expect();
 global.fetch = fetch;
 
 const test = 'Collection';
-const expect = chai.expect;
 const assert = chai.assert;
 const users = [{ id: 1, name: 'foo' }, { id: 2, name: 'bar' }, { id: 3, name: 'baz' }];
 const User = Trux.Model.extend();
