@@ -132,3 +132,61 @@ describe(`${test} requests`, () => {
       });
   });
 });
+
+describe(`${test} statics`, () => {
+  it('should have a static extend method', (done) => {
+    assert.isTrue(typeof Trux.Collection.extend === 'function');
+    done();
+  });
+
+  it('should have a static modify method', (done) => {
+    assert.isTrue(typeof Trux.Collection.modify === 'function');
+    done();
+  });
+
+  it('static extend method should generate a constructor which is an extension of Trux.Collection', (done) => {
+    const Posts = Trux.Collection.extend({
+      findById: function (id) {
+        let post = false;
+
+        this.models.forEach((item) => {
+          if (item.data.id === id) {
+            post = item;
+            return;
+          }
+        });
+
+        return post;
+      }
+    }, (collection) => {
+      collection.GET = endpoints.posts;
+    });
+    const posts = new Posts(Post);
+
+    posts.fill([
+      {
+        'title': 'baz',
+        'author': 'foo',
+        'id': 1
+      },
+      {
+        'title': 'qux',
+        'author': 'bar',
+        'id': 1
+      }
+    ]);
+
+    assert.isTrue(posts.GET === endpoints.posts);
+    assert.isTrue(typeof posts.findById === 'function');
+    assert.isTrue(typeof posts.findById(1) === 'object');
+    done();
+  });
+
+  it('static modify method should modify the Trux.Collection class', (done) => {
+    Trux.Collection.modify({ findById: function() {}});
+    const modified = new Trux.Collection(Post);
+
+    assert.isTrue(typeof modified.findById === 'function');
+    done();
+  });
+});
