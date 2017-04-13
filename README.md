@@ -46,25 +46,37 @@ import { render } from 'react-dom';
 // instantiate a model with some data
 const message = new Trux.Model({ 'message': 'hello world' });
 
-// create a react component and attach it to the model passed in via props
 class Message extends Component {
+
+  /**
+   * Pass the model in via props.
+   *
+   */
   static propTypes = {
     model: React.PropTypes.object.isRequired
   }
 
+  /**
+   * Assign a truxId to the component and attach it to the store.
+   *
+   */
   componentDidMount() {
-    // assign a truxId to the component
     this.truxId = 'Message';
-    // attach the component to the store
     this.props.model.attach(this);
   }
 
+  /**
+   * Make sure to detach the component from the store when unmounting.
+   *
+   */
   componentDidUnmount() {
-    // make sure to detach the component from the store when unmounting
     this.props.model.detach(this);
   }
 
-  // declare the component's storeDidUpdate method so that it can recieve updates
+  /**
+   * Declare the component's storeDidUpdate method so that it can receive updates.
+   *
+   */
   storeDidUpdate() {
     this.forceUpdate();
   }
@@ -127,29 +139,29 @@ This allows to also do things like the following when you expect that models wil
 
 ```javascript
 class Model extends Trux.Model {
-	constructor(data) {
-		super(data);
-	}
+  constructor(data) {
+    super(data);
+  }
 
-	get id() {
-		return this.data.id;
-	}
+  get id() {
+    return this.data.id;
+  }
 
-	get created() {
-		return this.data.created_at;
-	}
+  get created() {
+    return this.data.created_at;
+  }
 
-	get modified() {
-		return this.data.modified_at;
-	}
+  get modified() {
+    return this.data.modified_at;
+  }
 }
 
 class User extends Model {
-	//...
+  //...
 }
 
 class Post extends Model {
-	//...
+  //...
 }
 ```
 
