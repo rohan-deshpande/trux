@@ -48,32 +48,30 @@ const message = new Trux.Model({ 'message': 'hello world' });
 
 // create a react component and attach it to the model passed in via props
 class Message extends Component {
-	static propTypes = {
-		model: React.PropTypes.object.isRequired
-	}
+  static propTypes = {
+    model: React.PropTypes.object.isRequired
+  }
 
-	componentDidMount() {
-		// assign a truxId to the component
-		this.truxId = 'Message';
-		// attach the component to the store
-		this.props.model.attach(this);
-	}
+  componentDidMount() {
+    // assign a truxId to the component
+    this.truxId = 'Message';
+    // attach the component to the store
+    this.props.model.attach(this);
+  }
 
-	componentDidUnmount() {
-		// make sure to detach the component from the store when unmounting
-		this.props.model.detach(this);
-	}
+  componentDidUnmount() {
+    // make sure to detach the component from the store when unmounting
+    this.props.model.detach(this);
+  }
 
-	// declare the component's storeDidUpdate method so that it can recieve updates
-	storeDidUpdate() {
-		this.forceUpdate();
-	}
+  // declare the component's storeDidUpdate method so that it can recieve updates
+  storeDidUpdate() {
+    this.forceUpdate();
+  }
 
-	render() {
-		const message = this.props.model.data.message;
-
-		return <div>{{ message }}</div>;
-	}
+  render() {
+    return <div>{{ this.props.model.data.message }}</div>;
+  }
 }
 
 render(<Message model={message}/>, document.getElementById('app'));
@@ -96,30 +94,30 @@ The power of Trux lies in extending these classes. Let's look at an example of h
 
 ```javascript
 class User extends Trux.Model {
-	constructor(data) {
-		super(data);
-	}
+  constructor(data) {
+    super(data);
+  }
 
-	get firstname() {
-		return this.data.firstname;
-	}
+  get firstname() {
+    return this.data.firstname;
+  }
 
-	get lastname() {
-		return this.data.lastname;
-	}
+  get lastname() {
+    return this.data.lastname;
+  }
 
-	get fullname() {
-		return `${this.firstname} ${this.lastname}`;
-	}
+  get fullname() {
+    return `${this.firstname} ${this.lastname}`;
+  }
 }
 ```
 
 Now you can instantiate your `User` model and bind UI components to it
 
-```
+```javascript
 const user = new User({
-	firstname: 'Bilbo',
-	lastname: 'Baggins'
+  firstname: 'Bilbo',
+  lastname: 'Baggins'
 });
 
 console.log(user.fullname); // logs Bilbo Baggins
@@ -159,8 +157,8 @@ class Post extends Model {
 
 ```javascript
 var User = Trux.Model.extend({
-	getId: function () {
-		return this.data.id;
-	}
+  getId: function () {
+    return this.data.id;
+  }
 });
 ```
