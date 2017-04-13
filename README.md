@@ -1,206 +1,166 @@
 # [Trux](https://github.com/rohan-deshpande/trux)
 
-`API ⇆ Trux ➝ Components`
+### `API ⇆ Trux ➝ UI`
 
-A simple data framework for React.js
-
-## Contents
-
-* [Introduction](#introduction)
-* [What's New](#whats-new)
-	* [v2.1.0](#v210)
-* [Why Trux?](#why-trux)
-* [Installation](#installation)
-* [Files](#files)
-* [Basic Usage](#basic-usage)
-* [Extending](#extending)
-* [Working with remote data](#working-with-remote-data)
-* [Documentation](http://rohandeshpande.com/trux)
-* [License (MIT)](#license)
+A unidirectional data layer for reactive user interfaces.
 
 ## Introduction
 
-Trux is an easy, lightweight and effective way of managing mutable data for your client side React.js app.
+Trux is an easy, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-It allows you to create client side data store objects which contain bindings to React components. These objects do not manage the state of your components, they simply act as interfaces between your data and the client side of your app. Data store changes can be triggered anywhere in your app, these changes will then be broadcast to all of the store's bound components.
+It allows you to create client side data stores which contain bindings to interfaces in the form of components. These stores do not manage the state of your UI, they simply act as bridges between your data source and your JavaScript app. 
 
-**In Trux, your data stores are the sources of truth for your app's data dependent React components.**
+Store mutations can be triggered anywhere in your app. They will (in most cases) be validated by your API then broadcast to all of the store's bound components. Its up to you to decide how to handle these changes.
 
-Trux comes packed with a parent object `Trux`, a `Trux.Base` class and two data store classes, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases.
+**With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
 
-Trux focuses on inheritance and provides a way to extend `Trux.Model` or `Trux.Collection` into sub classes with custom methods & properties.
+Trux comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended and/or modified for your own use cases.
 
-Checkout the short guide below, the examples and the [docs](http://rohandeshpande.com/trux) to get an idea of how to use Trux.
+With a focus on enabling you to create powerful and effective bridges between your data and UI, Trux provides convenient ways customise your stores as you see fit.
 
-> Trux was developed for my project management & analytics application, **Tr**akktion and was inspired by [Fl**ux**](https://facebook.github.io/flux/) concepts. After hashing out the main concepts and developing a working prototype, I felt it was working quite nicely for me and thought others might find it useful, so I decided to turn it into its own thing.
+Trux also doesn't care how you structure your app, you can just create some stores, attach components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL as well!
 
-## What's New
-### `v2.1.0`
-
-This release brings the `modify` method to both `Trux.Model` and `Trux.Collection` allowing you to easily modify these base objects for your own needs. This would allow you do do something like
-
-```javascript
-Trux.Model.modify({
-
-	/**
-     * Gets the id of the model.
-     *
-     * @return {String|Integer} id - the id of the model
-     */
-	getId: function () {
-		return this.id;
-	}
-});
-```
-
-This is different to the `extend` method as it means that **every** model or collection you create after this will inherit the properties passed to the `modify` method.
-
-## Why Trux?
-
-Trux is super easy to drop into your React app and get your back and front talking to one another in a Flux-like fashion, especially if you have an existing API.
-
-Your app doesn't need to be structured in a specific way, all you need to do is install Trux and then define some models/collections to pass to your components. When you set your RESTful routes up for your data stores, Trux will handle the requesting/broadcasting for you.
-
-If you've already got an app going using Flux or Redux and you're happy with how it works, Trux may not be for you, but if you're looking for a simple way to get unidirectional data flows persisting throughout your app, Trux might be just what you need.
+Want to learn more? Checkout the short guide below, the examples and the [API reference](http://rohandeshpande.com/trux) to get a better idea of how to use Trux.
 
 ## Installation
 
-```
-npm install truxjs
-bower install trux
-```
-
-Or simply download the repo and...
-
-```html
-<script type="text/javascript" src="/path/to/trux.bundle.min.js"></script>
+```bash
+npm i -S trux
 ```
 
+or
 
-## Files
+```bash
+yarn add trux
+```
 
-The following files are included in the `dist` directory of the package
+## Getting Started 
 
-* `trux.js` 100% pure Trux, no dependencies included and unminified
-* `trux.min.js` Same as the above but minified
-* `trux.bundle.js` A stable compiled build of Trux which includes its dependencies
-* `trux.bundle.min.js` Same as the above but minified
-
-## Basic Usage
-
-After including Trux in your app, construct a new `Trux.Model`, pass it some data and bind a component to it, remembering to set the component's `appDataDidChange` method. Then, render the component into the DOM.
+In this very simple example we're going to attach a React component to a Trux model.  
 
 ```javascript
-/**
- * Construct a new Trux.Model and give it some data containing a message property.
- *
- */
-var MyModel = new Trux.Model({'message':'hello world'});
+import Trux from 'trux';
+import React, { Component, PropTypes } from 'react'
+import { render } from 'react-dom';
 
-/**
- * Create a React component which will have MyModel passed to it via props.
- *
- */
-var MyComponent = React.createClass({
+// instantiate a model with some data
+const message = new Trux.Model({ 'message': 'hello world' });	
 
-	propTypes: {
-		model:React.PropTypes.object.isRequired
+// create a react component and attach it to the model passed in via props
+class Message extends Component {
+	static propTypes = {
+		model: React.PropTypes.object.isRequired
 	}
+	
+	componentDidMount() {
+		// assign a truxId to the component
+		this.truxId = 'Message';
+		// attach the component to the store
+		this.props.model.attach(this);
+	}
+	
+	componentDidUnmount() {
+		// make sure to detach the component from the store when unmounting
+		this.props.model.detach(this);
+	}
+	
+	// declare the component's storeDidUpdate method so that it can recieve updates
+	storeDidUpdate() {
+		this.forceUpdate();
+	}
+	
+	render() {
+		const message = this.props.model.data.message;
+		
+		return <div>{{ message }}</div>;
+	}
+}
 
-    getInitialState:function () {
-        return {
-            model:this.props.model
-        };
-    },
-
-    /**
-     * Set the component's unique truxId and bind the component to the model.
-     *
-     */
-    componentDidMount:function () {
-        this.truxId = 'MyComponent'
-        this.state.model.bindComponent(this);
-    },
-
-    /**
-     * The method called by Trux's private broadcast method which persists changes in data across bound components.
-     *
-     */
-    appDataDidChange:function () {
-        this.forceUpdate();
-    },
-
-    /**
-     * Render the component and display the model's message.
-     *
-     */
-    render:function() {
-        return <div>{this.state.model.data.message}</div>;
-    }
-});
-
-/**
- * Render the component into the DOM
- *
- */
-ReactDOM.Render(
-	<MyComponent model={MyModel} />,
-	document.getElementById('app')
-);
+render(<Message model={message}/>, document.getElementById('app'));
 ```
 
-Now, when you call `MyModel.update()` after mutating `data.message` the change will be reflected in `MyComponent`.
+At first, the `Message` component will render `hello world` into your app. However if we mutate the data stored in the `message` model and call the its `persist` method, the updates will be broadcast to `Message` via its `storeDidUpdate` method. 
 
+```javascript
+message.data.message = 'goodbye cruel world';
+message.persist();
+``` 
+
+This will render the `goodbye cruel world` message inside of `Message`. 
 
 ## Extending
 
-The power of Trux lies in its use of [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript) which means that you can extend `Trux.Model` or `Trux.Collection` to create extended classes that have custom methods while still maintaining access to the methods and properties of their parent classes.
+The `Trux.Model` and `Trux.Collection` classes are fairly barebones and are designed to be extended for your own use cases. By themselves they just provide an architectural pattern for changing data and broadcasting these changes to your UI.
 
-Let's look at a simple way to do this.
+The power of Trux lies in extending these classes. Let's look at an example of how to do this
 
 ```javascript
-/**
- * Create a Trux.Model extension.
- * Custom classes should be stored inside the Trux.models or Trux.collections objects for easy reference.
- * Give the User model some custom methods.
- *
- */
-Trux.models.User = Trux.Model.extend({
-    getFullName: function () {
-        return this.data.firstName + ' ' + this.data.lastName;
-    }
-});
-
-/**
- * Declare a new User model and give it some data.
- *
- */
-var Bilbo = new Trux.models.User({
-	firstName: 'Bilbo',
-	lastName: 'Baggins'
-});
-
-/**
- * Call the custom function to get Biblo's full name!
- *
- */
-console.log(Bilbo.getFullName()); // logs Bilbo Baggins
-
+class User extends Trux.Model {
+	constructor(data) {
+		super(data);
+	}
+	
+	get firstname() {
+		return this.data.firstname;
+	}
+	
+	get lastname() {
+		return this.data.lastname;
+	}
+	
+	get fullname() {
+		return `${this.firstname} ${this.lastname}`;
+	}
+}
 ```
 
-From this short example you can see how we can easily extend Trux classes creating new classes with custom methods for whatever purpose we like.
+Now you can instantiate your `User` model and bind UI components to it
 
+```
+const user = new User({
+	firstname: 'Bilbo',
+	lastname: 'Baggins'
+});
 
-## Working with remote data
+console.log(user.fullname); // logs Bilbo Baggins
+```
 
-Trux was designed to work with a RESTful API. It assumes that your app has one or is working with an existing API, like [Parse](https://parse.com) or [Firebase](https://firebase.com).
+This allows to also do things like the following when you expect that models will all share some common kinds of data:
 
-The provided methods within both `Trux.Model` and `Trux.Collection` do make some assumptions as to how data is being sent back from your API. If this doesn't gel with your setup, you can simply extend these classes and write your own REST methods or alternatively override the base methods yourself.
+```javascript
+class Model extends Trux.Model {
+	constructor(data) {
+		super(data);
+	}
+	
+	get id() {
+		return this.data.id;
+	}
+	
+	get created() {
+		return this.data.created_at;
+	}
+	
+	get modified() {
+		return this.data.modified_at;
+	}
+}
 
-For more info on how this is achieved, please check the `remote.html` example which uses Parse and read the docs.
+class User extends Model {
+	//...
+}
 
-## License
+class Post extends Model {
+	//...
+}
+```
 
-Copyright (c) 2016 Rohan Deshpande and other contributors
+**Note!** If you are using ES5 syntax then there is a static method provided on both `Trux.Model` and `Trux.Collection` - `.extend` which can be used for convenience like so:
 
-Licensed under the MIT License
+```javascript
+var User = Trux.Model.extend({
+	getId: function () {
+		return this.data.id;
+	}
+});
+```
