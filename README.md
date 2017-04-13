@@ -8,7 +8,7 @@ A unidirectional data layer for reactive user interfaces.
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-It allows you to create client side data stores which contain bindings to interfaces in the form of components. These stores do not manage the state of your UI, they simply act as bridges between your data source and your JavaScript app. 
+It allows you to create client side data stores which contain bindings to interfaces in the form of components. These stores do not manage the state of your UI, they simply act as bridges between your data source and your JavaScript app.
 
 Store mutations can be triggered anywhere in your app. They will (in most cases) be validated by your API then broadcast to all of the store's bound components. Its up to you to decide how to handle these changes.
 
@@ -34,7 +34,7 @@ or
 yarn add trux
 ```
 
-## Getting Started 
+## Getting Started
 
 In this very simple example we're going to attach a React component to a Trux model.  
 
@@ -44,34 +44,34 @@ import React, { Component, PropTypes } from 'react'
 import { render } from 'react-dom';
 
 // instantiate a model with some data
-const message = new Trux.Model({ 'message': 'hello world' });	
+const message = new Trux.Model({ 'message': 'hello world' });
 
 // create a react component and attach it to the model passed in via props
 class Message extends Component {
 	static propTypes = {
 		model: React.PropTypes.object.isRequired
 	}
-	
+
 	componentDidMount() {
 		// assign a truxId to the component
 		this.truxId = 'Message';
 		// attach the component to the store
 		this.props.model.attach(this);
 	}
-	
+
 	componentDidUnmount() {
 		// make sure to detach the component from the store when unmounting
 		this.props.model.detach(this);
 	}
-	
+
 	// declare the component's storeDidUpdate method so that it can recieve updates
 	storeDidUpdate() {
 		this.forceUpdate();
 	}
-	
+
 	render() {
 		const message = this.props.model.data.message;
-		
+
 		return <div>{{ message }}</div>;
 	}
 }
@@ -79,14 +79,14 @@ class Message extends Component {
 render(<Message model={message}/>, document.getElementById('app'));
 ```
 
-At first, the `Message` component will render `hello world` into your app. However if we mutate the data stored in the `message` model and call the its `persist` method, the updates will be broadcast to `Message` via its `storeDidUpdate` method. 
+At first, the `Message` component will render `hello world` into your app. However if we mutate the data stored in the `message` model and call the its `persist` method, the updates will be broadcast to `Message` via its `storeDidUpdate` method.
 
 ```javascript
 message.data.message = 'goodbye cruel world';
 message.persist();
-``` 
+```
 
-This will render the `goodbye cruel world` message inside of `Message`. 
+This will render the `goodbye cruel world` message inside of `Message`.
 
 ## Extending
 
@@ -99,15 +99,15 @@ class User extends Trux.Model {
 	constructor(data) {
 		super(data);
 	}
-	
+
 	get firstname() {
 		return this.data.firstname;
 	}
-	
+
 	get lastname() {
 		return this.data.lastname;
 	}
-	
+
 	get fullname() {
 		return `${this.firstname} ${this.lastname}`;
 	}
@@ -132,15 +132,15 @@ class Model extends Trux.Model {
 	constructor(data) {
 		super(data);
 	}
-	
+
 	get id() {
 		return this.data.id;
 	}
-	
+
 	get created() {
 		return this.data.created_at;
 	}
-	
+
 	get modified() {
 		return this.data.modified_at;
 	}
