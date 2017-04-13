@@ -2,23 +2,19 @@
 
 ### `API ⇆ Trux ➝ UI`
 
-A unidirectional data layer for reactive user interfaces.
+Unidirectional data layer for reactive user interfaces.
 
 ## Introduction
 
 Trux is an easy, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-It allows you to create client side data stores which contain bindings to interfaces in the form of components. These stores do not manage the state of your UI, they simply act as bridges between your data source and your JavaScript app.
-
-Store mutations can be triggered anywhere in your app. They will (in most cases) be validated by your API then broadcast to all of the store's bound components. Its up to you to decide how to handle these changes.
+With a focus on enabling you to create powerful and effective bridges between your data and your UI, Trux provides convenient ways customise your stores as you see fit.
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
 
 Trux comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended and/or modified for your own use cases.
 
-With a focus on enabling you to create powerful and effective bridges between your data and UI, Trux provides convenient ways customise your stores as you see fit.
-
-Trux also doesn't care how you structure your app, you can just create some stores, attach components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL as well!
+Trux also doesn't care how you structure your app, you can just create some stores, attach components/views/containers to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL as well.
 
 Want to learn more? Checkout the short guide below, the examples and the [API reference](http://rohandeshpande.com/trux) to get a better idea of how to use Trux.
 
@@ -165,12 +161,15 @@ class Post extends Model {
 }
 ```
 
-**Note!** If you are using ES5 syntax then there is a static method provided on both `Trux.Model` and `Trux.Collection` - `.extend` which can be used for convenience like so:
+**Note!** If you are using ES5 syntax then there is a static method provided on both `Trux.Model` and `Trux.Collection` - `extend(props, setup)` which can be used for convenience like so:
 
 ```javascript
 var User = Trux.Model.extend({
   getId: function () {
     return this.data.id;
   }
+}, function(User) {
+  // called within User constructor after the parent has been constructed
+  User.GET = `'http://example.com/api/profile/'${User.getId()}`;
 });
 ```
