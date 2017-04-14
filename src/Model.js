@@ -151,7 +151,7 @@ export default class Model extends Store {
       headers: this.requestHeaders
     }).then((response) => {
       this.wasDestroyed = true;
-      this.purge().unbindAllComponents();
+      this.purge().close();
 
       return Promise.resolve(response);
     }).catch((error) => {

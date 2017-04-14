@@ -157,7 +157,7 @@ describe(`${test} requests`, () => {
   it('model.create should create a record and update the component', (done) => {
     const comment = new Trux.Model();
     const component = {
-      truxId: 'comment',
+      truxid: 'comment',
       storeDidUpdate: () => {
         component.body = comment.data.body;
       },
@@ -165,7 +165,7 @@ describe(`${test} requests`, () => {
     };
 
     comment.POST = endpoints.comments;
-    comment.bindComponent(component);
+    comment.connect(component);
 
     assert.isTrue(component.body === '');
 
@@ -201,7 +201,7 @@ describe(`${test} requests`, () => {
   it('model.update should update the remote data and update the component', (done) => {
     const post = new Trux.Model();
     const component = {
-      truxId: 'post',
+      truxid: 'post',
       storeDidUpdate: () => {
         component.title = post.data.title;
         component.author = post.data.author;
@@ -211,7 +211,7 @@ describe(`${test} requests`, () => {
     };
 
     post.PUT = `${endpoints.posts}/1`;
-    post.bindComponent(component);
+    post.connect(component);
 
     assert.isTrue(component.author === '');
 
@@ -259,17 +259,17 @@ describe(`${test} requests`, () => {
       });
   });
 
-  it('model.delete should unbind all components from itself', (done) => {
+  it('model.delete should disconnect all components from itself', (done) => {
     const comment = new Trux.Model();
     const body = {
-      truxId: 'comment',
+      truxid: 'comment',
       content: 'foo',
       storeDidUpdate: () => {
         body.content = 'bar';
       }
     };
 
-    comment.bindComponent(body);
+    comment.connect(body);
     comment.DELETE = `${endpoints.comments}/2`;
 
     comment.destroy()

@@ -189,8 +189,8 @@ var Store = function () {
   }
 
   /**
-   * Bind a component to this store.
-   * Bound components receive updates via broadcast.
+   * Connects a component to this store.
+   * Ensures the component receives updates via broadcast.
    * Each component is required to have a unique truxId property set.
    *
    * @NOTE for react, this should be called within the component's componentWillMount or componentDidMount methods.
@@ -201,17 +201,21 @@ var Store = function () {
 
 
   _createClass(Store, [{
-    key: 'bindComponent',
-    value: function bindComponent(component) {
-      this.components[component.truxId] = component;
+    key: 'connect',
+    value: function connect(component) {
+      if (typeof component.truxid === 'undefined') {
+        throw new ReferenceError('You must set a truxid on your component before connecting it to a store.');
+      }
+
+      this.components[component.truxid] = component;
 
       if (typeof component.storeDidUpdate !== 'function') {
-        console.warn('The component you have bound to this store does not contain a storeDidUpdate method');
+        console.warn('The component you have connected to this store does not contain a storeDidUpdate method.');
       }
     }
 
     /**
-     * Unbinds a component from this store.
+     * Disconnects a component from this store.
      * Stops the component from receiving updates.
      *
      * @NOTE for react, this should be called within the component's componentWillUnmount method.
@@ -222,27 +226,27 @@ var Store = function () {
      */
 
   }, {
-    key: 'unbindComponent',
-    value: function unbindComponent(component) {
-      if (typeof this.components[component.truxId] === 'undefined') {
-        throw new Error('The component you are attempting to unbind is not bound to this store');
+    key: 'disconnect',
+    value: function disconnect(component) {
+      if (typeof this.components[component.truxid] === 'undefined') {
+        throw new ReferenceError('The component you are attempting to disconnect is not connected to this store.');
       }
 
-      delete this.components[component.truxId];
+      delete this.components[component.truxid];
     }
 
     /**
-     * Unbinds all components from this store.
+     * Closes all connections to this store.
      *
      * @return {object} Store
      */
 
   }, {
-    key: 'unbindAllComponents',
-    value: function unbindAllComponents() {
-      for (var truxId in this.components) {
-        if (this.components.hasOwnProperty(truxId)) {
-          delete this.components[truxId];
+    key: 'close',
+    value: function close() {
+      for (var truxid in this.components) {
+        if (this.components.hasOwnProperty(truxid)) {
+          delete this.components[truxid];
         }
       }
 
@@ -373,418 +377,6 @@ module.exports = exports['default'];
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Store2 = __webpack_require__(0);
-
-var _Store3 = _interopRequireDefault(_Store2);
-
-var _rdFetch = __webpack_require__(2);
-
-var _rdFetch2 = _interopRequireDefault(_rdFetch);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Model = function (_Store) {
-  _inherits(Model, _Store);
-
-  /**
-   * A client side interface for a remote data Model.
-   *
-   * @param {object} data - the data which defines this Model
-   * @return {object} this - this Model
-   * @constructor
-   */
-  function Model(data) {
-    _classCallCheck(this, Model);
-
-    var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this));
-
-    var backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
-
-    /**
-     * The data which defines this model, initially null.
-     *
-     * @prop {object|null} data - the data which defines this Model, initially null
-     */
-    _this.data = data || null;
-
-    /**
-     * The collection this model belongs to, if it does belong to one. Initially false.
-     *
-     * @prop {boolean|object} collection - the collection this model belongs to
-     */
-    _this.collection = false;
-
-    /**
-     * Fills the model with data.
-     * Also sets the private backup for this model.
-     *
-     * @param {object} data - the data that defines this model
-     * @return {object} Model
-     */
-    _this.fill = function (data) {
-      _this.data = data;
-      backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
-
-      return _this;
-    };
-
-    /**
-     * Restores the model's data from a previously stored backup.
-     *
-     * @return {object} Model
-     */
-    _this.restore = function () {
-      _this.data = !backup || Object.keys(backup).length === 0 ? {} : JSON.parse(JSON.stringify(backup));
-
-      return _this;
-    };
-    return _this;
-  }
-
-  /**
-   * Persits the model's data throughout its bound components.
-   * Emits the model's change event and, if it belongs to a collection, the collection's change event also.
-   *
-   * @return {object} Model
-   */
-
-
-  _createClass(Model, [{
-    key: 'persist',
-    value: function persist() {
-      if (this.collection) {
-        this.collection.emitChangeEvent();
-      }
-
-      this.emitChangeEvent();
-
-      return this;
-    }
-
-    /**
-     * Fetches the remote data for the model, then fills the model with the JSON response.
-     *
-     * @return {Object} Promise
-     */
-
-  }, {
-    key: 'fetch',
-    value: function fetch() {
-      var _this2 = this;
-
-      return _rdFetch2.default.json(this.GET, {
-        method: 'GET',
-        headers: this.requestHeaders
-      }).then(function (response) {
-        _this2.wasFetched = true;
-        _this2.fill(response.json).persist();
-
-        return Promise.resolve(response);
-      }).catch(function (error) {
-        _this2.wasFetched = false;
-
-        return Promise.reject(error);
-      });
-    }
-
-    /**
-     * Creates a new model in the remote data store.
-     *
-     * @param {object} data - the data for the new model
-     * @return {object} Promise
-     */
-
-  }, {
-    key: 'create',
-    value: function create(data) {
-      var _this3 = this;
-
-      return _rdFetch2.default.json(this.POST, {
-        method: 'POST',
-        headers: this.requestHeaders,
-        body: data
-      }).then(function (response) {
-        _this3.wasCreated = true;
-        _this3.fill(response.json).persist();
-
-        return Promise.resolve(response);
-      }).catch(function (error) {
-        _this3.wasCreated = false;
-
-        return Promise.reject(error);
-      });
-    }
-
-    /**
-     * Updates the model in the remote data store.
-     *
-     * @param {object} data - the data to update the model with
-     * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
-     * @return {object} Promise
-     */
-
-  }, {
-    key: 'update',
-    value: function update(data) {
-      var _this4 = this;
-
-      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUT';
-
-      return _rdFetch2.default.json(this[method], {
-        method: method,
-        headers: this.requestHeaders,
-        body: data
-      }).then(function (response) {
-        _this4.wasUpdated = true;
-        _this4.fill(response.json).persist();
-
-        return Promise.resolve(response);
-      }).catch(function (error) {
-        _this4.wasUpdated = false;
-        _this4.restore().persist();
-
-        return Promise.reject(error);
-      });
-    }
-
-    /**
-     * Sends a request to delete from the remote data store, then purges and unbinds all components from the model.
-     *
-     * @return {object} Promise
-     */
-
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      var _this5 = this;
-
-      return _rdFetch2.default.json(this.DELETE, {
-        method: 'DELETE',
-        headers: this.requestHeaders
-      }).then(function (response) {
-        _this5.wasDestroyed = true;
-        _this5.purge().unbindAllComponents();
-
-        return Promise.resolve(response);
-      }).catch(function (error) {
-        _this5.wasDestroyed = false;
-        _this5.restore().persist();
-
-        return Promise.reject(error);
-      });
-    }
-
-    /**
-     * Purges the model of its data.
-     *
-     * @return {object} Model
-     */
-
-  }, {
-    key: 'purge',
-    value: function purge() {
-      this.data = null;
-
-      return this;
-    }
-
-    /**
-     * Sets the wasCreated and wasCreatedAt properties.
-     *
-     * @param {boolean} wasCreated
-     * @return void
-     */
-
-  }, {
-    key: 'wasCreated',
-    set: function set(wasCreated) {
-      this._wasCreated = wasCreated ? true : false;
-      this._wasCreatedAt = wasCreated ? this.getUnixTimestamp() : this.wasCreatedAt;
-    }
-
-    /**
-     * Gets the wasCreated property.
-     *
-     * @return {boolean}
-     */
-    ,
-    get: function get() {
-      return this._wasCreated;
-    }
-
-    /**
-     * Gets the wasCreatedAt timestamp.
-     *
-     * @return {number}
-     */
-
-  }, {
-    key: 'wasCreatedAt',
-    get: function get() {
-      return this._wasCreatedAt;
-    }
-
-    /**
-     * Sets the wasUpdated and wasUpdatedAt properties.
-     *
-     * @param {boolean} wasUpdated
-     * @return void
-     */
-
-  }, {
-    key: 'wasUpdated',
-    set: function set(wasUpdated) {
-      this._wasUpdated = wasUpdated ? true : false;
-      this._wasUpdatedAt = wasUpdated ? this.getUnixTimestamp() : this.wasUpdatedAt;
-    }
-
-    /**
-     * Gets the wasUpdated property.
-     *
-     * @return {boolean}
-     */
-    ,
-    get: function get() {
-      return this._wasUpdated;
-    }
-
-    /**
-     * Gets the wasUpdatedAt property.
-     *
-     * @return {number}
-     */
-
-  }, {
-    key: 'wasUpdatedAt',
-    get: function get() {
-      return this._wasUpdatedAt;
-    }
-
-    /**
-     * Sets the wasDestroyed and wasDestroyedAt properties.
-     *
-     * @param {boolean} wasDestroyed
-     * @return void
-     */
-
-  }, {
-    key: 'wasDestroyed',
-    set: function set(wasDestroyed) {
-      this._wasDestroyed = wasDestroyed ? true : false;
-      this._wasDestroyedAt = wasDestroyed ? this.getUnixTimestamp() : this.wasDestroyedAt;
-    }
-
-    /**
-     * Gets the wasDestroyed property.
-     *
-     * @return  {boolean}
-     */
-    ,
-    get: function get() {
-      return this._wasDestroyed;
-    }
-
-    /**
-     * Gets the wasDestroyedAt property.
-     *
-     * @return {number}
-     */
-
-  }, {
-    key: 'wasDestroyedAt',
-    get: function get() {
-      return this._wasDestroyedAt;
-    }
-
-    /**
-     * Extends Model and returns the constructor for the new class.
-     * Convenience method for ES5.
-     *
-     * @deprecated
-     * @param {object} props - custom props for the new class
-     * @param {function|undefined} setup - an optional function to run within the new class' constructor
-     * @return {function} Extension - the extended class
-     */
-
-  }], [{
-    key: 'extend',
-    value: function extend(props, setup) {
-      var Extension = function (_Model) {
-        _inherits(Extension, _Model);
-
-        function Extension(data) {
-          _classCallCheck(this, Extension);
-
-          var _this6 = _possibleConstructorReturn(this, (Extension.__proto__ || Object.getPrototypeOf(Extension)).call(this, data));
-
-          if (typeof setup === 'function') {
-            setup(_this6);
-          }
-          return _this6;
-        }
-
-        return Extension;
-      }(Model);
-
-      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) === 'object') {
-        for (var prop in props) {
-          if (props.hasOwnProperty(prop)) {
-            Extension.prototype[prop] = props[prop];
-          }
-        }
-      }
-
-      return Extension;
-    }
-
-    /**
-     * Modifies the Model class with the passed properties.
-     * This will enable all custom models to inherit the properties passed to this method.
-     *
-     * @param {object} props - the props to add to the Trux.Model class
-     * @return void
-     */
-
-  }, {
-    key: 'modify',
-    value: function modify(props) {
-      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') return;
-
-      for (var prop in props) {
-        if (props.hasOwnProperty(prop)) {
-          Model.prototype[prop] = props[prop];
-        }
-      }
-    }
-  }]);
-
-  return Model;
-}(_Store3.default);
-
-exports.default = Model;
-module.exports = exports['default'];
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -989,7 +581,7 @@ module.exports = exports['default'];
 //# sourceMappingURL=rd-fetch.js.map
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1007,7 +599,7 @@ var _Store2 = __webpack_require__(0);
 
 var _Store3 = _interopRequireDefault(_Store2);
 
-var _rdFetch = __webpack_require__(2);
+var _rdFetch = __webpack_require__(1);
 
 var _rdFetch2 = _interopRequireDefault(_rdFetch);
 
@@ -1218,6 +810,418 @@ exports.default = Collection;
 module.exports = exports['default'];
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Store2 = __webpack_require__(0);
+
+var _Store3 = _interopRequireDefault(_Store2);
+
+var _rdFetch = __webpack_require__(1);
+
+var _rdFetch2 = _interopRequireDefault(_rdFetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Model = function (_Store) {
+  _inherits(Model, _Store);
+
+  /**
+   * A client side interface for a remote data Model.
+   *
+   * @param {object} data - the data which defines this Model
+   * @return {object} this - this Model
+   * @constructor
+   */
+  function Model(data) {
+    _classCallCheck(this, Model);
+
+    var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this));
+
+    var backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
+
+    /**
+     * The data which defines this model, initially null.
+     *
+     * @prop {object|null} data - the data which defines this Model, initially null
+     */
+    _this.data = data || null;
+
+    /**
+     * The collection this model belongs to, if it does belong to one. Initially false.
+     *
+     * @prop {boolean|object} collection - the collection this model belongs to
+     */
+    _this.collection = false;
+
+    /**
+     * Fills the model with data.
+     * Also sets the private backup for this model.
+     *
+     * @param {object} data - the data that defines this model
+     * @return {object} Model
+     */
+    _this.fill = function (data) {
+      _this.data = data;
+      backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
+
+      return _this;
+    };
+
+    /**
+     * Restores the model's data from a previously stored backup.
+     *
+     * @return {object} Model
+     */
+    _this.restore = function () {
+      _this.data = !backup || Object.keys(backup).length === 0 ? {} : JSON.parse(JSON.stringify(backup));
+
+      return _this;
+    };
+    return _this;
+  }
+
+  /**
+   * Persits the model's data throughout its bound components.
+   * Emits the model's change event and, if it belongs to a collection, the collection's change event also.
+   *
+   * @return {object} Model
+   */
+
+
+  _createClass(Model, [{
+    key: 'persist',
+    value: function persist() {
+      if (this.collection) {
+        this.collection.emitChangeEvent();
+      }
+
+      this.emitChangeEvent();
+
+      return this;
+    }
+
+    /**
+     * Fetches the remote data for the model, then fills the model with the JSON response.
+     *
+     * @return {Object} Promise
+     */
+
+  }, {
+    key: 'fetch',
+    value: function fetch() {
+      var _this2 = this;
+
+      return _rdFetch2.default.json(this.GET, {
+        method: 'GET',
+        headers: this.requestHeaders
+      }).then(function (response) {
+        _this2.wasFetched = true;
+        _this2.fill(response.json).persist();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this2.wasFetched = false;
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Creates a new model in the remote data store.
+     *
+     * @param {object} data - the data for the new model
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'create',
+    value: function create(data) {
+      var _this3 = this;
+
+      return _rdFetch2.default.json(this.POST, {
+        method: 'POST',
+        headers: this.requestHeaders,
+        body: data
+      }).then(function (response) {
+        _this3.wasCreated = true;
+        _this3.fill(response.json).persist();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this3.wasCreated = false;
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Updates the model in the remote data store.
+     *
+     * @param {object} data - the data to update the model with
+     * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'update',
+    value: function update(data) {
+      var _this4 = this;
+
+      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUT';
+
+      return _rdFetch2.default.json(this[method], {
+        method: method,
+        headers: this.requestHeaders,
+        body: data
+      }).then(function (response) {
+        _this4.wasUpdated = true;
+        _this4.fill(response.json).persist();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this4.wasUpdated = false;
+        _this4.restore().persist();
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Sends a request to delete from the remote data store, then purges and unbinds all components from the model.
+     *
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var _this5 = this;
+
+      return _rdFetch2.default.json(this.DELETE, {
+        method: 'DELETE',
+        headers: this.requestHeaders
+      }).then(function (response) {
+        _this5.wasDestroyed = true;
+        _this5.purge().close();
+
+        return Promise.resolve(response);
+      }).catch(function (error) {
+        _this5.wasDestroyed = false;
+        _this5.restore().persist();
+
+        return Promise.reject(error);
+      });
+    }
+
+    /**
+     * Purges the model of its data.
+     *
+     * @return {object} Model
+     */
+
+  }, {
+    key: 'purge',
+    value: function purge() {
+      this.data = null;
+
+      return this;
+    }
+
+    /**
+     * Sets the wasCreated and wasCreatedAt properties.
+     *
+     * @param {boolean} wasCreated
+     * @return void
+     */
+
+  }, {
+    key: 'wasCreated',
+    set: function set(wasCreated) {
+      this._wasCreated = wasCreated ? true : false;
+      this._wasCreatedAt = wasCreated ? this.getUnixTimestamp() : this.wasCreatedAt;
+    }
+
+    /**
+     * Gets the wasCreated property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasCreated;
+    }
+
+    /**
+     * Gets the wasCreatedAt timestamp.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasCreatedAt',
+    get: function get() {
+      return this._wasCreatedAt;
+    }
+
+    /**
+     * Sets the wasUpdated and wasUpdatedAt properties.
+     *
+     * @param {boolean} wasUpdated
+     * @return void
+     */
+
+  }, {
+    key: 'wasUpdated',
+    set: function set(wasUpdated) {
+      this._wasUpdated = wasUpdated ? true : false;
+      this._wasUpdatedAt = wasUpdated ? this.getUnixTimestamp() : this.wasUpdatedAt;
+    }
+
+    /**
+     * Gets the wasUpdated property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasUpdated;
+    }
+
+    /**
+     * Gets the wasUpdatedAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasUpdatedAt',
+    get: function get() {
+      return this._wasUpdatedAt;
+    }
+
+    /**
+     * Sets the wasDestroyed and wasDestroyedAt properties.
+     *
+     * @param {boolean} wasDestroyed
+     * @return void
+     */
+
+  }, {
+    key: 'wasDestroyed',
+    set: function set(wasDestroyed) {
+      this._wasDestroyed = wasDestroyed ? true : false;
+      this._wasDestroyedAt = wasDestroyed ? this.getUnixTimestamp() : this.wasDestroyedAt;
+    }
+
+    /**
+     * Gets the wasDestroyed property.
+     *
+     * @return  {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasDestroyed;
+    }
+
+    /**
+     * Gets the wasDestroyedAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasDestroyedAt',
+    get: function get() {
+      return this._wasDestroyedAt;
+    }
+
+    /**
+     * Extends Model and returns the constructor for the new class.
+     * Convenience method for ES5.
+     *
+     * @deprecated
+     * @param {object} props - custom props for the new class
+     * @param {function|undefined} setup - an optional function to run within the new class' constructor
+     * @return {function} Extension - the extended class
+     */
+
+  }], [{
+    key: 'extend',
+    value: function extend(props, setup) {
+      var Extension = function (_Model) {
+        _inherits(Extension, _Model);
+
+        function Extension(data) {
+          _classCallCheck(this, Extension);
+
+          var _this6 = _possibleConstructorReturn(this, (Extension.__proto__ || Object.getPrototypeOf(Extension)).call(this, data));
+
+          if (typeof setup === 'function') {
+            setup(_this6);
+          }
+          return _this6;
+        }
+
+        return Extension;
+      }(Model);
+
+      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) === 'object') {
+        for (var prop in props) {
+          if (props.hasOwnProperty(prop)) {
+            Extension.prototype[prop] = props[prop];
+          }
+        }
+      }
+
+      return Extension;
+    }
+
+    /**
+     * Modifies the Model class with the passed properties.
+     * This will enable all custom models to inherit the properties passed to this method.
+     *
+     * @param {object} props - the props to add to the Trux.Model class
+     * @return void
+     */
+
+  }, {
+    key: 'modify',
+    value: function modify(props) {
+      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') return;
+
+      for (var prop in props) {
+        if (props.hasOwnProperty(prop)) {
+          Model.prototype[prop] = props[prop];
+        }
+      }
+    }
+  }]);
+
+  return Model;
+}(_Store3.default);
+
+exports.default = Model;
+module.exports = exports['default'];
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1232,11 +1236,11 @@ var _Store = __webpack_require__(0);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _Model = __webpack_require__(1);
+var _Model = __webpack_require__(3);
 
 var _Model2 = _interopRequireDefault(_Model);
 
-var _Collection = __webpack_require__(3);
+var _Collection = __webpack_require__(2);
 
 var _Collection2 = _interopRequireDefault(_Collection);
 

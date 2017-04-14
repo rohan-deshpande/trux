@@ -90,8 +90,8 @@ export default class Store {
   }
 
   /**
-   * Bind a component to this store.
-   * Bound components receive updates via broadcast.
+   * Connects a component to this store.
+   * Ensures the component receives updates via broadcast.
    * Each component is required to have a unique truxId property set.
    *
    * @NOTE for react, this should be called within the component's componentWillMount or componentDidMount methods.
@@ -99,16 +99,20 @@ export default class Store {
    * @param {object} component - the  class to bind to this instance
    * @return void
    */
-  bindComponent(component) {
-    this.components[component.truxId] = component;
+  connect(component) {
+    if (typeof component.truxid === 'undefined') {
+      throw new ReferenceError('You must set a truxid on your component before connecting it to a store.');
+    }
+
+    this.components[component.truxid] = component;
 
     if (typeof component.storeDidUpdate !== 'function') {
-      console.warn('The component you have bound to this store does not contain a storeDidUpdate method');
+      console.warn('The component you have connected to this store does not contain a storeDidUpdate method.');
     }
   }
 
   /**
-   * Unbinds a component from this store.
+   * Disconnects a component from this store.
    * Stops the component from receiving updates.
    *
    * @NOTE for react, this should be called within the component's componentWillUnmount method.
@@ -117,23 +121,23 @@ export default class Store {
    * @throws Error
    * @return void
    */
-  unbindComponent(component) {
-    if (typeof this.components[component.truxId] === 'undefined') {
-      throw new Error('The component you are attempting to unbind is not bound to this store');
+  disconnect(component) {
+    if (typeof this.components[component.truxid] === 'undefined') {
+      throw new ReferenceError('The component you are attempting to disconnect is not connected to this store.');
     }
 
-    delete this.components[component.truxId];
+    delete this.components[component.truxid];
   }
 
   /**
-   * Unbinds all components from this store.
+   * Closes all connections to this store.
    *
    * @return {object} Store
    */
-  unbindAllComponents() {
-    for (let truxId in this.components) {
-      if (this.components.hasOwnProperty(truxId)) {
-        delete this.components[truxId];
+  close() {
+    for (let truxid in this.components) {
+      if (this.components.hasOwnProperty(truxid)) {
+        delete this.components[truxid];
       }
     }
 

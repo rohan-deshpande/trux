@@ -42,18 +42,23 @@ describe(`${test} constructor`, () => {
 
 
 describe(`${test} prototype`, () => {
-  it('should have a bindComponent method', (done) => {
-    assert.isTrue(typeof store.bindComponent === 'function');
+  it('should have a connect method', (done) => {
+    assert.isTrue(typeof store.connect === 'function');
     done();
   });
 
-  it('should have an unbindComponent method', (done) => {
-    assert.isTrue(typeof store.unbindComponent === 'function');
+  it('should have an disconnect method', (done) => {
+    assert.isTrue(typeof store.disconnect === 'function');
     done();
   });
 
-  it('should thrown an error if the component passed to unbindComponent is undefined', (done) => {
-    assert.throws(() => store.unbindComponent('foo'), Error, 'The component you are attempting to unbind is not bound to this store');
+  it('should throw a reference error when attempting to connect a component with no truxid', (done) => {
+    assert.throws(() => store.connect({}), ReferenceError, 'You must set a truxid on your component before connecting it to a store.');
+    done();
+  });
+
+  it('should throw a reference error if the component passed to disconnect is not connected to the store', (done) => {
+    assert.throws(() => store.disconnect('foo'), ReferenceError, 'The component you are attempting to disconnect is not connected to this store.');
     done();
   });
 
@@ -74,7 +79,7 @@ describe(`${test} prototype`, () => {
 });
 
 
-describe(`${test} binding & unbinding`, () => {
+describe(`${test} connecting & disconnecting`, () => {
   beforeEach(() => {
     fakes = sinon.collection;
   });
@@ -84,41 +89,40 @@ describe(`${test} binding & unbinding`, () => {
   });
 
   it('should bind the component to the store', (done) => {
-    let component = { truxId: 'foo', storeDidUpdate: () => {} };
+    let component = { truxid: 'foo', storeDidUpdate: () => {} };
 
-    store.bindComponent(component);
-    assert.isTrue(typeof store.components[component.truxId] !== 'undefined');
-    assert.isTrue(store.components[component.truxId].truxId === 'foo');
+    store.connect(component);
+    assert.isTrue(typeof store.components[component.truxid] !== 'undefined');
+    assert.isTrue(store.components[component.truxid].truxid === 'foo');
     done();
   });
 
   it('should log a warning if a component is bound that does not have a storeDidUpdate method', (done) => {
-    let component = { truxId: 'foo' };
-
     fakes.stub(console, 'warn');
-    store.bindComponent(component);
-    expect(console.warn.calledWith('The component you have bound to this store does not contain a storeDidUpdate method')).to.be.true;
+    store.connect({ truxid: 'foo' });
+    expect(console.warn.calledWith('The component you have connected to this store does not contain a storeDidUpdate method.')).to.be.true;
     done();
   });
 
   it('should unbind the component from the store', (done) => {
-    let component = { truxId: 'foo', storeDidUpdate: () => {} };
+    let component = { truxid: 'foo', storeDidUpdate: () => {} };
 
-    store.unbindComponent(component);
-    assert.isTrue(typeof store.components[component.truxId] === 'undefined');
+    store.connect(component);
+    store.disconnect(component);
+    assert.isTrue(typeof store.components[component.truxid] === 'undefined');
     done();
   });
 
   it('should emit changes to bound components', (done) => {
     let foo = 1;
     let component = {
-      truxId: 'bar',
+      truxid: 'foo',
       storeDidUpdate: () => {
         foo = 2;
       }
     };
 
-    store.bindComponent(component);
+    store.connect(component);
     store.emitChangeEvent();
     assert.isTrue(foo === 2);
     done();

@@ -4,17 +4,19 @@
 
 Unidirectional data layer for reactive user interfaces.
 
+> **t**ransforming **r**eactive **u**ser e**x**periences
+
 ## Introduction
 
-Trux is an easy, lightweight and effective way of managing mutable data for your client side JavaScript app.
+Trux is an easy-to-use, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-With a focus on enabling you to create powerful and effective bridges between your data and your UI, Trux provides convenient ways customise your stores as you see fit.
+With a focus placed on enabling the creation of fully customisable and effective bridges between your data and your UI, Trux provides convenient and safe ways to mutate data and synchronise these changes with your components.
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
 
-Trux comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended and/or modified for your own use cases.
+It comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases.
 
-Trux also doesn't care how you structure your app, you can just create some stores, attach components/views/containers to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL as well.
+Trux doesn't care how you structure your app, all you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL (and probably other frameworks/patterns) with little to no difference.
 
 Want to learn more? Checkout the short guide below, the examples and the [API reference](http://rohandeshpande.com/trux) to get a better idea of how to use Trux.
 
@@ -53,20 +55,20 @@ class Message extends Component {
   }
 
   /**
-   * Assign a truxId to the component and attach it to the store.
+   * Assign a truxid to the component and connect it to the store.
    *
    */
   componentDidMount() {
-    this.truxId = 'Message';
-    this.props.model.attach(this);
+    this.truxid = 'Message';
+    this.props.model.connect(this);
   }
 
   /**
-   * Make sure to detach the component from the store when unmounting.
+   * Make sure to disconnect the component from the store when unmounting.
    *
    */
   componentDidUnmount() {
-    this.props.model.detach(this);
+    this.props.model.disconnect(this);
   }
 
   /**
@@ -96,7 +98,7 @@ This will render the `goodbye cruel world` message inside of `Message`.
 
 ## Extending
 
-The `Trux.Model` and `Trux.Collection` classes are fairly barebones and are designed to be extended for your own use cases. By themselves they just provide an architectural pattern for changing data and broadcasting these changes to your UI.
+The `Trux.Model` and `Trux.Collection` classes are fairly barebones and are designed to be extended for your own use cases. By themselves they really just provide an architectural pattern for changing data and broadcasting these changes to your components.
 
 The power of Trux lies in extending these classes. Let's look at an example of how to do this
 
@@ -120,7 +122,7 @@ class User extends Trux.Model {
 }
 ```
 
-Now you can instantiate your `User` model and bind UI components to it
+Now you can instantiate your `User` model and connect components to it
 
 ```javascript
 const user = new User({
