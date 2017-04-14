@@ -1244,10 +1244,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Store = __webpack_require__(0);
-
-var _Store2 = _interopRequireDefault(_Store);
-
 var _Model = __webpack_require__(3);
 
 var _Model2 = _interopRequireDefault(_Model);
@@ -1258,11 +1254,7 @@ var _Collection2 = _interopRequireDefault(_Collection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-  Store: _Store2.default,
-  Model: _Model2.default,
-  Collection: _Collection2.default
-};
+exports.default = { Model: _Model2.default, Collection: _Collection2.default };
 module.exports = exports['default'];
 
 /***/ }),

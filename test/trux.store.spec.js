@@ -1,7 +1,7 @@
 /*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
-import Trux from '../dist/trux.js';
+import Store from '../src/Store.js';
 import sinon from 'sinon';
 
 chai.expect();
@@ -9,7 +9,7 @@ chai.expect();
 const test = 'Store';
 const expect = chai.expect;
 const assert = chai.assert;
-const store = new Trux.Store();
+const store = new Store();
 let fakes;
 
 describe(`${test} constructor`, () => {
@@ -25,7 +25,7 @@ describe(`${test} constructor`, () => {
   });
 
   it('should set up the default request headers', (done) => {
-    let store = new Trux.Store();
+    let store = new Store();
     assert.isTrue(typeof store.requestHeaders === 'object');
     done();
   });

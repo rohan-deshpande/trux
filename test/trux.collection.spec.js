@@ -1,7 +1,7 @@
 /*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
-import Trux from '../dist/trux.js';
+import Trux from '../src/index.js';
 import { startServer, stopServer, endpoints } from './server.js';
 import fetch from 'node-fetch';
 

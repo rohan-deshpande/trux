@@ -4,17 +4,15 @@
 
 Unidirectional data layer for reactive user interfaces.
 
-> **t**ransforming **r**eactive **u**ser e**x**periences
+> **T**ransforming **r**eactive **u**ser e**x**periences
 
 ## Introduction
 
 Trux is an easy-to-use, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-With a focus placed on enabling the creation of fully customisable and effective bridges between your data and your UI, Trux provides convenient and safe ways to mutate data and synchronise these changes with your components.
+With its focus placed on enabling the creation of fully customisable and effective bridges between your data and UI, Trux provides convenient and safe ways to mutate data and synchronise these changes with your components.
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
-
-It comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases.
 
 Trux doesn't care how you structure your app, all you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL (and probably other frameworks/patterns) with little to no difference.
 
@@ -32,16 +30,24 @@ or
 yarn add trux
 ```
 
-## Getting Started
+## User Guide
 
-In this very simple example we're going to attach a React component to a Trux model.  
+Trux comes packed with two kinds of stores, `Trux.Model` and `Trux.Collection` which are designed to be extended for your own use cases. Let's take a look at how to use these stores.
+
+### `Trux.Model`
+
+A `Trux.Model` is a store that contains a single data object that you might want to broadcast to one or many components. Through extending, it can also contain various custom methods such as getters, setters and pretty much anything you like.
+
+Trux models extend the base `Store` class and therefore inherit a number of methods and properties which make synchronising them with your UI very easy. Let's take a look at how to do that.
+
+In this very simple example we're going to attach a React component to an out of the box Trux model.
 
 ```javascript
 import Trux from 'trux';
 import React, { Component, PropTypes } from 'react'
 import { render } from 'react-dom';
 
-// instantiate a model with some data
+// instantiate a model with some data. This data will be assigned to the message.data property.
 const message = new Trux.Model({ 'message': 'hello world' });
 
 class Message extends Component {
@@ -95,6 +101,14 @@ message.persist();
 ```
 
 This will render the `goodbye cruel world` message inside of `Message`.
+
+#### Advanced Usage
+
+
+
+### `Trux.Collection`
+
+Collections are simply stores for arrays of models. A collection can only store one kind of model and you must tell it which model you plan to store within it upon instantiation.   
 
 ## Extending
 
