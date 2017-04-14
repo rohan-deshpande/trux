@@ -91,6 +91,15 @@ export default class Collection extends Store {
   }
 
   /**
+   * Proxy method for emitChangeEvent, just for a unified API for models and collections.
+   *
+   * @return {object} Collection
+   */
+  persist() {
+    this.emitChangeEvent();
+  }
+
+  /**
    * Gets a collection from a remote resource.
    *
    * @return {object} Promise
@@ -100,7 +109,7 @@ export default class Collection extends Store {
       method: 'GET',
       headers: this.requestHeaders
     }).then((response) => {
-      this.fill(response.json);
+      this.fill(response.json).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {

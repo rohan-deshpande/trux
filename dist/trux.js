@@ -719,6 +719,18 @@ var Collection = function (_Store) {
     }
 
     /**
+     * Proxy method for emitChangeEvent, just for a unified API for models and collections.
+     *
+     * @return {object} Collection
+     */
+
+  }, {
+    key: 'persist',
+    value: function persist() {
+      this.emitChangeEvent();
+    }
+
+    /**
      * Gets a collection from a remote resource.
      *
      * @return {object} Promise
@@ -733,7 +745,7 @@ var Collection = function (_Store) {
         method: 'GET',
         headers: this.requestHeaders
       }).then(function (response) {
-        _this2.fill(response.json);
+        _this2.fill(response.json).persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
