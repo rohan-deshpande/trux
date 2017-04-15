@@ -11,14 +11,14 @@ export default class Store {
     const store = this;
 
     /**
-     * Reference for bound components
+     * Reference for connected components
      *
      * @prop {object} components - reference for bound components
      */
     this.components = {};
 
     /**
-     * The base Event Emitter
+     * The store's Event Emitter
      *
      * @prop {object} emitter - the model's Event Emitter
      */
@@ -34,37 +34,37 @@ export default class Store {
     };
 
     /**
-     * The GET route for this object
+     * The GET route for the store
      *
-     * @prop {string} GET - the GET route for this object
+     * @prop {string} GET - the GET route for the store
      */
     this.GET = '';
 
     /**
-     * The POST route for this object
+     * The POST route for the store
      *
-     * @prop {string} POST - the POST route for this object
+     * @prop {string} POST - the POST route for the store
      */
     this.POST = '';
 
     /**
-     * The PUT route for this object
-     * @prop {string} PUT - the PUT route for this object
+     * The PUT route for the store
      *
+     * @prop {string} PUT - the PUT route for the store
      */
     this.PUT = '';
 
     /**
-     * The PATCH route for this object
+     * The PATCH route for the store
      *
-     * @prop {string} PATCH - the PATCH route for this object
+     * @prop {string} PATCH - the PATCH route for the store
      */
     this.PATCH = '';
 
     /**
-     * The DELETE route for this object
+     * The DELETE route for the store
      *
-     * @prop {string} DELETE - the DELETE route for this object
+     * @prop {string} DELETE - the DELETE route for the store
      */
     this.DELETE = '';
 
@@ -90,13 +90,14 @@ export default class Store {
   }
 
   /**
-   * Connects a component to this store.
-   * Ensures the component receives updates via broadcast.
-   * Each component is required to have a unique truxId property set.
+   * Connects a component to the store and ensures the component receives updates via broadcast.
+   * Throws a ReferenceError if the component does not have a truxid defined and triggers a
+   * console warning if the component does not have a storeDidUpdate method.
    *
-   * @NOTE for react, this should be called within the component's componentWillMount or componentDidMount methods.
+   * @NOTE For React, this should be called within the component's componentDidMount method.
    *
-   * @param {object} component - the  class to bind to this instance
+   * @param {object} component - the component to connect to this store
+   * @throws ReferenceError - if component.truxid is undefined
    * @return void
    */
   connect(component) {
@@ -112,13 +113,12 @@ export default class Store {
   }
 
   /**
-   * Disconnects a component from this store.
-   * Stops the component from receiving updates.
+   * Disconnects a component from the store, stopping it from receiving updates.
    *
-   * @NOTE for react, this should be called within the component's componentWillUnmount method.
+   * @NOTE For React, this should be called within the component's componentWillUnmount method.
    *
-   * @param {object} component - the React class to unbind from this instance
-   * @throws Error
+   * @param {object} component - the component to disconnect from this store
+   * @throws ReferenceError - if component.truxid is undefined
    * @return void
    */
   disconnect(component) {
@@ -130,7 +130,7 @@ export default class Store {
   }
 
   /**
-   * Closes all connections to this store.
+   * Disconnects all components from the store.
    *
    * @return {object} Store
    */
@@ -145,7 +145,7 @@ export default class Store {
   }
 
   /**
-   * Emits a change event from this store.
+   * Emits a change event from the store.
    *
    * @fires this.emitter.change
    * @return void
@@ -208,7 +208,7 @@ export default class Store {
   }
 
   /**
-   * Sets the wasFetched and wasFetchedAt properties.
+   * Sets the wasFetched boolean and wasFetchedAt timestamp properties.
    *
    * @param {boolean} wasFetched
    * @return void
