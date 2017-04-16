@@ -2,7 +2,8 @@
     "root": "./docs",
     "plugins": [ "theme-api" ],
     "pluginsConfig": {
-        "theme-api": {
+        "theme-api": {,
+            "theme": "night",
             "languages": [
                 {
                     "lang": "js",
