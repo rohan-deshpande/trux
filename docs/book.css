@@ -2,6 +2,6 @@
     display: none !important;
 }
 
-ul .summary li:first-child{
+ul.summary li:first-child{
     display: none;
 }
