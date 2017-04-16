@@ -1,6 +1,6 @@
-## Properties
+# Properties
 
-## `components`
+# `components`
 
 Each store has a `components` object which contains the store's connected components which are keyed by `truxid`. When connecting a component to a store, it is required that the component you pass to the `connect` method has a `truxid` property set. This property is used to broadcast changes to the component and also to remove it from the store's `components` object when `disconnect` is called.
 
