@@ -1,6 +1,6 @@
 {
     "root": "./docs",
-    "plugins": [ "theme-default" ],
+    "plugins": [ "theme-default", "github" ],
     "pluginsConfig": {
         "fontSettings": {
             "theme": "night"
