@@ -1,0 +1,15 @@
+{
+    "plugins": [ "theme-api" ],
+    "pluginsConfig": {
+        "theme-api": {
+            "theme": "dark",
+            "languages": [
+                {
+                    "lang": "js",
+                    "name": "JavaScript",
+                    "default": true
+                }
+            ]
+        }
+    }
+}
