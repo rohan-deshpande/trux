@@ -17,7 +17,7 @@
 * REST
 * GraphQL
 
-## API
+## API Reference
 
 * [Store](api/store/README.md)
   * [properties](api/store/properties.md)
