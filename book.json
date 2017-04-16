@@ -2,6 +2,9 @@
     "root": "./docs",
     "plugins": [ "theme-api" ],
     "pluginsConfig": {
+        "fontSettings": {
+            "theme": "night"
+        },
         "theme-api": {
             "theme": "dark",
             "languages": [
