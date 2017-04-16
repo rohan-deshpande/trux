@@ -8,5 +8,8 @@
         "github": {
             "url": "https://github.com/rohan-deshpande/trux"
         }
+    },
+    "styles": {
+        "website": "docs/book.css"
     }
 }
