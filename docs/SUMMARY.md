@@ -3,6 +3,7 @@
 ## About
 
 * [Introduction](README.md)
+* [Origins](about/origins.md)
 
 ## Stores
 

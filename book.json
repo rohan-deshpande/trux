@@ -1,9 +1,12 @@
 {
     "root": "./docs",
-    "plugins": [ "theme-default" ],
+    "plugins": [ "theme-default", "github" ],
     "pluginsConfig": {
         "fontSettings": {
             "theme": "night"
+        },
+        "github": {
+            "url": "https://github.com/rohan-deshpande/trux"
         }
     }
 }
