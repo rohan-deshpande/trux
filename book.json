@@ -2,8 +2,6 @@
     "root": "./docs",
     "plugins": [ "theme-default" ],
     "pluginsConfig": {
-        "fontsettings": {
-            "theme": "night"
-        }
+        "theme": "night"
     }
 }
