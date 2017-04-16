@@ -4,6 +4,7 @@
 
 * [Introduction](README.md)
 * [Origins](about/origins.md)
+* [Differences to Redux](about/differences-to-redux.md)
 
 ## Stores
 
