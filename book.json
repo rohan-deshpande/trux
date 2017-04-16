@@ -1,6 +1,6 @@
 {
     "root": "./docs",
-    "plugins": [ "theme-api" ],
+    "plugins": [ "theme-default" ],
     "pluginsConfig": {
         "theme-api": {,
             "theme": "night",
