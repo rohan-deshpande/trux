@@ -1,9 +1,9 @@
 {
     "root": "./docs",
-    "plugins": [ "theme-default" ],
+    "plugins": [ "theme-api" ],
     "pluginsConfig": {
         "theme-api": {,
-            "theme": "night",
+            "theme": "dark",
             "languages": [
                 {
                     "lang": "js",
