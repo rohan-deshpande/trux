@@ -4,14 +4,18 @@
 
 * [Introduction](README.md)
 
+## Stores
+
+* [Store](stores/store.md)
+* [Model](stores/model.md)
+* [Collection](stores/collection.md)
+
 ## Usage
 
-## Docs
-
-* [Stores](stores/store.md)
-  * [Store](stores/store.md)
-  * [Model](stores/model.md)
-  * [Collection](stores/collection.md)
+* [React](usage/react.md)
+* Vue
+* REST
+* GraphQL
 
 ## API
 
