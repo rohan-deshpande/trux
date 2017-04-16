@@ -7,6 +7,6 @@
   * [Collection](stores/collection.md)
 * [API Reference](docs/api/README.md)
   * [Store](api/store/README.md)
-    * properties
-    * methods
+    * [properties](api/store/properties.md)
+    * [methods](api/store/methods.md)
 
