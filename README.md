@@ -14,7 +14,7 @@ With its focus placed on enabling the creation of fully customisable and effecti
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
 
-Trux doesn't care how you structure your app, all you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL (and probably other frameworks/patterns) with little to no difference.
+Trux doesn't care how you structure your app, all you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL \(and probably other frameworks/patterns\) with little to no difference.
 
 Want to learn more? Checkout the short guide below, the examples and the [API reference](http://rohandeshpande.com/trux) to get a better idea of how to use Trux.
 
@@ -104,11 +104,9 @@ This will render the `goodbye cruel world` message inside of `Message`.
 
 #### Advanced Usage
 
-
-
 ### `Trux.Collection`
 
-Collections are simply stores for arrays of models. A collection can only store one kind of model and you must tell it which model you plan to store within it upon instantiation.   
+Collections are simply stores for arrays of models. A collection can only store one kind of model and you must tell it which model you plan to store within it upon instantiation.
 
 ## Extending
 
@@ -189,3 +187,6 @@ var User = Trux.Model.extend({
   User.GET = `'http://example.com/api/profile/'${User.getId()}`;
 });
 ```
+
+
+
