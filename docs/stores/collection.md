@@ -28,7 +28,7 @@ const posts = [
   {
     'id': 3,
     'title': 'Precious',
-    'content': 'They stoles it from us! Filthy little Hobbit'
+    'content': 'They stoles it from us! Filthy little Hobbitses!'
   },
 ];
 
