@@ -1,6 +1,4 @@
-const path = require('path');
-const fs = require('fs');
-const jsonServer = require('json-server');
+const jsonServer = require('json-server'); // eslint-disable-line no-undef
 const middlewares = jsonServer.defaults();
 const server = jsonServer.create();
 const protocol = 'http';

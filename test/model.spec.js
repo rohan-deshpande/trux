@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 
 chai.expect();
 
-global.fetch = fetch;
+global.fetch = fetch; // eslint-disable-line no-undef
 
 const test = 'Model';
 const assert = chai.assert;
