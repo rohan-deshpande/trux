@@ -18,7 +18,7 @@ stores.posts.GET = `${URL}/posts/${stores.user.id}`; // resource for all of the 
 store.posts.fetch();
 ```
 
-This will fetch all of the user's posts and fill the `posts` collection with `post` models.
+This will fetch all of the user's posts and fill the `posts` collection with `post` models. This isn't really a good real world example though, so for more on this see [handling dependencies](#handling-dependencies) below.
 
 You can also override the REST endpoints in your constructor like so
 
@@ -40,3 +40,10 @@ class Post extends Model {
 ```
 
 This way, when you fill a collection with models, the endpoints will all be set up for you, automagically.
+
+## Handling dependencies
+
+What if your resource needs an `id` but you haven't authenticated a user yet? In this instance, defining your REST endpoints on demand would be cumbersome, and defining them in the constructor would be impossible.
+
+
+
