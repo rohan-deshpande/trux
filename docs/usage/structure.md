@@ -15,13 +15,13 @@ stores/
   registry.js
 connectors/
   user/
-    UserConnector.js
-    UsersConnector.js
+    User.js
+    Users.js
   post/
-    PostConnector.js
-    PostsConnector.js
+    Post.js
+    Posts.js
   comment/
-    CommentsConnector.js
+    Comments.js
 nodes/
   user/
     UserName.js
