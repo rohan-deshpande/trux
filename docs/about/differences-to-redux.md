@@ -28,7 +28,7 @@ User.update(); // attempt to update the user's name in the remote store
 
 It is expected here that the update request would hit some sort of validator on the server. If this validation fails, you will receive an error and Trux will immediately `restore` your model to its previous state. Connected components will re render back to their state before the mutation.
 
-## Internal changes
+## Internal store changes
 
 Changes to a model or collection's data should only ever happen through interactions with the store itself. Let's look at a simple `User` model
 
