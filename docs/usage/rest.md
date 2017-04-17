@@ -18,7 +18,7 @@ stores.posts.GET = `${URL}/posts/${stores.user.id}`; // resource for all of the 
 store.posts.fetch();
 ```
 
-This will fetch all of the user's posts and fill the `posts` collection with `post` models. 
+This will fetch all of the user's posts and fill the `posts` collection with `post` models.
 
 You can also override the REST endpoints in your constructor like so
 
@@ -28,22 +28,18 @@ import { URL } from '../api';
 class Post extends Model {
     constructor(data) {
         super(data);
-                
+
         this.GET = `${URL}/post/${this.id}`;
         // ... you can define other resource routes too
     }
-    
+
     get id() {
         return this.data.id;
     }
 }
 ```
 
-This way, when you fill a collection with models, the endpoints will all be set up for you, automagically. 
-
-## Advanced
-
-In most use cases for a REST API, your endpoints are going to require some sort of `id` in order to fetch the resource. In the example above, it's easy to see how this might be done for a model, but 
+This way, when you fill a collection with models, the endpoints will all be set up for you, automagically.
 
 
 

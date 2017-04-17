@@ -109,6 +109,29 @@ Now, some words about what's happening here. Basically we are creating a custom 
 
 One thing to be aware of - when a model is instantiated as part of a collection, it has a reference to that collection set as a property; `.collection`. When the model's data is mutated and its `persist` method is called, Trux performs a check first to see if that model is part of a collection. If it is, then the collection's `persist` method is called instead, effectively re-rendering the components connected to _it_ rather than any connected to the model.
 
+## Sorting
+
+It's recommended that you let your JavaScript app handle sorting for you unless you wish to `fetch` your collection every time a sortable property is mutated. I recommend the awesome library [`thenby`](https://www.npmjs.com/package/thenby)which will allow you to create a `sort` method on your collection very easily eg.,
+
+```js
+import { Post } from '../models';
+
+class Posts extends Collection {
+    constructor() {
+        super(Post);
+    }
+    
+    sort() {
+        this.models.sort(
+            firstBy((a, b) => a.created_at - b.created_at)
+            .thenBy((a, b) => a.modified_at - b.modified_at);
+        );
+        
+        return this;
+    }
+}
+```
+
 ## Learn more
 
 * Collection properties
