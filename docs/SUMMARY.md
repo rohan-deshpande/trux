@@ -16,7 +16,7 @@
 ## Usage
 
 * [Extending](usage/extending.md)
-* [Stores.js](usage/stores-js.md)
+* [Stores Module](usage/stores-module.md)
 * [Connectors & Nodes](usage/connectors-nodes.md)
 * [Structure](usage/structure.md)
 * [React](usage/react.md)

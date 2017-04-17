@@ -12,7 +12,7 @@ stores/
     Users.js
     Posts.js
     Comments.js
-  registry.js
+  index.js
 connectors/
   user/
     User.js
