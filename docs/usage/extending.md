@@ -1,11 +1,11 @@
 # Extending
 
-The `Trux.Model` and `Trux.Collection` classes are fairly barebones and are designed to be extended for your own use cases. By themselves they really just provide an architectural pattern for changing data and broadcasting these changes to your components.
+The Trux `Model` and `Collection` classes are fairly barebones and are designed to be extended for your own use cases. By themselves they really just provide an architectural pattern for changing data and broadcasting these changes to your components.
 
 The power of Trux lies in extending these classes. Let's look at an example of how to do this
 
 ```javascript
-class User extends Trux.Model {
+class User extends Model {
   constructor(data) {
     super(data);
   }
@@ -38,7 +38,7 @@ console.log(user.fullname); // logs Bilbo Baggins
 This allows to also do things like the following when you expect that models will all share some common kinds of data:
 
 ```javascript
-class Model extends Trux.Model {
+class Model extends Model {
   constructor(data) {
     super(data);
   }
@@ -65,10 +65,10 @@ class Post extends Model {
 }
 ```
 
-**Note!** If you are using ES5 syntax then there is a static method provided on both `Trux.Model` and `Trux.Collection` - `extend(props, setup)` which can be used for convenience like so:
+**Note!** If you are using ES5 syntax then there is a static method provided on both `Model` and `Collection` - `extend(props, setup)` which can be used for convenience like so:
 
 ```javascript
-var User = Trux.Model.extend({
+var User = Model.extend({
   getId: function () {
     return this.data.id;
   }
