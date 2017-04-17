@@ -2,7 +2,6 @@
 
 ## About
 
-* [Summary](SUMMARY.md)
 * [Introduction](README.md)
 * [Origins](about/origins.md)
 * [Differences to Redux](about/differences-to-redux.md)
@@ -25,4 +24,6 @@
 * [Store](api/store/README.md)
   * [properties](api/store/properties.md)
   * [methods](api/store/methods.md)
+
+
 
