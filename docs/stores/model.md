@@ -65,4 +65,7 @@ message.data.message = 'goodbye cruel world';
 message.persist();
 ```
 
-This will render the `goodbye cruel world` message inside of `Message`.
+This will render the `goodbye cruel world` message inside of `Message`. 
+
+**Note!** You should avoid mutating store data directly where possible, this is done here for the sake of brevity for this example. See 
+
