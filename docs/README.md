@@ -12,7 +12,7 @@ With its focus placed on enabling the creation of fully customisable and effecti
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.**
 
-Trux doesn't care how you structure your app, all you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL \(and probably other frameworks/patterns\) with little to no difference.
+All you need to do is create some stores, connect components to them and watch it all work. While it was designed with React and a REST API in mind, it can also be used with Vue and GraphQL \(and probably other frameworks/patterns\) with little to no difference.
 
 ## Learn more
 
