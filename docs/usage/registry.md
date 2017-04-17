@@ -4,16 +4,15 @@ Though not provided out of the box just yet, A `registry` is basically a store f
 
 ```js
 export default {
-    // models
-    user: new User(),
-    post: new Post(),
-    comment: new Comment(),
-    // collections
-    users: new Users(User),
-    posts: new Posts(Post),
-    comments: new Comments(Comment)
+  // models
+  user: new User(),
+  post: new Post(),
+  comment: new Comment(),
+  // collections
+  users: new Users(User),
+  posts: new Posts(Post),
+  comments: new Comments(Comment)
 };
 ```
 
 You can then simply `import` the registry when you need to `fill` any store with data.
-
