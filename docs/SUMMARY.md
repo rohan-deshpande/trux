@@ -15,6 +15,7 @@
 
 ## Usage
 
+* [Extending](usage/extending.md)
 * [React](usage/react.md)
 * Vue
 * REST
@@ -25,6 +26,4 @@
 * [Store](api/store/README.md)
   * [properties](api/store/properties.md)
   * [methods](api/store/methods.md)
-
-
 
