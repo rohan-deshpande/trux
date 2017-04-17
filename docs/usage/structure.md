@@ -8,10 +8,12 @@ stores/
     User.js
     Post.js
     Comment.js
+    index.js
   collections/
     Users.js
     Posts.js
     Comments.js
+    index.js
   index.js
 connectors/
   user/
@@ -41,6 +43,12 @@ nodes/
 App.js
 index.js
 ```
+
+Some notes about this structure:
+
+* `stores/models/index.js` is your `models` module and should export all model classes
+* `stores/collections/index.js` is your `collections` module and should export all collection classes
+* `stores/index.js` is your [stores module](/usage/stores-module.md) it should export **instantiated **stores
 
 
 
