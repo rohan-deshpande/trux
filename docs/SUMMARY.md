@@ -23,8 +23,9 @@
   * [Nodes](usage/connectors-nodes.md#nodes)
 * [Structure](usage/structure.md)
 * [React](usage/react.md)
-  * Connecting
-  * Disconnecting
+  * [Connecting](usage/react.md#Connecting)
+  * [Disconnecting](usage/react.md#Disconnecting)
+  * [Example](usage/react.md#Example)
 * [Vue](usage/vue.md)
 * [REST](usage/rest.md)
 * [GraphQL](usage/graphql.md)
