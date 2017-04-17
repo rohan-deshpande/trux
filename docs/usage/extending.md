@@ -47,11 +47,11 @@ class Model extends Model {
     return this.data.id;
   }
 
-  get created() {
+  get createdAt() {
     return this.data.created_at;
   }
 
-  get modified() {
+  get modifiedAt() {
     return this.data.modified_at;
   }
 }
