@@ -37,11 +37,11 @@ class User extends Model {
   constructor(data) {
     super(data);
   }
-  
+
   get name() {
     return this.data.name;
   }
-  
+
   set name(name) {
     if (!name || !name.length) {
         throw new Error('You must supply a valid name');
@@ -52,5 +52,5 @@ class User extends Model {
 }
 ```
 
-In this example, you may change the `name` property of a `User` anywhere in your app by calling `User.name = 'new name'` and this will call the internal `set name` method of the model. Notice that you have customisable, context aware ways of ensuring that bad data does get injected into your store.
+In this example, you may change the `name` property of a `User` anywhere in your app by calling `User.name = 'new name'` and this will call the internal `set name` method of the model. Notice that you have customisable, context aware ways of ensuring that bad data does get injected into your store. Again, your API should always perform validation on any mutations as well.
 
