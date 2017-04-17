@@ -14,14 +14,14 @@ stores/
     Comments.js
   registry.js
 connectors/
-    user/
-      UserConnector.js
-      UsersConnector.js
-    post/
-      PostConnector.js
-      PostsConnector.js
-    comment/
-      CommentsConnector.js
+  user/
+    UserConnector.js
+    UsersConnector.js
+  post/
+    PostConnector.js
+    PostsConnector.js
+  comment/
+    CommentsConnector.js
 nodes/
   user/
     UserName.js
