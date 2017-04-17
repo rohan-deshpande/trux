@@ -2,7 +2,7 @@
 
 ### `API ⇆ Trux ➝ UI`
 
-A unidirectional data layer for reactive user interfaces.
+Unidirectional data layer for reactive user interfaces.
 
 ## Introduction
 
