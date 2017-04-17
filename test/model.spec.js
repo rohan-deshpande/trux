@@ -1,7 +1,7 @@
 /*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
-import Trux from '../src/index.js';
+import { Model } from '../src/index.js';
 import { startServer, stopServer, endpoints, token } from './server.js';
 import fetch from 'node-fetch';
 
@@ -12,7 +12,7 @@ global.fetch = fetch;
 const test = 'Model';
 const assert = chai.assert;
 const data = { id: 1, name: 'foobar' };
-const model = new Trux.Model(data);
+const model = new Model(data);
 
 describe(`${test} constructor`, () => {
   it('should be filled with the data supplied to the constructor', (done) => {
@@ -66,13 +66,13 @@ describe(`${test} protoype`, () => {
 
 describe(`${test} statics`, () => {
   it('should have a static extend method', (done) => {
-    assert.isTrue(typeof Trux.Model.extend === 'function');
+    assert.isTrue(typeof Model.extend === 'function');
     done();
   });
 
-  it('static extend method should generate a constructor which is an extension of Trux.Model', (done) => {
+  it('static extend method should generate a constructor which is an extension of Model', (done) => {
     let baz = 1;
-    const Extension = Trux.Model.extend({
+    const Extension = Model.extend({
       'foo': 'bar',
       'baz': function() {
         return 'qux';
@@ -89,13 +89,13 @@ describe(`${test} statics`, () => {
   });
 
   it('should have a static modify method', (done) => {
-    assert.isTrue(typeof Trux.Model.modify === 'function');
+    assert.isTrue(typeof Model.modify === 'function');
     done();
   });
 
-  it('static modify method should modify the Trux.Model class', (done) => {
-    Trux.Model.modify({ 'foo': 'bar' });
-    const modified = new Trux.Model();
+  it('static modify method should modify the Model class', (done) => {
+    Model.modify({ 'foo': 'bar' });
+    const modified = new Model();
 
     assert.isTrue(modified.foo === 'bar');
     done();
@@ -112,7 +112,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.fetch should fill the model with the correct data', (done) => {
-    const profile = new Trux.Model();
+    const profile = new Model();
     profile.GET = endpoints.profile;
 
     profile.fetch()
@@ -126,7 +126,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.fetch should set the wasFetched and wasFetchedAt properties', (done) => {
-    const profile = new Trux.Model();
+    const profile = new Model();
     profile.GET = endpoints.profile;
 
     profile.fetch()
@@ -141,7 +141,7 @@ describe(`${test} requests`, () => {
   });
 
   it('can chain request methods for custom uses eg., token retrieval from Authorization header', (done) => {
-    const profile = new Trux.Model();
+    const profile = new Model();
     profile.GET = endpoints.auth;
 
     profile.fetch()
@@ -155,7 +155,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.create should create a record and update the component', (done) => {
-    const comment = new Trux.Model();
+    const comment = new Model();
     const component = {
       truxid: 'comment',
       storeDidUpdate: () => {
@@ -182,7 +182,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.create should set the wasCreated and wasCreatedAt properties', (done) => {
-    const comment = new Trux.Model();
+    const comment = new Model();
 
     comment.POST = endpoints.comments;
 
@@ -199,7 +199,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.update should update the remote data and update the component', (done) => {
-    const post = new Trux.Model();
+    const post = new Model();
     const component = {
       truxid: 'post',
       storeDidUpdate: () => {
@@ -229,7 +229,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.update should set the wasUpdated and wasUpdatedAt properties', (done) => {
-    const post = new Trux.Model();
+    const post = new Model();
 
     post.PUT = `${endpoints.posts}/1`;
 
@@ -245,7 +245,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.delete should delete the remote record and nullify trux model data', (done) => {
-    const comment = new Trux.Model();
+    const comment = new Model();
 
     comment.DELETE = `${endpoints.comments}/1`;
 
@@ -260,7 +260,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.delete should disconnect all components from itself', (done) => {
-    const comment = new Trux.Model();
+    const comment = new Model();
     const body = {
       truxid: 'comment',
       content: 'foo',
@@ -284,7 +284,7 @@ describe(`${test} requests`, () => {
   });
 
   it('model.delete should set the wasDestroyed and wasDestroyedAt properties', (done) => {
-    const comment = new Trux.Model();
+    const comment = new Model();
 
     comment.DELETE = `${endpoints.comments}/3`;
 
