@@ -4,7 +4,7 @@
 
 Unidirectional data layer for reactive user interfaces.
 
-# Introduction
+---
 
 Trux is an easy-to-use, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
