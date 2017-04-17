@@ -10,7 +10,7 @@ The words `connector` and `node` are how I like to think of my Trux components. 
 
 A `connector` is a UI component that is connected to a Trux `store`. If you've had a look at Redux, you might say they are similar to _containers_ or _smart components_. Typically, connectors will contain nodes and pass data to them via `props`.
 
-A `connector` is the most appropriate candidate to use as a top level route component. Since they are connected to a store, they will have the `fetch` method allowing them to retrieve data from the remote resource on demand.
+A `connector` is the most appropriate candidate to use as a top level route component. Since they are connected to a store, they will be able to communicate with a remote resource via the store on demand.
 
 ## Nodes
 
