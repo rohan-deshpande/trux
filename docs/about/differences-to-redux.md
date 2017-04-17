@@ -27,11 +27,13 @@ User.persist() // optimistically update the user's name
     .update(); // attempt to update the user's name in the remote store
 ```
 
-It is expected here that the update request would hit some sort of validator on the server. If this validation fails, you will receive an error and Trux will immediately `restore` your model to its previous state. Connected components will re render back to their state before the mutation. 
+It is expected here that the update request would hit some sort of validator on the server. If this validation fails, you will receive an error and Trux will immediately `restore` your model to its previous state. Connected components will re render back to their state before the mutation.
 
 ## Internal changes
 
 Changes to a model or collection's data should only ever happen through interactions with the store itself. Let's look at a simple `User` model
+
+
 
 ```js
 class User extends Model {
@@ -47,7 +49,7 @@ class User extends Model {
         if (!name || !name.length) {
             throw new Error('You must supply a valid name');
         }
-        
+    
         this.data.name = name;
     }
 }
