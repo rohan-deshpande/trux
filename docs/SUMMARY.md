@@ -18,7 +18,6 @@
 * [Extending](usage/extending.md)
 * [Stores Module](usage/stores-module.md)
 * [Connectors & Nodes](usage/connectors-nodes.md)
-  * [No Components?](usage/connectors-nodes.md#no-components)
   * [Connectors](usage/connectors-nodes.md#Connectors)
   * [Nodes](usage/connectors-nodes.md#nodes)
 * [Structure](usage/structure.md)
