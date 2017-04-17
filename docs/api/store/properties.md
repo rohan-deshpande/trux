@@ -1,4 +1,4 @@
-# Store Properties
+# Store properties
 
 # `components`
 
