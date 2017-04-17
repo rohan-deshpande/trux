@@ -4,8 +4,6 @@ A Trux `Collection` is a store for an array of models. They are containers for a
 
 Collections can only store one kind of model and you must tell it which model you plan to store within it upon instantiation. Like models, they inherit all properties and methods from the `Store` class but add a few extra methods as well.
 
-Checkout the API reference for info about their [properties](#) and [methods](#).
-
 Let's take a quick look at how to use a `Collection`
 
 ```js
