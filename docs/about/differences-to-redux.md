@@ -23,8 +23,7 @@ Component.truxid = 'Profile'; // set the truxid for the component
 Component.connect(User); // connect a component to the User store
 
 User.name = 'Sam';
-User.persist() // optimistically update the user's name
-    .update(); // attempt to update the user's name in the remote store
+User.update(); // attempt to update the user's name in the remote store
 ```
 
 It is expected here that the update request would hit some sort of validator on the server. If this validation fails, you will receive an error and Trux will immediately `restore` your model to its previous state. Connected components will re render back to their state before the mutation.
@@ -33,25 +32,23 @@ It is expected here that the update request would hit some sort of validator on 
 
 Changes to a model or collection's data should only ever happen through interactions with the store itself. Let's look at a simple `User` model
 
-
-
 ```js
 class User extends Model {
-    constructor(data) {
-        super(data);
+  constructor(data) {
+    super(data);
+  }
+  
+  get name() {
+    return this.data.name;
+  }
+  
+  set name(name) {
+    if (!name || !name.length) {
+        throw new Error('You must supply a valid name');
     }
-    
-    get name() {
-        return this.data.name;
-    }
-    
-    set name(name) {
-        if (!name || !name.length) {
-            throw new Error('You must supply a valid name');
-        }
-    
-        this.data.name = name;
-    }
+
+    this.data.name = name;
+  }
 }
 ```
 
