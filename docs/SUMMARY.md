@@ -2,6 +2,7 @@
 
 ## About
 
+* [Summary](/SUMMARY.md)
 * [Introduction](README.md)
 * [Origins](about/origins.md)
 * [Differences to Redux](about/differences-to-redux.md)
@@ -14,6 +15,7 @@
 
 ## Usage
 
+* [Extending](usage/extending.md)
 * [React](usage/react.md)
 * Vue
 * REST
