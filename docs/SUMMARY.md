@@ -16,10 +16,13 @@
 ## Usage
 
 * [Extending](usage/extending.md)
+* [Registry](usage/registry.md)
+* [Connectors & Nodes](usage/channels-vs-components.md)
+* [Structure](usage/structure.md)
 * [React](usage/react.md)
-* Vue
-* REST
-* GraphQL
+* [Vue](usage/vue.md)
+* [REST](usage/rest.md)
+* [GraphQL](usage/graphql.md)
 
 ## API Reference
 
