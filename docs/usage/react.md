@@ -51,44 +51,41 @@ import React, { Component, PropTypes } from 'react';
 // Profile is, as we term it in Trux, a connector.
 // It will contain three nodes, ProfilePic, UserName and UserBio
 class Profile extends Component {
-    static propTypes = {
-        userStore: PropTypes.object.isRequired
-    }
+  static propTypes = {
+    userStore: PropTypes.object.isRequired
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = { ready: false }
-    }
+  constructor(props) {
+    super(props);
+    this.state = { ready: false }
+  }
 
-    componentDidMount() {
-        this.truxid = 'Profile';
-        this.props.userStore.connect(this);
-        this.props.userStore.fetch()
-            .then(() => {
-                this.setState({ ready: true });
-            })
-            .catch(console.log);
-    }
+  componentDidMount() {
+    this.truxid = 'Profile';
+    this.props.userStore.connect(this);
+    this.props.userStore.fetch()
+      .then(() => {
+          this.setState({ ready: true });
+      })
+      .catch(console.log);
+  }
 
-    componentWillUnmount() {
-        this.props.userStore.disconnect(this);
-    }
+  componentWillUnmount() {
+    this.props.userStore.disconnect(this);
+  }
 
-    render() {
-        if (!this.props.ready) return null;
+  render() {
+    if (!this.props.ready) return null;
 
-        const user = this.props.userStore;
+    const user = this.props.userStore;
 
-        return (
-            <div className='profile'>
-                <ProfilePic image={user.pic} />
-                <UserName username={user.username} />
-                <UserBio bio={user.bio} />
-            </div>
-        );
-    }
+    return (
+      <div className='profile'>
+        <ProfilePic image={user.pic} />
+        <UserName username={user.username} />
+        <UserBio bio={user.bio} />
+      </div>
+    );
+  }
 }
 ```
-
-
-

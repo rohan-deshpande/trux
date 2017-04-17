@@ -26,20 +26,17 @@ You can also override the REST endpoints in your constructor like so
 import { URL } from '../api';
 
 class Post extends Model {
-    constructor(data) {
-        super(data);
+  constructor(data) {
+    super(data);
 
-        this.GET = `${URL}/post/${this.id}`;
-        // ... you can define other resource routes too
-    }
+    this.GET = `${URL}/post/${this.id}`;
+    // ... you can define other resource routes too
+  }
 
-    get id() {
-        return this.data.id;
-    }
+  get id() {
+    return this.data.id;
+  }
 }
 ```
 
 This way, when you fill a collection with models, the endpoints will all be set up for you, automagically.
-
-
-

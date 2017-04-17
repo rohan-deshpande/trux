@@ -117,18 +117,18 @@ It's recommended that you let your JavaScript app handle sorting for you unless 
 import { Post } from '../models';
 
 class Posts extends Collection {
-    constructor() {
-        super(Post);
-    }
-    
-    sort() {
-        this.models.sort(
-            firstBy((a, b) => a.created_at - b.created_at)
-            .thenBy((a, b) => a.modified_at - b.modified_at);
-        );
-        
-        return this;
-    }
+  constructor() {
+    super(Post);
+  }
+
+  sort() {
+    this.models.sort(
+        firstBy((a, b) => a.created_at - b.created_at)
+        .thenBy((a, b) => a.modified_at - b.modified_at);
+    );
+
+    return this;
+  }
 }
 ```
 
@@ -136,6 +136,3 @@ class Posts extends Collection {
 
 * Collection properties
 * Collection methods
-
-
-
