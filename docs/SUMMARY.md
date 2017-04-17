@@ -17,7 +17,7 @@
 
 * [Extending](usage/extending.md)
 * [Registry](usage/registry.md)
-* [Connectors & Nodes](usage/channels-vs-components.md)
+* [Connectors & Nodes](usage/connectors-nodes.md)
 * [Structure](usage/structure.md)
 * [React](usage/react.md)
 * [Vue](usage/vue.md)
