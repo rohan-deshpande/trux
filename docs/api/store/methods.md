@@ -1,4 +1,4 @@
-# Methods
+# Store methods
 
 ## `connect(component)`
 
