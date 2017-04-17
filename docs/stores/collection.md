@@ -1,15 +1,15 @@
-# Trux.Collection
+# Collection
 
-A `Trux.Collection` is a store for an array of models. They are containers for a many items of data and thus are perfect for rendering out lists of components such as cards, todos and posts etc.,.
+A Trux Collection` is a store for an array of models. They are containers for a many items of data and thus are perfect for rendering out lists of components such as cards, todos and posts etc.,.
 
 Collections can only store one kind of model and you must tell it which model you plan to store within it upon instantiation. Like models, they inherit all properties and methods from the `Store` class but add a few extra methods as well.
 
 Checkout the API reference for info about their [properties](#) and [methods](#).
 
-Let's take a quick look at how to use a `Trux.Collection`
+Let's take a quick look at how to use a `Collection`
 
 ```js
-import Trux from 'trux';
+import { Model, Collection } from 'trux';
 import React, { Component, PropTypes } from 'react'
 import { render } from 'react-dom';
 
@@ -35,7 +35,7 @@ const posts = [
 ];
 
 // create a custom model to pass to the collection
-class Post extends Trux.Model {
+class Post extends Model {
   constructor(data) {
     super(data);
   }
@@ -96,7 +96,7 @@ class PostsList extends Component {
 }
 
 // create a collection and set its model constructor
-const Posts = new Trux.Collection(Post);
+const Posts = new Collection(Post);
 
 // fill the collection with data to be turned into models, the fill method will auto instantiate these
 // objects, passing each of them to the model constructor passed to the constructor and appending them
@@ -110,4 +110,3 @@ render(<PostsList posts={Posts}, document.getElementById('blog'));
 Now, some words about what's happening here. Basically we are creating a custom model through extending, setting this as the model that our collection, `Posts`, will contain and then filling that collection with some data before passing it to a React component which will be rendered it into the DOM. The `Posts` collection's `fill` method will take care of instantiating `Post` models for us and pushing them into the `Posts.models` array.
 
 One thing to be aware of - when a model is instantiated as part of a collection, it has a reference to that collection set as a property; `.collection`. When the model's data is mutated and its `persist` method is called, Trux performs a check first to see if that model is part of a collection. If it is, then the collection's `persist` method is called instead, effectively re-rendering the components connected to _it_ rather than any connected to the model.
-

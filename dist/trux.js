@@ -1243,6 +1243,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Collection = exports.Model = undefined;
 
 var _Model = __webpack_require__(3);
 
@@ -1254,8 +1255,8 @@ var _Collection2 = _interopRequireDefault(_Collection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = { Model: _Model2.default, Collection: _Collection2.default };
-module.exports = exports['default'];
+exports.Model = _Model2.default;
+exports.Collection = _Collection2.default;
 
 /***/ }),
 /* 5 */
