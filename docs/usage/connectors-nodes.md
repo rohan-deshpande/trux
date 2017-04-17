@@ -2,7 +2,7 @@
 
 ## No components?
 
-I feel like the word "component" has become kind of confusing in recent times. Words mean things, and to me "views", "containers", "components", "smart components", "dumb components" etc., are ALL just **types** of components. Taking that into consideration, I think we need clearer terms to describe what our components actually are doing.
+I feel like the word **component** has become kind of confusing in recent times. Words mean things, and to me **views**, **containers**, **components**, **smart components**, **dumb components** etc., are ALL just _**types**_ of components. Taking that into consideration, I think we need clearer terms to describe what our components actually are doing.
 
 The words `connector` and `node` are how I like to think of my Trux components. It's totally a personal choice and you can rename them to `container` and `component` or `foo` and `bar` if you like, it's totally up to you.
 
