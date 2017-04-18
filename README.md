@@ -10,14 +10,14 @@ Unidirectional data layer for reactive user interfaces.
 
 Trux is an easy-to-use, lightweight and effective way of managing mutable data for your client side JavaScript app.
 
-With its focus placed on enabling the creation of fully customisable and effective bridges between your data and UI, Trux provides convenient and safe ways to mutate data and synchronise these changes with your components.
+With its focus placed on enabling the creation of fully customisable bridges between your data and UI, Trux provides convenient and safe ways to mutate data and synchronise these mutations with your components.
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.** All you need to do is create some stores, connect components to them and let it do the work.
 
 While it was designed with [React](https://rohan-deshpande.gitbooks.io/trux/content/usage/react.html) and a REST API in mind, Trux can also be used with other view libraries and API systems such as [Vue](https://rohan-deshpande.gitbooks.io/trux/content/usage/vue.html
 ) and [GraphQL](https://rohan-deshpande.gitbooks.io/trux/content/usage/graphql.html).
 
-Want to learn more? Checkout the [quickstart](#quickstart) guide below or read the [docs](https://rohan-deshpande.gitbooks.io/trux/content/).
+Want to learn more? Checkout the [quickstart](#quickstart) guide below or get an in-depth look by reading the [docs](https://rohan-deshpande.gitbooks.io/trux/content/).
 
 ## Installation
 
@@ -27,7 +27,9 @@ npm i -S trux
 
 ## Quickstart
 
-In Trux, your client side data is kept in stores, either **models** or **collections**, which communicate with your remote resources. You connect components to these stores and ask the stores to perform data changes. Your stores will update both your client side and remote data, persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+In Trux, your client side data is kept in **stores **called **models** or **collections**. You `connect` components to these stores and ask the stores to perform data changes. Your stores can `persist` these changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+
+Here's the basic gist, without considering requests to an API
 
 ```js
 import { Model } from 'trux';
@@ -51,8 +53,8 @@ class Counter extends Model {
   }
 }
 
-// Instantiate the model
-const model = new Counter();
+// Instantiate the store
+const store = new Counter();
 
 // Now we are going to create a mock component to connect to our store.
 // We need to declare a unique truxid and a storeDidUpdate method to receive updates from the store.
@@ -64,11 +66,11 @@ const component = {
 };
 
 // connect the component to the store.
-model.connect(component);
+store.connect(component);
 // call the increment and decrement methods then chain persist to see the new value get logged.
-model.increment().persist(); // 1
-model.increment().persist(); // 2
-model.decrement().persist(); // 1
+store.increment().persist(); // 1
+store.increment().persist(); // 2
+store.decrement().persist(); // 1
 ```
 
 
