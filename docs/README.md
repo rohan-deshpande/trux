@@ -51,8 +51,8 @@ class Counter extends Model {
   }
 }
 
-// Instantiate the model
-const model = new Counter();
+// Instantiate the store
+const store = new Counter();
 
 // Now we are going to create a mock component to connect to our store.
 // We need to declare a unique truxid and a storeDidUpdate method to receive updates from the store.
@@ -64,9 +64,12 @@ const component = {
 };
 
 // connect the component to the store.
-model.connect(component);
+store.connect(component);
 // call the increment and decrement methods then chain persist to see the new value get logged.
-model.increment().persist(); // 1
-model.increment().persist(); // 2
-model.decrement().persist(); // 1
+store.increment().persist(); // 1
+store.increment().persist(); // 2
+store.decrement().persist(); // 1
 ```
+
+
+
