@@ -27,7 +27,9 @@ npm i -S trux
 
 ## Quickstart
 
-In Trux, your client side data is kept in stores, either **models** or **collections**, which communicate with your remote resources. You connect components to these stores and ask the stores to perform data changes. Your stores will update both your client side and remote data, persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+In Trux, your client side data is kept in **stores **called **models** or **collections**. You connect components to these stores and ask the stores to perform data changes. Your stores can persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+
+At a basic level, that is without integrating with an API, Trux works like this:
 
 ```js
 import { Model } from 'trux';
