@@ -29,4 +29,37 @@ npm i -S trux
 
 In Trux, your client side data is kept in stores, either **models** or **collections**, which communicate with your remote resources. You connect components to these stores and ask the stores to perform data changes. Your stores will update both your client side and remote data, persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
 
+```js
+import { Model } from 'trux';
+
+class Counter extends Model {
+    constructor() {
+        super({ value: 0 });
+    }
+    
+    increment() {
+        this.data.value++;   
+    }
+    
+    decrement() {
+        this.data.value--;
+    }
+}
+
+const counter = new Counter();
+
+const ticker = {
+    truxid: 'component',
+    storeDidUpdate: () => {
+        console.log(counter.data.value);
+    }
+};
+
+counter.connect(ticker);
+counter.increment(); // logs 1;
+counter.increment(); // logs 2;
+counter.decrement(); // logs 1;
+```
+
+
 
