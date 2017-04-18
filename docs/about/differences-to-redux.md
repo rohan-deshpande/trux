@@ -10,7 +10,7 @@ Trux offers an alternative approach that is geared towards simplicity and speed.
 
 In Trux, you will typically have multiple stores for data. Usually these stores are a representation of remote data in the client side of your app. For example, for a blog, you may have a `User` model, a `Post` model and a `Comment` model. Likewise you may also have a `Users` collection, `Posts` collection and `Comments` collection. These stores could each have various components connected to them.
 
-**These stores** **are** **still the single source of truth** **for the data driven parts of your app**. However, Trux is fine with self managed state for certain components, such as forms.
+**Stores** **are** **still the single source of truth** **for the data driven parts of your app**. However, Trux is fine with self managed state for certain components, such as forms.
 
 ## Protected mutability
 
