@@ -32,7 +32,6 @@ In Trux, your client side data is kept in stores, either **models** or **collect
 ```js
 import { Model } from 'trux';
 
-
 // First we're going to create a Counter model with some starting data.
 // By extending the Trux Model class, we get all the functionality we need plus we can add custom methods,
 // like the increment and decrement methods which mutate the state of the model.
@@ -71,3 +70,6 @@ model.increment().persist(); // 1
 model.increment().persist(); // 2
 model.decrement().persist(); // 1
 ```
+
+
+
