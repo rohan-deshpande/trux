@@ -25,8 +25,8 @@ Want to learn more? Checkout the [quickstart](#quickstart) guide below or read t
 npm i -S trux
 ```
 
-```bash
-yarn add trux
-```
-
 ## Quickstart
+
+In Trux, your client side data is kept in stores, either **models** or **collections**, which communicate with your remote resources. You connect components to these stores and ask the stores to perform data changes. Your stores will update both your client side and remote data, persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+
+
