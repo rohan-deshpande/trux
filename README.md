@@ -32,34 +32,42 @@ In Trux, your client side data is kept in stores, either **models** or **collect
 ```js
 import { Model } from 'trux';
 
+
+// First we're going to create a Counter model with some starting data.
+// By extending the Trux Model class, we get all the functionality we need plus we can add custom methods,
+// like the increment and decrement methods which mutate the state of the model.
 class Counter extends Model {
-    constructor() {
-        super({ value: 0 });
-    }
-    
-    increment() {
-        this.data.value++;   
-    }
-    
-    decrement() {
-        this.data.value--;
-    }
+  constructor() {
+    super({ value: 0 });
+  }
+
+  increment() {
+    this.data.value++;
+    return this;
+  }
+
+  decrement() {
+    this.data.value--;
+    return this;
+  }
 }
 
-const counter = new Counter();
+// Instantiate the model
+const model = new Counter();
 
-const ticker = {
-    truxid: 'component',
-    storeDidUpdate: () => {
-        console.log(counter.data.value);
-    }
+// Now we are going to create a mock component to connect to our store.
+// We need to declare a unique truxid and a storeDidUpdate method to receive updates from the store.
+const component = {
+  truxid: 'ticker',
+  storeDidUpdate: () => {
+    console.log(model.data.value);
+  }
 };
 
-counter.connect(ticker);
-counter.increment(); // logs 1;
-counter.increment(); // logs 2;
-counter.decrement(); // logs 1;
+// connect the component to the store.
+model.connect(component);
+// call the increment and decrement methods then chain persist to see the new value get logged.
+model.increment().persist(); // 1
+model.increment().persist(); // 2
+model.decrement().persist(); // 1
 ```
-
-
-
