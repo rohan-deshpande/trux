@@ -12,12 +12,12 @@ Trux is an easy-to-use, lightweight and effective way of managing mutable data f
 
 With its focus placed on enabling the creation of fully customisable and effective bridges between your data and UI, Trux provides convenient and safe ways to mutate data and synchronise these changes with your components.
 
-**With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.** All you need to do is create some stores, connect components to them and watch it work.
+**With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.** All you need to do is create some stores, connect components to them and let it do the work.
 
-While it was designed with [React](https://facebook.github.io/react/) and a REST API in mind, Trux can also be used with other view libraries such as [Vue](https://vuejs.org/
-) and [GraphQL](http://graphql.org/).
+While it was designed with [React](https://rohan-deshpande.gitbooks.io/trux/content/usage/react.html) and a REST API in mind, Trux can also be used with other view libraries and API systems such as [Vue](https://rohan-deshpande.gitbooks.io/trux/content/usage/vue.html
+) and [GraphQL](https://rohan-deshpande.gitbooks.io/trux/content/usage/graphql.html).
 
-Want to learn more? Checkout the [quickstart](#quickstart) guide below or read the [docs][https://rohan-deshpande.gitbooks.io/trux/content/]
+Want to learn more? Checkout the [quickstart](#quickstart) guide below or read the [docs](https://rohan-deshpande.gitbooks.io/trux/content/).
 
 ## Installation
 
@@ -25,10 +25,48 @@ Want to learn more? Checkout the [quickstart](#quickstart) guide below or read t
 npm i -S trux
 ```
 
-or
-
-```bash
-yarn add trux
-```
-
 ## Quickstart
+
+In Trux, your client side data is kept in stores, either **models** or **collections**, which communicate with your remote resources. You connect components to these stores and ask the stores to perform data changes. Your stores will update both your client side and remote data, persisting the changes to their connected components. You can choose to make these updates either **optimistic** or **pessimistic**.
+
+```js
+import { Model } from 'trux';
+
+// First we're going to create a Counter model with some starting data.
+// By extending the Trux Model class, we get all the functionality we need plus we can add custom methods,
+// like the increment and decrement methods which mutate the state of the model.
+class Counter extends Model {
+  constructor() {
+    super({ value: 0 });
+  }
+
+  increment() {
+    this.data.value++;
+    return this;
+  }
+
+  decrement() {
+    this.data.value--;
+    return this;
+  }
+}
+
+// Instantiate the model
+const model = new Counter();
+
+// Now we are going to create a mock component to connect to our store.
+// We need to declare a unique truxid and a storeDidUpdate method to receive updates from the store.
+const component = {
+  truxid: 'ticker',
+  storeDidUpdate: () => {
+    console.log(model.data.value);
+  }
+};
+
+// connect the component to the store.
+model.connect(component);
+// call the increment and decrement methods then chain persist to see the new value get logged.
+model.increment().persist(); // 1
+model.increment().persist(); // 2
+model.decrement().persist(); // 1
+```
