@@ -6,6 +6,8 @@ Unidirectional data layer for reactive user interfaces.
 
 > **T**ransforming **r**eactive **u**ser e**x**periences
 
+[![Build Status](https://travis-ci.org/rohan-deshpande/trux.svg?branch=master)](https://travis-ci.org/rohan-deshpande/trux)
+
 ## Introduction
 
 Trux is an easy-to-use, lightweight and effective way of managing mutable data for your client side JavaScript app.
@@ -187,6 +189,3 @@ var User = Trux.Model.extend({
   User.GET = `'http://example.com/api/profile/'${User.getId()}`;
 });
 ```
-
-
-
