@@ -14,9 +14,10 @@ With its focus placed on enabling the creation of fully customisable and effecti
 
 **With Trux, your data stores become the sources of truth for your app's data dependent user interfaces.** All you need to do is create some stores, connect components to them and watch it work.
 
-While it was designed with React and a REST API in mind, Trux can also be used with Vue and GraphQL \(and probably other frameworks/patterns\) with little to no difference.
+While it was designed with [React](https://facebook.github.io/react/) and a REST API in mind, Trux can also be used with other view libraries such as [Vue](https://vuejs.org/
+) and [GraphQL](http://graphql.org/).
 
-Want to learn more? Checkout the short guide below, the examples and the [API reference](http://rohandeshpande.com/trux) to get a better idea of how to use Trux.
+Want to learn more? Checkout the [quickstart](#quickstart) guide below or read the [docs][https://rohan-deshpande.gitbooks.io/trux/content/]
 
 ## Installation
 
@@ -29,3 +30,5 @@ or
 ```bash
 yarn add trux
 ```
+
+## Quickstart
