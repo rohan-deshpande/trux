@@ -48,7 +48,7 @@ Some notes about this structure:
 
 * `stores/models/index.js` is your `models` module and should export all model classes
 * `stores/collections/index.js` is your `collections` module and should export all collection classes
-* `stores/index.js` is your [stores module](/usage/stores-module.md) it should export an object to store your instantiated stores
+* `stores/index.js` is your [stores module](/usage/stores-module.md) it should export instantiated stores
 
 
 
