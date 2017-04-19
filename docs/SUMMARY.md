@@ -18,8 +18,6 @@
 * [Extending](usage/extending.md)
 * [Stores Module](usage/stores-module.md)
 * [Connectors & Nodes](usage/connectors-nodes.md)
-  * [Connectors](usage/connectors-nodes.md#Connectors)
-  * [Nodes](usage/connectors-nodes.md#nodes)
 * [Structure](usage/structure.md)
 * [React](usage/react.md)
 * [Vue](usage/vue.md)
