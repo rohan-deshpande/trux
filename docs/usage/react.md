@@ -12,7 +12,7 @@ You must set a `truxid` for your component. This must be a **unique** identifier
 
 ```js
 componentDidMount() {
-    this.truxid = 'MyComponent';
+  this.truxid = 'MyComponent';
 }
 ```
 
@@ -22,7 +22,8 @@ Likewise you also need to `connect` the component to the store to ensure it rece
 
 ```js
 componentDidMount() {
-    this.props.myStore.connect(this);
+  this.truxid = 'MyComponent'; // set the truxid first
+  this.props.store.connect(this); // connect the component to the store
 }
 ```
 
@@ -36,7 +37,7 @@ Since you set a `truxid` for your component when it mounted, disconnecting is as
 
 ```js
 componentWillUnmount() {
-    this.props.myStore.disconnect(this);
+    this.props.store.disconnect(this);
 }
 ```
 
@@ -89,6 +90,3 @@ class Profile extends Component {
   }
 }
 ```
-
-
-
