@@ -29,6 +29,18 @@ componentDidMount() {
 
 You must do this **after** setting the `truxid` or Trux will throw a `ReferenceError`.
 
+### Setting your component's `storeDidUpdate` method
+
+Each component which you connect to a store needs a `storeDidUpdate` method in order to receive broadcasted updates. In React, you can simply set this as one of your component's methods
+
+```js
+storeDidUpdate() {
+  this.forceUpdate();
+}
+```
+
+Now your component will receive updates from the store when required. It's up to you to choose how you wish to handle these changes inside your `storeDidUpdate` method.
+
 ## Disconnecting
 
 If a component is going to be unmounted from the DOM, you must disconnect it from any stores it is connected to within the `componentWillUnmount` lifecycle method. If you do not, then if you update the store at a later time, React will throw errors because the connected component will no longer exist.
