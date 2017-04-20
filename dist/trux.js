@@ -870,22 +870,21 @@ var Model = function (_Store) {
     var backup = !data || Object.keys(data).length === 0 ? {} : JSON.parse(JSON.stringify(data));
 
     /**
-     * The data which defines this model, initially null.
+     * The data which defines the model. Defaults to null.
      *
-     * @prop {object|null} data - the data which defines this Model, initially null
+     * @prop {object|null} data - the data which defines the model, initially null
      */
     _this.data = data || null;
 
     /**
-     * The collection this model belongs to, if it does belong to one. Initially false.
+     * The collection the model belongs to. Defaults to false.
      *
      * @prop {boolean|object} collection - the collection this model belongs to
      */
     _this.collection = false;
 
     /**
-     * Fills the model with data.
-     * Also sets the private backup for this model.
+     * Fills the model with data and sets the private backup for the model.
      *
      * @param {object} data - the data that defines this model
      * @return {object} Model
@@ -898,7 +897,7 @@ var Model = function (_Store) {
     };
 
     /**
-     * Restores the model's data from a previously stored backup.
+     * Restores the model's data to its previous state.
      *
      * @return {object} Model
      */
@@ -911,9 +910,11 @@ var Model = function (_Store) {
   }
 
   /**
-   * Persits the model's data throughout its bound components.
-   * Emits the model's change event and, if it belongs to a collection, the collection's change event also.
+   * Persits the model's data throughout its connected components. If this model belongs to a collection,
+   * the collection's connected components are updated instead by default.
    *
+   * @param {boolean} [collection] - optionally ensure that if the model belongs to a collection,
+   * it is persisted instead. Defaults to true.
    * @return {object} Model
    */
 
@@ -921,11 +922,13 @@ var Model = function (_Store) {
   _createClass(Model, [{
     key: 'persist',
     value: function persist() {
-      if (this.collection) {
-        this.collection.emitChangeEvent();
-      }
+      var collection = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-      this.emitChangeEvent();
+      if (collection && this.collection) {
+        this.collection.emitChangeEvent();
+      } else {
+        this.emitChangeEvent();
+      }
 
       return this;
     }
@@ -985,7 +988,7 @@ var Model = function (_Store) {
     }
 
     /**
-     * Updates the model in the remote data store.
+     * Updates the model in the remote data store and fills the model with the response payload.
      *
      * @param {object} data - the data to update the model with
      * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
@@ -1017,7 +1020,7 @@ var Model = function (_Store) {
     }
 
     /**
-     * Sends a request to delete from the remote data store, then purges and unbinds all components from the model.
+     * Sends a request to delete from the remote data store, then purges and disconnects all components from the model.
      *
      * @return {object} Promise
      */
@@ -1167,7 +1170,7 @@ var Model = function (_Store) {
 
     /**
      * Extends Model and returns the constructor for the new class.
-     * Convenience method for ES5.
+     * This is a convenience method for ES5, it will me removed in the future.
      *
      * @deprecated
      * @param {object} props - custom props for the new class
@@ -1209,7 +1212,9 @@ var Model = function (_Store) {
     /**
      * Modifies the Model class with the passed properties.
      * This will enable all custom models to inherit the properties passed to this method.
+     * This is a convenience method for ES5, it will me removed in the future.
      *
+     * @deprecated
      * @param {object} props - the props to add to the Trux.Model class
      * @return void
      */
