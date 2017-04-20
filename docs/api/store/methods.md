@@ -2,7 +2,7 @@
 
 ## `connect(component)`
 
-```js
+```
 @param {object} component - the component to connect to this store
 @throws ReferenceError - if component.truxid is undefined
 @return void
@@ -14,7 +14,7 @@ Connects a component to the store and ensures the component receives updates via
 
 ## `disconnect(component)`
 
-```js
+```
 @param {object} component - the component to disconnect from this store
 @throws ReferenceError - if component.truxid is undefined
 @return void
@@ -26,7 +26,7 @@ Disconnects a component from the store, stopping it from receiving updates.
 
 ## `close()`
 
-```js
+```
 @return {object} Store
 ```
 
@@ -34,7 +34,7 @@ Disconnects all components from the store.
 
 ## `addRequestHeader(key, value)`
 
-```js
+```
 @param {string} key - the key for the header
 @param {mixed} value - the value for the header
 @return {object} Store
@@ -44,7 +44,7 @@ Adds a request header.
 
 ## `deleteRequestHeader(key)`
 
-```js
+```
 @param {string} key - the key for the header to delete
 @return {object} Store
 ```
@@ -53,7 +53,7 @@ Deletes a request header.
 
 ## `set requestHeaders(headers)`
 
-```js
+```
 @param {object} headers - headers object
 @return void
 ```
@@ -62,7 +62,7 @@ Set the store's request headers.
 
 ## `get requestHeaders()`
 
-```js
+```
 @return {object}
 ```
 
