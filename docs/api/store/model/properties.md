@@ -1,6 +1,6 @@
 # Model properties
 
-[**Store properties**](/api/store/properties.md)
+[`@see - Store properties`](/api/store/properties.md)
 
 # `data`
 
