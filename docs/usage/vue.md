@@ -8,7 +8,7 @@ Connecting a Vue component to a Trux store must occur in the `mounted` lifecycle
 
 ### Setting a `truxid` for your component
 
-You must set a`truxid`for your component. This must be a **unique** identifier and will be how the component will be found for disconnection later.
+You must set a `truxid` for your component. This must be a **unique** identifier and will be how the component will be found for disconnection later.
 
 ```js
 mounted() {
