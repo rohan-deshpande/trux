@@ -2,7 +2,7 @@
 
 ## `components`
 
-```js
+```
 @prop {object}
 ```
 
@@ -10,7 +10,7 @@ Each store has a `components` object which contains the store's connected compon
 
 ## `emitter`
 
-```js
+```
 @prop {object}
 ```
 
@@ -18,7 +18,7 @@ The `emitter` for a store is used to emit and listen for `change` events. When a
 
 ## `requestHeaders`
 
-```js
+```
 @prop {object}
 ```
 
@@ -26,7 +26,7 @@ These are the `Headers` sent with every API request if your stores communicate w
 
 ## `GET`
 
-```js
+```
 @prop {string}
 ```
 
@@ -34,7 +34,7 @@ This is the `GET` route for the store and is applicable to both models and colle
 
 ## `POST`
 
-```js
+```
 @prop {string}
 ```
 
@@ -42,7 +42,7 @@ This is the `POST` route for the store and is applicable to both models and coll
 
 ## `PUT`
 
-```js
+```
 @prop {string}
 ```
 
@@ -50,7 +50,7 @@ This is the `PUT` route for the store and is applicable to only models. This is 
 
 ## `PATCH`
 
-```js
+```
 @prop {string}
 ```
 
@@ -58,7 +58,7 @@ This is the `PATCH` route for the store and is applicable to only models. This i
 
 ## `DELETE`
 
-```js
+```
 @prop {string}
 ```
 
@@ -66,7 +66,7 @@ This is the `DELETE` route for the store and is applicable to only models. This 
 
 ## `wasFetched`
 
-```js
+```
 @prop {boolean}
 ```
 
@@ -74,7 +74,7 @@ Boolean to determine if the store has been fetched from the remote resource.
 
 ## `wasFetchedAt`
 
-```js
+```
 @prop {number|undefined}
 ```
 
