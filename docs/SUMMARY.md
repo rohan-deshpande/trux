@@ -29,4 +29,6 @@
 * [Store](api/store/README.md)
   * [properties](api/store/properties.md)
   * [methods](api/store/methods.md)
+* [Model](api/store/model.md)
+* Collection
 
