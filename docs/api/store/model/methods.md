@@ -20,7 +20,7 @@ Restores the model's data to its previous state.
 # `persist(collection = true)`
 
 ```js
-@param {boolean} [collection] - optionally ensure that if the model belongs to a collection, it is persisted instead. Defaults to true
+@param {boolean} [collection] - optionally ensure that if the model belongs to a collection, it is persisted instead. Defaults to true.
 @return {object} Model
 ```
 
