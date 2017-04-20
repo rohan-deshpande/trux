@@ -7,5 +7,4 @@
 @return {object} Model
 ```
 
-Fills the model with data.
-Also sets the private backup for the model.
+Fills the model with data and sets the private backup for the model.
