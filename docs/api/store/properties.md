@@ -1,4 +1,5 @@
-# Store properties
+#
+Store properties
 
 # `components`
 
@@ -35,8 +36,10 @@ This is the `DELETE` route for the store and is applicable to only models. This 
 ## `wasFetched`
 
 ```js
-@prop {boolean|undefined}
+@prop {boolean}
 ```
+
+Boolean to determine if the store has been fetched from the remote resource.
 
 ## `wasFetchedAt`
 
@@ -44,3 +47,4 @@ This is the `DELETE` route for the store and is applicable to only models. This 
 @prop {number|undefined}
 ```
 
+Timstamp to determine when the store was fetched, `undefined` if `wasFetched` is false.
