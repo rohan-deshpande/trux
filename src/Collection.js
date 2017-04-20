@@ -7,8 +7,7 @@ export default class Collection extends Store {
    * A store for many models.
    *
    * @param {function} model - the constructor for the model which this collection contains
-   * @return {object} this - collection
-   * @constructor
+   * @return {object} Collection
    */
   constructor(model) {
     super();
@@ -17,7 +16,18 @@ export default class Collection extends Store {
       throw new TypeError('You must supply a model constructor to a collection');
     }
 
+    /**
+     * The model constructor for this collection. Defines what type of model this collection contains.
+     *
+     * @prop {function}
+     */
     this.model = model;
+
+    /**
+     * The models contained in this collection.
+     *
+     * @prop {array}
+     */
     this.models = [];
 
     return this;

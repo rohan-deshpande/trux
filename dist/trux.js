@@ -625,8 +625,7 @@ var Collection = function (_Store) {
    * A store for many models.
    *
    * @param {function} model - the constructor for the model which this collection contains
-   * @return {object} this - collection
-   * @constructor
+   * @return {object} Collection
    */
   function Collection(model) {
     var _ret;
@@ -639,7 +638,18 @@ var Collection = function (_Store) {
       throw new TypeError('You must supply a model constructor to a collection');
     }
 
+    /**
+     * The model constructor for this collection. Defines what type of model this collection contains.
+     *
+     * @prop {function}
+     */
     _this.model = model;
+
+    /**
+     * The models contained in this collection.
+     *
+     * @prop {array}
+     */
     _this.models = [];
 
     return _ret = _this, _possibleConstructorReturn(_this, _ret);
