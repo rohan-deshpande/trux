@@ -32,5 +32,7 @@
 * [Model](api/model/README.md)
   * [properties](api/model/properties.md)
   * [methods](api/model/methods.md)
-* [Collection](api/store/collection.md)
+* [Collection](api/collection/README.md)
+  * [properties](api/collection/properties.md)
+  * methods
 
