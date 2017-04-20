@@ -68,28 +68,3 @@ Set the store's request headers.
 
 Gets the store's request headers.
 
-## `set wasFetched(wasFetched)`
-
-```js
-@param {boolean} wasFetched
-@return void
-```
-
-Sets the `wasFetched` boolean and `wasFetchedAt` timestamp properties.
-
-## `get wasFetched()`
-
-```js
-@return {boolean}
-```
-
-Gets the `wasFetched` property.
-
-## `get wasFetchedAt()`
-
-```js
-@return {number}
-```
-
-Gets the `wasFetchedAt` property.
-
