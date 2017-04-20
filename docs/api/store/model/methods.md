@@ -1,6 +1,6 @@
 # Model methods
 
-# `fill`
+# `fill(data)`
 
 ```js
 @param {object} data - the data that defines this model
@@ -9,7 +9,7 @@
 
 Fills the model with data and sets the private backup for the model.
 
-# `restore`
+# `restore()`
 
 ```js
 @return {object} Model
@@ -17,7 +17,7 @@ Fills the model with data and sets the private backup for the model.
 
 Restores the model's data to its previous state.
 
-# `persist`
+# `persist(collection = true)`
 
 ```js
 @param {boolean} [collection] - optionally ensure that if the model belongs to a collection, it is persisted instead. Defaults to true
@@ -26,3 +26,19 @@ Restores the model's data to its previous state.
 
 Persits the model's data throughout its connected components. If this model belongs to a collection,
 the collection's connected components are updated instead by default.
+
+# `fetch()`
+
+```js
+@return {Object} Promise
+```
+
+Fetches the remote data for the model, then fills the model with the JSON response.
+
+# `create(data)`
+
+```js
+@param {object} data - the data for the new model
+@return {object} Promise
+```
+Creates a new model in the remote data store. Sets the `wasCreated` boolean and `wasCreatedAt` timestamp properties on the model.
