@@ -39,11 +39,7 @@ class Post extends Model {
 }
 ```
 
-This way, when you fill a collection with models, the endpoints will all be set up for you, automagically.
-
-## Handling dependencies
-
-What if your resource needs an `id` but you haven't authenticated a user yet? In this instance, defining your REST endpoints on demand would be cumbersome, and defining them in the constructor would be impossible.
+This way, when you fill a collection with models, the endpoints will all be set up for you, automatically.
 
 
 
