@@ -8,3 +8,11 @@
 @prop {object|null}
 ```
 The data which defines the model. Defaults to null.
+
+# `collection`
+
+```js 
+@prop {boolean|object}
+```
+
+The collection the model belongs to. Defaults to false.
