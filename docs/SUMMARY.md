@@ -31,6 +31,6 @@
   * [methods](api/store/methods.md)
 * [Model](api/store/model.md)
   * [properties](api/model/properties.md)
-  * [methods](api/store/model/methods.md)
+  * [methods](api/model/methods.md)
 * Collection
 
