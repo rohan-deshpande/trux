@@ -7,4 +7,4 @@
 ```js
 @prop {object|null}
 ```
-The data which defines the model, initially null.
+The data which defines the model. Defaults to null.
