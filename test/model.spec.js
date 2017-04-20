@@ -35,6 +35,21 @@ describe(`${test} constructor`, () => {
     assert.isTrue(typeof model.restore === 'function');
     done();
   });
+
+  it('should set the wasCreated property to false', (done) => {
+    assert.isFalse(model.wasCreated);
+    done();
+  });
+
+  it('should set the wasUpdated property to false', (done) => {
+    assert.isFalse(model.wasUpdated);
+    done();
+  });
+
+  it('should set the wasDestroyed property to false', (done) => {
+    assert.isFalse(model.wasDestroyed);
+    done();
+  });
 });
 
 describe(`${test} protoype`, () => {

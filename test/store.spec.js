@@ -38,6 +38,11 @@ describe(`${test} constructor`, () => {
     assert.isTrue(typeof store.DELETE !== 'undefined');
     done();
   });
+
+  it('should set the wasFetched property to false', (done) => {
+    assert.isFalse(store.wasFetched);
+    done();
+  });
 });
 
 

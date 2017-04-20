@@ -104,29 +104,29 @@ var Store = function () {
     /**
      * Private reference to this store
      *
-     * @prop {object} store - private reference to this store
      * @private
+     * @prop {object}
      */
     var store = this;
 
     /**
      * Reference for connected components
      *
-     * @prop {object} components - reference for bound components
+     * @prop {object}
      */
     this.components = {};
 
     /**
      * The store's Event Emitter
      *
-     * @prop {object} emitter - the model's Event Emitter
+     * @prop {object}
      */
     this.emitter = new _wolfy87Eventemitter2.default();
 
     /**
      * Headers to be sent with the request
      *
-     * @prop {object} requestHeaders - request headers
+     * @prop {object}
      */
     this.requestHeaders = {
       'Content-Type': 'application/json'
@@ -135,40 +135,47 @@ var Store = function () {
     /**
      * The GET route for the store
      *
-     * @prop {string} GET - the GET route for the store
+     * @prop {string}
      */
     this.GET = '';
 
     /**
      * The POST route for the store
      *
-     * @prop {string} POST - the POST route for the store
+     * @prop {string}
      */
     this.POST = '';
 
     /**
      * The PUT route for the store
      *
-     * @prop {string} PUT - the PUT route for the store
+     * @prop {string}
      */
     this.PUT = '';
 
     /**
      * The PATCH route for the store
      *
-     * @prop {string} PATCH - the PATCH route for the store
+     * @prop {string}
      */
     this.PATCH = '';
 
     /**
      * The DELETE route for the store
      *
-     * @prop {string} DELETE - the DELETE route for the store
+     * @prop {string}
      */
     this.DELETE = '';
 
     /**
-     * Broadcast changes to all bound components.
+     * Boolean to determine if the store has been fetched from the remote resource.
+     *
+     * @prop {boolean}
+     */
+    this.wasFetched = false;
+
+    /**
+     * Broadcast changes to all connected components.
      *
      * @private
      * @return void
@@ -872,16 +879,37 @@ var Model = function (_Store) {
     /**
      * The data which defines the model. Defaults to null.
      *
-     * @prop {object|null} data - the data which defines the model, initially null
+     * @prop {object|null}
      */
     _this.data = data || null;
 
     /**
      * The collection the model belongs to. Defaults to false.
      *
-     * @prop {boolean|object} collection - the collection this model belongs to
+     * @prop {boolean|object}
      */
     _this.collection = false;
+
+    /**
+     * Boolean to determine if the model has been updated locally and remotely.
+     *
+     * @prop {boolean}
+     */
+    _this.wasUpdated = false;
+
+    /**
+     * Boolean to determine if the model has been created remotely.
+     *
+     * @prop {boolean}
+     */
+    _this.wasCreated = false;
+
+    /**
+     * Boolean to determine if the model has been destroyed locally and remotely.
+     *
+     * @prop {boolean}
+     */
+    _this.wasDestroyed = false;
 
     /**
      * Fills the model with data and sets the private backup for the model.

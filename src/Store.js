@@ -5,29 +5,29 @@ export default class Store {
     /**
      * Private reference to this store
      *
-     * @prop {object} store - private reference to this store
      * @private
+     * @prop {object}
      */
     const store = this;
 
     /**
      * Reference for connected components
      *
-     * @prop {object} components - reference for bound components
+     * @prop {object}
      */
     this.components = {};
 
     /**
      * The store's Event Emitter
      *
-     * @prop {object} emitter - the model's Event Emitter
+     * @prop {object}
      */
     this.emitter = new EventEmitter();
 
     /**
      * Headers to be sent with the request
      *
-     * @prop {object} requestHeaders - request headers
+     * @prop {object}
      */
     this.requestHeaders = {
       'Content-Type': 'application/json',
@@ -36,40 +36,47 @@ export default class Store {
     /**
      * The GET route for the store
      *
-     * @prop {string} GET - the GET route for the store
+     * @prop {string}
      */
     this.GET = '';
 
     /**
      * The POST route for the store
      *
-     * @prop {string} POST - the POST route for the store
+     * @prop {string}
      */
     this.POST = '';
 
     /**
      * The PUT route for the store
      *
-     * @prop {string} PUT - the PUT route for the store
+     * @prop {string}
      */
     this.PUT = '';
 
     /**
      * The PATCH route for the store
      *
-     * @prop {string} PATCH - the PATCH route for the store
+     * @prop {string}
      */
     this.PATCH = '';
 
     /**
      * The DELETE route for the store
      *
-     * @prop {string} DELETE - the DELETE route for the store
+     * @prop {string}
      */
     this.DELETE = '';
 
     /**
-     * Broadcast changes to all bound components.
+     * Boolean to determine if the store has been fetched from the remote resource.
+     *
+     * @prop {boolean}
+     */
+    this.wasFetched = false;
+
+    /**
+     * Broadcast changes to all connected components.
      *
      * @private
      * @return void

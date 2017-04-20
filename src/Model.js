@@ -18,16 +18,37 @@ export default class Model extends Store {
     /**
      * The data which defines the model. Defaults to null.
      *
-     * @prop {object|null} data - the data which defines the model, initially null
+     * @prop {object|null}
      */
     this.data = data || null;
 
     /**
      * The collection the model belongs to. Defaults to false.
      *
-     * @prop {boolean|object} collection - the collection this model belongs to
+     * @prop {boolean|object}
      */
     this.collection = false;
+
+    /**
+     * Boolean to determine if the model has been updated locally and remotely.
+     *
+     * @prop {boolean}
+     */
+    this.wasUpdated = false;
+
+    /**
+     * Boolean to determine if the model has been created remotely.
+     *
+     * @prop {boolean}
+     */
+    this.wasCreated = false;
+
+    /**
+     * Boolean to determine if the model has been destroyed locally and remotely.
+     *
+     * @prop {boolean}
+     */
+    this.wasDestroyed = false;
 
     /**
      * Fills the model with data and sets the private backup for the model.
