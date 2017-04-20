@@ -1,5 +1,4 @@
-#
-Model properties
+# Model properties
 
 [`@see - Store properties`](/api/store/properties.md)
 

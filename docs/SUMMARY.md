@@ -30,7 +30,7 @@
   * [properties](api/store/properties.md)
   * [methods](api/store/methods.md)
 * [Model](api/store/model.md)
-  * [properties](api/store/model/properties.md)
+  * [properties](api/model/properties.md)
   * [methods](api/store/model/methods.md)
 * Collection
 
