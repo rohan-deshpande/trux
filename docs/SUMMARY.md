@@ -34,5 +34,5 @@
   * [methods](api/model/methods.md)
 * [Collection](api/collection/README.md)
   * [properties](api/collection/properties.md)
-  * methods
+  * [methods](api/collection/methods.md)
 
