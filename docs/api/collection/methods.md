@@ -65,7 +65,7 @@ Gets the collection from its remote resource.
 ```
 
 Extends Collection and returns the constructor for the new class.
-This is a convenience method for ES5, it will me removed in the future.
+_This is a convenience method for ES5, it will me removed in the future._
 
 # `static modify(props)`
 
@@ -77,4 +77,4 @@ This is a convenience method for ES5, it will me removed in the future.
 
 Modifies the Collection class with the passed properties.
 This will enable all custom collections to inherit the properties passed to this method.
-This is a convenience method for ES5, it will me removed in the future.
+_This is a convenience method for ES5, it will me removed in the future._
