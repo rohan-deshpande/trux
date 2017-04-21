@@ -18,6 +18,7 @@
 * [Extending](usage/extending.md)
 * [Stores Module](usage/stores-module.md)
 * [Connectors & Nodes](usage/connectors-nodes.md)
+* [Optimism vs Pessimism](usage/optimism-vs-pessimism.md)
 * [Structure](usage/structure.md)
 * [React](usage/react.md)
 * [Vue](usage/vue.md)
