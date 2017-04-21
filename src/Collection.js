@@ -35,8 +35,8 @@ export default class Collection extends Store {
 
   /**
    * Fills the collection with models.
-   * Instantiates a Model for each data item contained with in the passed array.
-   * Appends these models into this.models.
+   * Instantiates a Model for each data item contained with in the passed array
+   * and appends these models to the collection.
    *
    * @param {array} models - array of model data objects
    * @return {object} Collection
@@ -101,7 +101,7 @@ export default class Collection extends Store {
   }
 
   /**
-   * Proxy method for emitChangeEvent, just for a unified API for models and collections.
+   * Broadcasts changes to connected components.
    *
    * @return {object} Collection
    */
@@ -110,7 +110,7 @@ export default class Collection extends Store {
   }
 
   /**
-   * Gets a collection from a remote resource.
+   * Gets the collection from its remote resource.
    *
    * @return {object} Promise
    */
@@ -128,8 +128,8 @@ export default class Collection extends Store {
   }
 
   /**
-   * Extends Collectioj and returns the constructor for the new class.
-   * Convenience method for ES5.
+   * Extends Collection and returns the constructor for the new class.
+   * This is a convenience method for ES5, it will me removed in the future.
    *
    * @deprecated
    * @param {object} props - custom props for the new class
@@ -161,7 +161,9 @@ export default class Collection extends Store {
   /**
    * Modifies the Collection class with the passed properties.
    * This will enable all custom collections to inherit the properties passed to this method.
+   * This is a convenience method for ES5, it will me removed in the future.
    *
+   * @deprecated
    * @param {object} props - the props to add to the Collection class
    * @return void
    */

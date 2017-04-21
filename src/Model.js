@@ -140,11 +140,11 @@ export default class Model extends Store {
   /**
    * Updates the model in the remote data store and fills the model with the response payload.
    *
-   * @param {object} data - the data to update the model with
+   * @param {object} [data] - the data to update the model with, defaults to the current model data
    * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
    * @return {object} Promise
    */
-  update(data, method = 'PUT') {
+  update(data = this.data, method = 'PUT') {
     return Fetch.json(this[method], {
       method: method,
       headers: this.requestHeaders,
