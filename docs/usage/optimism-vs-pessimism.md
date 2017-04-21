@@ -17,8 +17,20 @@ There is also a catch to optimistic updates, what do we do if the change was **n
 Trux provides ways to handle both situations so let's have a look at how to do this with some short examples. 
 
 ```js
-const user = new Model({ name: 'Frodo' });
+//html
 
+<div id='character'></div>
+
+//js
+const user = new Model({ name: 'Frodo' });
+const component = {
+    truxid: 'Character',
+    storeDidUpdate: () => {
+        document.getElementById('character').innerHTML = user.data.name;
+    }
+}
+
+user.data.name = 'Sam';
 
 ```
 
