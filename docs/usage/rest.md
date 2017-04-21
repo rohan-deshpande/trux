@@ -41,5 +41,9 @@ class Post extends Model {
 
 This way, when you fill a collection with models, the endpoints will all be set up for you, automatically.
 
+## Methods
+
+All stores expose a `fetch` method which will use the store's `GET` endpoint to fetch the store from its remote location. In addition to this models expose the `create`, `update` & `destroy` methods which use the other REST properties to perform requests and update state both remotely and locally. For more information checkout the [api docs](/api/model/methods.md).
+
 
 
