@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Just HTML
+        </title>
+    </head>
+    <body>
+        <div id='app'></div>
+        <script src='../../dist/trux.js'></script>
+        <script>
+            var user = new trux.Model({ name: 'Frodo' });
+            var component = {
+                truxid: 'Hobbit',
+                storeDidUpdate: function () {
+                    document.getElementById('app').innerHTML = user.name;
+                }
+            }
+            var hobbits = [
+                'Frodo',
+                'Sam',
+                'Pippin',
+                'Merry'
+            ];
+
+            user.connect(component);
+
+            setInterval(function() {
+                user.name = hobbits[Math.floor(Math.random() * hobbits.length)]
+                user.persist();
+            }, 1000);
+        </script>
+    </body>
+</html>
