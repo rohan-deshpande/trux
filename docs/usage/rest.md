@@ -6,7 +6,7 @@ Trux was designed with a REST API in mind and is already wired up to work with o
 
 Trux is designed to work with a JSON based API, if your API does not produce/consume JSON, you might need to build custom request methods into your stores.
 
-## Resources
+## Properties
 
 Trux models and collections both define `GET`, `POST`, `PUT`, `PATCH`, and `DELETE` REST endpoint properties in their constructors. By default, these are just empty strings, but you can easily set these at any time.  Here's an example
 
