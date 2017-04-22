@@ -45,5 +45,7 @@ This way, when you fill a collection with models, the endpoints will all be set 
 
 All stores expose a `fetch` method which will use the store's `GET` endpoint to fetch the store from its remote location. In addition to this models expose the `create`, `update` & `destroy` methods which use the other REST properties to perform requests and update state both remotely and locally. For more information checkout the [api docs](/api/model/methods.md).
 
+**Note!** All requests use [Fetch](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) via [`rd-fetch`](https://github.com/rohan-deshpande/rd-fetch). If you plan to support older browsers you will need both a [Fetch](https://github.com/github/fetch) and a [Promise](https://github.com/taylorhakes/promise-polyfill) polyfill. 
+
 
 
