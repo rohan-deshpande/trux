@@ -43,5 +43,5 @@ In this example, the `innerHTML` of the `#app` element will be updated to a rand
 
 ## Learn more
 
-* Model properties
-* Model methods
+* [Model properties](/api/model/properties.md)
+* [Model methods](/api/model/methods.md)
