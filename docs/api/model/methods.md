@@ -27,9 +27,10 @@ Restores the model's data to its previous state.
 Persits the model's data throughout its connected components. If this model belongs to a collection,
 the collection's connected components are updated instead by default.
 
-# `fetch()`
+# `fetch(query = '')`
 
 ```
+@param {string} [query] - optional query string to append to GET endpoint
 @return {Object} Promise
 ```
 
@@ -43,11 +44,14 @@ Fetches the remote data for the model, then fills the model with the JSON respon
 ```
 Creates a new model in the remote data store.
 
-# `update(data, method = 'PUT')`
+# `update(options)`
 
 ```
-@param {object} data - the data to update the model with
-@param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+@param {object} [options] - configuration options
+@param {object} [options.data] - the data to update the model with, defaults to the current model data
+@param {string} [options.method] - the method to use, should be either PUT or PATCH, defaults to PUT
+@param {boolean} [options.optimistic] - boolean to determine if this update was already persisted optimistically
+@param {boolean} [options.collection] - collection argument for the persist method
 @return {object} Promise
 ```
 
