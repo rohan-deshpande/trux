@@ -11,10 +11,19 @@ For requesting model and collection data, you will still be able to use the `fet
 For example:
 
 ```js
-user.fetch(encodeURI('?query='));
+user.fetch(encodeURI('?query=user(id: "1")');
 ```
 
-For model mutations, you'll need to use the `update` method with the `method` option set to `POST`. 
+For model mutations, you'll need to use the `update` method with the `method` option set to `POST` like so
+
+```js
+user.update({
+    data: {
+        
+    },
+    method: 'POST'
+})
+``` 
 You will need to use the `fetch` and `update` methods exclusively, passing `POST` as the method to `update`. 
 
 Just like you would with REST, simply define your endpoints and you should be good to go. 
