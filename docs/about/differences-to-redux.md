@@ -1,6 +1,6 @@
 # Differences to Redux
 
-Trux is quite different to Redux, so much so that it literally breaks all of its [three core principles](http://redux.js.org/docs/introduction/ThreePrinciples.html). Before you spit out your ristretto in disgust, let me say that I really, really like Redux. I think it is an elegant, awesome solution to application state management and if you are already invested in it, Trux might not be the right choice for you.
+Trux is quite different to Redux, so much so that it literally breaks all of its [three core principles](http://redux.js.org/docs/introduction/ThreePrinciples.html). Before you spit your ristretto out in disgust, let me say that I really, really like Redux. I think it is an elegant, awesome solution to application state management and if you are already invested in it, Trux might not be the right choice for you.
 
 I do believe however that Redux forces developers to rethink solutions to things in a way that may, at times, seem slightly over-engineered. In order to work with it you may need extra libraries, such as [`react-router-redux`](https://github.com/reactjs/react-router-redux) if you wish to use React-Router and [`redux-form`](http://redux-form.com/6.6.3/) to manage the state of your forms with Redux. Asynchronous functionality added on top brings extra complexity with libraries such as [`redux-thunk`](https://github.com/gaearon/redux-thunk) and [`redux-saga`](https://github.com/redux-saga/redux-saga) to consider. You have to truly **invest** in Redux.
 
