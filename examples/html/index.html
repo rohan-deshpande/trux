@@ -7,28 +7,30 @@
         </title>
     </head>
     <body>
-        <div id='app'></div>
         <script src='../../dist/trux.js'></script>
         <script>
-            var user = new trux.Model({ name: 'Frodo' });
-            var component = {
-                truxid: 'Hobbit',
-                storeDidUpdate: function () {
-                    document.getElementById('app').innerHTML = user.name;
-                }
+            var app = document.createElement('div');
+            var character = new trux.Model({ name: 'Frodo' });
+            var hobbit = {
+              truxid: 'Hobbit',
+              storeDidUpdate: function () {
+                  document.getElementById('app').innerHTML = character.data.name;
+              }
             }
             var hobbits = [
-                'Frodo',
-                'Sam',
-                'Pippin',
-                'Merry'
+              'Frodo',
+              'Sam',
+              'Pippin',
+              'Merry'
             ];
 
-            user.connect(component);
+            app.id = 'app';
+            document.body.appendChild(app);
+            character.connect(hobbit);
 
             setInterval(function() {
-                user.name = hobbits[Math.floor(Math.random() * hobbits.length)]
-                user.persist();
+              character.data.name = hobbits[Math.floor(Math.random() * hobbits.length)];
+              character.persist();
             }, 1000);
         </script>
     </body>
