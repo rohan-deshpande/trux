@@ -3,13 +3,15 @@
     <head>
         <meta charset="utf-8">
         <title>
-            Just HTML
+            Disconnecting
         </title>
     </head>
     <body>
-        <script src='../../dist/trux.js'></script>
+        <script src='../../../dist/trux.js'></script>
         <script>
             var app = document.createElement('div');
+            var connect = document.createElement('button');
+            var disconnect = document.createElement('button');
             var character = new trux.Model({ name: 'Frodo' });
             var hobbit = {
               truxid: 'Hobbit',
@@ -25,8 +27,22 @@
             ];
 
             app.id = 'app';
+            connect.id = 'connect';
+            disconnect.id = 'disconnect';
+            connect.innerHTML = 'connect';
+            disconnect.innerHTML = 'disconnect';
+
+            connect.onclick = function (e) {
+                character.connect(hobbit);
+            }
+
+            disconnect.onclick = function (e) {
+                character.disconnect(hobbit);
+            }
+
             document.body.appendChild(app);
-            character.connect(hobbit);
+            document.body.appendChild(connect);
+            document.body.appendChild(disconnect);
 
             setInterval(function() {
               character.data.name = hobbits[Math.floor(Math.random() * hobbits.length)];

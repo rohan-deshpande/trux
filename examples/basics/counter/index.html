@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Counter
+        </title>
+    </head>
+    <body>
+        <script src='../../../dist/trux.js'></script>
+        <script>
+            var app = document.createElement('div');
+            var increment = document.createElement('button');
+            var decrement = document.createElement('button');
+            var Counter = trux.Model.extend({
+                increment: function () {
+                    this.data.value++;
+
+                    return this;
+                },
+
+                decrement: function () {
+                    this.data.value--;
+
+                    return this;
+                }
+            });
+            var counter = new Counter({ value: 0 });
+            var ticker = {
+                truxid: 'Ticker',
+                storeDidUpdate: function () {
+                    app.innerHTML = counter.data.value;
+                }
+            }
+
+            counter.connect(ticker);
+
+            app.id = 'app';
+            increment.id = 'increment';
+            decrement.id = 'decrement';
+            app.innerHTML = counter.data.value;
+            increment.innerHTML = '+';
+            decrement.innerHTML = '-';
+
+            increment.onclick = function (e) {
+                counter.increment().persist();
+            }
+
+            decrement.onclick = function (e) {
+                counter.decrement().persist();
+            }
+
+            document.body.appendChild(app);
+            document.body.appendChild(increment);
+            document.body.appendChild(decrement);
+        </script>
+    </body>
+</html>
