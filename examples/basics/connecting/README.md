@@ -1,3 +1,3 @@
-# HTML
+# Connecting
 
-A very simple example with ES5 syntax and no view library just to see how Trux works.
+Simple example to understand the basics of connecting components to stores. 
