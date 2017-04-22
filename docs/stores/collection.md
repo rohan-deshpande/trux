@@ -134,5 +134,5 @@ class Posts extends Collection {
 
 ## Learn more
 
-* Collection properties
-* Collection methods
+* [Collection properties](/api/collection/properties.md)
+* [Collection methods](/api/collection/methods.md)
