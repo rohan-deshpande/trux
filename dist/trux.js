@@ -976,28 +976,6 @@ var Model = function (_Store) {
     }
 
     /**
-     * Convenience method for performing optimistic updates. Will chain persist and update
-     * passing the arguments set in the options object as required.
-     *
-     * @experimental
-     * @param {object} [options] - an object containing the necessary arguments to pass to persist and update
-     * @param {boolean} [options.collection] - collection argument for the persist method
-     * @param {object} [options.data] - data option for the update method
-     * @param {string} [options.method] - method option for the update method
-     * @return {object} Promise
-     */
-
-  }, {
-    key: 'entrust',
-    value: function entrust(options) {
-      var collection = options.collection || true;
-      var data = options.data || this.data;
-      var method = options.method || 'PUT';
-
-      return this.persist(collection).update({ data: data, method: method, optimistic: true });
-    }
-
-    /**
      * Fetches the remote data for the model, then fills the model with the JSON response.
      *
      * @return {object} Promise
@@ -1058,6 +1036,7 @@ var Model = function (_Store) {
      * @param {object} [options.data] - the data to update the model with, defaults to the current model data
      * @param {string} [options.method] - the method to use, should be either PUT or PATCH, defaults to PUT
      * @param {boolean} [options.optimistic] - boolean to determine if this update was already persisted optimistically
+     * @param {boolean} [options.collection] - collection argument for the persist method
      * @return {object} Promise
      */
 
@@ -1069,6 +1048,11 @@ var Model = function (_Store) {
       var data = options.data || this.data;
       var method = options.method || 'PUT';
       var optimistic = options.optimistic || false;
+      var collection = options.collection || true;
+
+      if (optimistic) {
+        this.persist(collection);
+      }
 
       return _rdFetch2.default.json(this[method], {
         method: method,
@@ -1080,7 +1064,7 @@ var Model = function (_Store) {
         if (optimistic) {
           _this4.fill(response.json);
         } else {
-          _this4.fill(response.json).persist();
+          _this4.fill(response.json).persist(collection);
         }
 
         return Promise.resolve(response);
