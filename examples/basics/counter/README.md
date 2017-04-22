@@ -1,3 +1,3 @@
-# HTML
+# Counter
 
-A very simple example with ES5 syntax and no view library just to see how Trux works.
+Simple example to show tying controls to a store with a connected component. 
