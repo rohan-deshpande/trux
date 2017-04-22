@@ -29,7 +29,7 @@ npm i -S trux
 
 In order to support older browsers you'll need some polyfills
 
-* [Fetch](https://github.com/github/fetch)
+* [fetch](https://github.com/github/fetch)
 * [Promise](https://github.com/taylorhakes/promise-polyfill)
 
 ## Quickstart
