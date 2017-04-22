@@ -96,10 +96,11 @@ export default class Model extends Store {
   /**
    * Fetches the remote data for the model, then fills the model with the JSON response.
    *
+   * @param {string} [query] - optional query string to append to GET endpoint
    * @return {object} Promise
    */
-  fetch() {
-    return Fetch.json(this.GET, {
+  fetch(query = '') {
+    return Fetch.json(`${this.GET}${query}`, {
       method: 'GET',
       headers: this.requestHeaders
     }).then((response) => {

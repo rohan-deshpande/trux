@@ -114,17 +114,21 @@ export default class Collection extends Store {
   /**
    * Gets the collection from its remote resource.
    *
+   * @param {string} [query] - optional query string to append to GET endpoint
    * @return {object} Promise
    */
-  fetch() {
-    return Fetch.json(this.GET, {
+  fetch(query = '') {
+    return Fetch.json(`${this.GET}${query}`, {
       method: 'GET',
       headers: this.requestHeaders
     }).then((response) => {
+      this.wasFetched = true;
       this.fill(response.json).persist();
 
       return Promise.resolve(response);
     }).catch((error) => {
+      this.wasFetched = false;
+      
       return Promise.reject(error);
     });
   }

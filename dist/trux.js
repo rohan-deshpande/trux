@@ -752,6 +752,7 @@ var Collection = function (_Store) {
     /**
      * Gets the collection from its remote resource.
      *
+     * @param {string} [query] - optional query string to append to GET endpoint
      * @return {object} Promise
      */
 
@@ -760,14 +761,19 @@ var Collection = function (_Store) {
     value: function fetch() {
       var _this2 = this;
 
-      return _rdFetch2.default.json(this.GET, {
+      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return _rdFetch2.default.json('' + this.GET + query, {
         method: 'GET',
         headers: this.requestHeaders
       }).then(function (response) {
+        _this2.wasFetched = true;
         _this2.fill(response.json).persist();
 
         return Promise.resolve(response);
       }).catch(function (error) {
+        _this2.wasFetched = false;
+
         return Promise.reject(error);
       });
     }
@@ -978,6 +984,7 @@ var Model = function (_Store) {
     /**
      * Fetches the remote data for the model, then fills the model with the JSON response.
      *
+     * @param {string} [query] - optional query string to append to GET endpoint
      * @return {object} Promise
      */
 
@@ -986,7 +993,9 @@ var Model = function (_Store) {
     value: function fetch() {
       var _this2 = this;
 
-      return _rdFetch2.default.json(this.GET, {
+      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return _rdFetch2.default.json('' + this.GET + query, {
         method: 'GET',
         headers: this.requestHeaders
       }).then(function (response) {
