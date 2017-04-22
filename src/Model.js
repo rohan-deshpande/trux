@@ -94,9 +94,28 @@ export default class Model extends Store {
   }
 
   /**
+   * Convenience method for performing optimistic updates. Will chain persist and update
+   * passing the arguments set in the options object as required.
+   *
+   * @experimental
+   * @param {object} [options] - an object containing the necessary arguments to pass to persist and update
+   * @param {boolean} [options.collection] - collection argument for the persist method
+   * @param {object} [options.data] - data option for the update method
+   * @param {string} [options.method] - method option for the update method
+   * @return {object} Promise
+   */
+  entrust(options) {
+    const collection = options.collection || true;
+    const data = options.data || this.data;
+    const method = options.method || 'PUT';
+
+    return this.persist(collection).update({ data: data, method: method, optimistic: true });
+  }
+
+  /**
    * Fetches the remote data for the model, then fills the model with the JSON response.
    *
-   * @return {Object} Promise
+   * @return {object} Promise
    */
   fetch() {
     return Fetch.json(this.GET, {
@@ -140,18 +159,29 @@ export default class Model extends Store {
   /**
    * Updates the model in the remote data store and fills the model with the response payload.
    *
-   * @param {object} [data] - the data to update the model with, defaults to the current model data
-   * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+   * @param {object} [options] - configuration options
+   * @param {object} [options.data] - the data to update the model with, defaults to the current model data
+   * @param {string} [options.method] - the method to use, should be either PUT or PATCH, defaults to PUT
+   * @param {boolean} [options.optimistic] - boolean to determine if this update was already persisted optimistically
    * @return {object} Promise
    */
-  update(data = this.data, method = 'PUT') {
+  update(options) {
+    const data = options.data || this.data;
+    const method = options.method || 'PUT';
+    const optimistic = options.optimistic || false;
+
     return Fetch.json(this[method], {
       method: method,
       headers: this.requestHeaders,
       body: data
     }).then((response) => {
       this.wasUpdated = true;
-      this.fill(response.json).persist();
+
+      if (optimistic) {
+        this.fill(response.json);
+      } else {
+        this.fill(response.json).persist();
+      }
 
       return Promise.resolve(response);
     }).catch((error) => {

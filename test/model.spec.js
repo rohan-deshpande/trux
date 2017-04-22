@@ -231,8 +231,10 @@ describe(`${test} requests`, () => {
     assert.isTrue(component.author === '');
 
     post.update({
-      'title': 'foo',
-      'author': 'bar'
+      data: {
+        'title': 'foo',
+        'author': 'bar'
+      }
     }).then((response) => {
       assert.isTrue(JSON.stringify(post.data) === JSON.stringify(response.json));
       assert.isTrue(component.author === 'bar');
@@ -248,7 +250,7 @@ describe(`${test} requests`, () => {
 
     post.PUT = `${endpoints.posts}/1`;
 
-    post.update({ title: 'baz' })
+    post.update({data: { title: 'baz' }})
       .then(() => {
         assert.isTrue(post.wasUpdated);
         assert.isTrue(typeof post.wasUpdatedAt !== 'undefined');

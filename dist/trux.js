@@ -745,6 +745,8 @@ var Collection = function (_Store) {
     key: 'persist',
     value: function persist() {
       this.emitChangeEvent();
+
+      return this;
     }
 
     /**
@@ -974,9 +976,31 @@ var Model = function (_Store) {
     }
 
     /**
+     * Convenience method for performing optimistic updates. Will chain persist and update
+     * passing the arguments set in the options object as required.
+     *
+     * @experimental
+     * @param {object} [options] - an object containing the necessary arguments to pass to persist and update
+     * @param {boolean} [options.collection] - collection argument for the persist method
+     * @param {object} [options.data] - data option for the update method
+     * @param {string} [options.method] - method option for the update method
+     * @return {object} Promise
+     */
+
+  }, {
+    key: 'entrust',
+    value: function entrust(options) {
+      var collection = options.collection || true;
+      var data = options.data || this.data;
+      var method = options.method || 'PUT';
+
+      return this.persist(collection).update({ data: data, method: method, optimistic: true });
+    }
+
+    /**
      * Fetches the remote data for the model, then fills the model with the JSON response.
      *
-     * @return {Object} Promise
+     * @return {object} Promise
      */
 
   }, {
@@ -1030,18 +1054,21 @@ var Model = function (_Store) {
     /**
      * Updates the model in the remote data store and fills the model with the response payload.
      *
-     * @param {object} [data] - the data to update the model with, defaults to the current model data
-     * @param {string} [method] - the method to use, should be either PUT or PATCH, defaults to PUT
+     * @param {object} [options] - configuration options
+     * @param {object} [options.data] - the data to update the model with, defaults to the current model data
+     * @param {string} [options.method] - the method to use, should be either PUT or PATCH, defaults to PUT
+     * @param {boolean} [options.optimistic] - boolean to determine if this update was already persisted optimistically
      * @return {object} Promise
      */
 
   }, {
     key: 'update',
-    value: function update() {
+    value: function update(options) {
       var _this4 = this;
 
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.data;
-      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUT';
+      var data = options.data || this.data;
+      var method = options.method || 'PUT';
+      var optimistic = options.optimistic || false;
 
       return _rdFetch2.default.json(this[method], {
         method: method,
@@ -1049,7 +1076,12 @@ var Model = function (_Store) {
         body: data
       }).then(function (response) {
         _this4.wasUpdated = true;
-        _this4.fill(response.json).persist();
+
+        if (optimistic) {
+          _this4.fill(response.json);
+        } else {
+          _this4.fill(response.json).persist();
+        }
 
         return Promise.resolve(response);
       }).catch(function (error) {

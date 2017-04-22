@@ -107,6 +107,8 @@ export default class Collection extends Store {
    */
   persist() {
     this.emitChangeEvent();
+
+    return this;
   }
 
   /**
