@@ -47,9 +47,10 @@ Purges the collection of its models.
 
 Broadcasts changes to connected components.
 
-# `fetch()`
+# `fetch(query = '')`
 
 ```
+@param {string} [query] - optional query string to append to GET endpoint
 @return {object} Promise
 ```
 
