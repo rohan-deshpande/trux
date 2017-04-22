@@ -17,7 +17,7 @@ There is also a catch to optimistic updates, what do we do if the change was **n
 Trux provides ways to handle both situations so let's have a look at how to do this with a very simple example
 
 ```js
-class User extends Model {
+class Character extends Model {
   constructor(data) {
     super(data);
 
@@ -33,27 +33,29 @@ class User extends Model {
   }
 }
 
-const user = new User({ name: 'Frodo' });
-const component = {
+const character = new Character({ name: 'Frodo' });
+const hobbit = {
   truxid: 'Hobbit',
   storeDidUpdate: () => {
-    document.getElementById('app').innerHTML = user.name;
+    document.getElementById('app').innerHTML = character.name;
   }
 }
 
-user.name = 'Sam';
+character.connect(hobbit);
 
 // optimistic:
 
-user.persist().update(user.data);
+character.name = 'Sam';
+character.update({ optimistic: true });
 
 // pessimistic:
 
-user.update().catch(console.warn);
+character.name = 'Pippin';
+character.update().catch(console.warn);
 ```
 
-In this very simple example, the optimistic change will immediately update the `innerHTML` of `#app` to `Sam` via `persist`, then send a request to `https://lotr.com/api` to update the user's name.
+In this very simple example, the optimistic change will immediately update the `innerHTML` of `#app` to `Sam`, then send a request to the API to update the character's name remotely.
 
-In this case, if the request fails, `user` will be restored to its previous state and will in turn revert `#app` back to displaying `Frodo`.
+In this case, if the request fails, `character` will be restored to its previous state and will in turn revert `#app` back to displaying `Frodo`.
 
-On the other hand, the pessimistic change will first attempt to send the request to `https://lotr.com/api` and only `persist` the change when the request is successful. It will also catch the error if the request fails, preventing `#app` from getting the new `innerHTML`.
+On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful. It will also catch the error if the request fails, preventing `#app` from getting the new `innerHTML`.
