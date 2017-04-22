@@ -1,5 +1,7 @@
 # Model methods
 
+[`@see - Store methods`](/api/store/methods.md)
+
 # `fill(data)`
 
 ```
