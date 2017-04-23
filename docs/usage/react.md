@@ -83,8 +83,6 @@ Here's an example of how this might work in a real life situation:
 import { User } from './stores/models';
 import React, { Component, PropTypes } from 'react';
 
-// Profile is, as we term it in Trux, a connector.
-// It will contain three nodes, ProfilePic, UserName and UserBio
 class Profile extends Component {
   static propTypes = {
     userStore: PropTypes.object.isRequired
@@ -108,7 +106,7 @@ class Profile extends Component {
   componentWillUnmount() {
     this.props.userStore.disconnect(this);
   }
-  
+
   storeDidUpdate() {
     this.forceUpdate();
   }
