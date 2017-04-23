@@ -84,6 +84,7 @@ import { User } from './stores/models';
 import React, { Component, PropTypes } from 'react';
 
 class Profile extends Component {
+
   static propTypes = {
     userStore: PropTypes.object.isRequired
   }
