@@ -35,7 +35,7 @@ Each component which you connect to a store needs a `storeDidUpdate` method in o
 
 ```js
 storeDidUpdate() {
-  this.forceUpdate();
+  this.forceUpdate(); // see note about this below
 }
 ```
 
