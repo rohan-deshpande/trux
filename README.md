@@ -4,8 +4,8 @@
 
 Unidirectional data layer for reactive user interfaces.
 
-[![Build Status](https://travis-ci.org/rohan-deshpande/trux.svg?branch=feature/es6)](https://travis-ci.org/rohan-deshpande/trux)
-[![Coverage Status](https://coveralls.io/repos/github/rohan-deshpande/trux/badge.svg?branch=feature/es6)](https://coveralls.io/github/rohan-deshpande/trux?branch=feature/es6)
+[![Build Status](https://travis-ci.org/rohan-deshpande/trux.svg?branch=master)](https://travis-ci.org/rohan-deshpande/trux)
+[![Coverage Status](https://coveralls.io/repos/github/rohan-deshpande/trux/badge.svg?branch=master)](https://coveralls.io/github/rohan-deshpande/trux?branch=master)
 [![Dependency Status](https://david-dm.org/rohan-deshpande/trux.svg)](https://david-dm.org/rohan-deshpande/trux)
 
 ## Introduction
