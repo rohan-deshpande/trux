@@ -6,6 +6,7 @@ script:
   - yarn run lint
 branches:
   only:
-    - feature/es6
+    - master
+    - dev
 cache:
   yarn: true
