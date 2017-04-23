@@ -37,4 +37,4 @@ ehthumbs.db
 Thumbs.db
 
 node_modules
-test/db.json
+coverage
