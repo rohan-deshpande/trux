@@ -4,6 +4,8 @@ node_js:
 script:
   - yarn run test
   - yarn run lint
+  - yarn run coverage:generate
+  - yarn run coverage:publish
 branches:
   only:
     - master
