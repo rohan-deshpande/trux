@@ -69,6 +69,13 @@ export default class Store {
     this.DELETE = '';
 
     /**
+     * Boolean to determine if changes to the store has been broadcast.
+     *
+     * @prop {boolean}
+     */
+    this.wasBroadcast = false;
+
+    /**
      * Boolean to determine if the store has been fetched from the remote resource.
      *
      * @prop {boolean}
@@ -82,6 +89,8 @@ export default class Store {
      * @return void
      */
     function broadcast() {
+      store.wasBroadcast = true;
+
       if (!Object.keys(store.components).length) {
         return;
       }
@@ -212,6 +221,35 @@ export default class Store {
    */
   get requestHeaders() {
     return this._requestHeaders;
+  }
+
+  /**
+   * Sets the wasBroadcast boolean and wasBroadcastAt timestamp properties.
+   *
+   * @param {boolean} wasBroadcast
+   * @return void
+   */
+  set wasBroadcast(wasBroadcast) {
+    this._wasBroadcast = (wasBroadcast) ? true : false;
+    this._wasBroadcastAt = (wasBroadcast) ? this.getUnixTimestamp() : this.wasBroadcastAt;
+  }
+
+  /**
+   * Gets the wasBroadcast property.
+   *
+   * @return {boolean}
+   */
+  get wasBroadcast() {
+    return this._wasBroadcast;
+  }
+
+  /**
+   * Gets the wasBroadcastAt property.
+   *
+   * @return {number}
+   */
+  get wasBroadcastAt() {
+    return this._wasBroadcastAt;
   }
 
   /**

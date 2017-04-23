@@ -164,12 +164,10 @@ export default class Model extends Store {
       body: data
     }).then((response) => {
       this.wasUpdated = true;
-
-      if (optimistic) {
-        this.fill(response.json);
-      } else {
-        this.fill(response.json).persist(collection);
-      }
+      // even though we may have already updated optimistically, we need to broadcast once again
+      // because it is possible that the data set to the remote store is a factor for a computed property
+      // which the response will contain.
+      this.fill(response.json).persist(collection);
 
       return Promise.resolve(response);
     }).catch((error) => {

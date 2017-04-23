@@ -43,6 +43,11 @@ describe(`${test} constructor`, () => {
     assert.isFalse(store.wasFetched);
     done();
   });
+
+  it('should set the wasBroadcast property to false', (done) => {
+    assert.isFalse(store.wasBroadcast);
+    done();
+  });
 });
 
 

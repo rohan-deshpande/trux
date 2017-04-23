@@ -175,12 +175,21 @@ var Store = function () {
     this.wasFetched = false;
 
     /**
+     * Boolean to determine if changes to the store has been broadcast.
+     *
+     * @prop {boolean}
+     */
+    this.wasBroadcast = false;
+
+    /**
      * Broadcast changes to all connected components.
      *
      * @private
      * @return void
      */
     function broadcast() {
+      store.wasBroadcast = true;
+
       if (!Object.keys(store.components).length) {
         return;
       }
@@ -337,6 +346,42 @@ var Store = function () {
     ,
     get: function get() {
       return this._requestHeaders;
+    }
+
+    /**
+     * Sets the wasBroadcast boolean and wasFetchedAt timestamp properties.
+     *
+     * @param {boolean} wasBroadcast
+     * @return void
+     */
+
+  }, {
+    key: 'wasBroadcast',
+    set: function set(wasBroadcast) {
+      this._wasBroadcast = wasBroadcast ? true : false;
+      this._wasBroadcastAt = wasBroadcast ? this.getUnixTimestamp() : this.wasBroadcastAt;
+    }
+
+    /**
+     * Gets the wasBroadcast property.
+     *
+     * @return {boolean}
+     */
+    ,
+    get: function get() {
+      return this._wasBroadcast;
+    }
+
+    /**
+     * Gets the wasBroadcastAt property.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'wasBroadcastAt',
+    get: function get() {
+      return this._wasBroadcastAt;
     }
 
     /**
@@ -1069,12 +1114,10 @@ var Model = function (_Store) {
         body: data
       }).then(function (response) {
         _this4.wasUpdated = true;
-
-        if (optimistic) {
-          _this4.fill(response.json);
-        } else {
-          _this4.fill(response.json).persist(collection);
-        }
+        // even though we may have already updated optimistically, we need to broadcast once again
+        // because it is possible that the data set to the remote store is a factor for a computed property
+        // which the response will contain.
+        _this4.fill(response.json).persist(collection);
 
         return Promise.resolve(response);
       }).catch(function (error) {

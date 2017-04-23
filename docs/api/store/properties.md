@@ -64,6 +64,22 @@ This is the `PATCH` route for the store and is applicable to only models. This i
 
 This is the `DELETE` route for the store and is applicable to only models. This is the route used by the `destroy` method of a model. You can set the `DELETE` property manually or in the constructor of a store extension.
 
+## `wasBroadcast`
+
+```
+@prop {boolean}
+```
+
+Boolean to determine if changes to the store has been broadcast. 
+
+## `wasBroadcastAt`
+
+```
+@prop {number|undefined}
+```
+
+Timstamp to determine when the store was broadcast, `undefined` if `wasBroadcast` is false.
+
 ## `wasFetched`
 
 ```

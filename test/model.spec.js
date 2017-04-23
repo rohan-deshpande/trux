@@ -261,6 +261,22 @@ describe(`${test} requests`, () => {
       });
   });
 
+  it('model.update should set the wasBroadcast and wasBroadcastAt properties', (done) => {
+    const post = new Model();
+
+    post.PUT = `${endpoints.posts}/1`;
+
+    post.update({data: { title: 'qux' }})
+      .then(() => {
+        assert.isTrue(post.wasBroadcast);
+        assert.isTrue(typeof post.wasBroadcastAt !== 'undefined');
+        done();
+      })
+      .catch((error) => {
+        done(error);
+      });
+  });
+
   it('model.delete should delete the remote record and nullify trux model data', (done) => {
     const comment = new Model();
 
