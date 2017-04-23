@@ -8,11 +8,11 @@ Connecting a React component to a Trux store must occur within the `componentDid
 
 ### Set a `truxid` for your component
 
-You must set a `truxid` for your component. This must be a **unique** **identifier** and will be how the component will be found for disconnection later. I recommend simply using the name of your component.
+You must set a `truxid` for your component. This must be a **unique** **identifier** and will be how the component will be found for disconnection later. I recommend using the same syntax rule you would use for constants.
 
 ```js
 componentDidMount() {
-  this.truxid = 'MyComponent';
+  this.truxid = 'MY_COMPONENT';
 }
 ```
 
@@ -22,7 +22,7 @@ Likewise you also need to `connect` the component to the store to ensure it rece
 
 ```js
 componentDidMount() {
-  this.truxid = 'MyComponent'; // set the truxid first
+  this.truxid = 'MY_COMPONENT'; // set the truxid first
   this.props.store.connect(this); // connect the component to the store
 }
 ```
@@ -96,7 +96,7 @@ class Profile extends Component {
 
   componentDidMount() {
     this.truxid = 'Profile';
-    
+
     this.props.userStore.connect(this);
     this.props.userStore.fetch()
       .then(() => {
