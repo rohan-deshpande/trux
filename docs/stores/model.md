@@ -12,7 +12,7 @@ var app = document.createElement('div');
 var character = new trux.Model({ name: 'Frodo' });
 // create a 'component'
 var hobbit = {
-  truxid: 'Hobbit',
+  truxid: 'HOBBIT',
   storeDidUpdate: function () {
       document.getElementById('app').innerHTML = character.data.name;
   }
@@ -45,3 +45,6 @@ In this example, the `innerHTML` of the `#app` element will be updated to a rand
 
 * [Model properties](/api/model/properties.md)
 * [Model methods](/api/model/methods.md)
+
+
+
