@@ -1,40 +1,54 @@
 {
-    "name": "truxjs",
-    "description": "A simple data framework for React.js",
-    "version": "2.1.0",
-    "homepage": "https://github.com/rohan-deshpande/trux",
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/rohan-deshpande/trux"
-    },
-    "author": {
-      "name": "Rohan Deshpande",
-      "email": "rohan@creativelifeform.com",
-      "url": "http://rohandeshpande.com/"
-    },
-    "license": {
-        "type": "MIT",
-        "url": "https://github.com/rohan-deshpande/trux/blob/master/LICENSE"
-    },
-    "files": [
-      "dist"
-    ],
-    "keywords": [
-      "reactjs",
-      "react",
-      "flux"
-    ],
-    "dependencies": {
-      "wolfy87-eventemitter": "^4.3.0",
-      "qwest": "^3.0.0"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.8",
-        "gulp-concat": "^2.5.0",
-        "gulp-order": "^1.1.1",
-        "gulp-uglify": "^1.1.0",
-        "gulp-rename": "^1.2.2",
-        "minami": "~1.1.1",
-        "jsdoc": "~3.4.0"
-    }
+  "name": "trux",
+  "description": "A unidirectional data layer for reactive user interfaces\"",
+  "version": "3.0.0",
+  "homepage": "https://github.com/rohan-deshpande/trux",
+  "repository": "git://github.com/rohan-deshpande/trux",
+  "author": "Rohan Deshpande <rohan@creativelifeform.com> (http://rohandeshpande.com/)",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
+    "lint": "eslint src test build",
+    "coverage:generate": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js -- --require babel-register",
+    "coverage:publish": "./node_modules/.bin/istanbul-coveralls"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "vue",
+    "flux",
+    "unidirectional"
+  ],
+  "dependencies": {
+    "rd-fetch": "^1.0.1",
+    "wolfy87-eventemitter": "^4.3.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^3.5.0",
+    "eslint": "^3.19.0",
+    "eslint-loader": "^1.7.1",
+    "istanbul": "1.1.0-alpha.1",
+    "istanbul-coveralls": "^1.0.3",
+    "jsdoc": "~3.4.0",
+    "json-server": "^0.9.6",
+    "minami": "~1.1.1",
+    "mocha": "^3.2.0",
+    "node-fetch": "^1.6.3",
+    "sinon": "^2.1.0",
+    "webpack": "^2.3.3",
+    "yargs": "^7.0.2"
+  },
+  "main": "dist/trux.js"
 }

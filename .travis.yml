@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "node"
+script:
+  - yarn run test
+  - yarn run lint
+branches:
+  only:
+    - feature/es6
+cache:
+  yarn: true

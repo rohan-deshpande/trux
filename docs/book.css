@@ -1,0 +1,7 @@
+.gitbook-link {
+    display: none !important;
+}
+
+ul.summary li:first-child{
+    display: none;
+}
