@@ -43,7 +43,7 @@ Now your component will receive updates from the store when required. It's up to
 
 **Note!** Yes, the above example uses `forceUpdate`, no you do not **have** to do it this way but honestly? **It's fine**, [React will still only update the DOM if the markup changes](https://facebook.github.io/react/docs/react-component.html#forceupdate). Just be aware that if you want to use `shouldComponentUpdate()` to stop re-renders, then calling `forceUpdate` will bypass this flag.
 
-Another way of doing it would be to set the relevant properties in the state of the component and update only these properties from `this.props.store` within `storeDidUpdate` via `setState()`
+Another way of achieving this would be to set the relevant properties in the state of the component and update only these properties from `this.props.store` within `storeDidUpdate` via `setState()`
 
 ```js
 class Example extends Component {
@@ -65,7 +65,7 @@ storeDidUpdate() {
 
 ## Disconnecting
 
-If a component is going to be unmounted from the DOM, you must disconnect it from any stores it is connected to within the `componentWillUnmount` lifecycle method. If you do not, then if you update the store at a later time, React will throw errors because the connected component will no longer exist.
+If a component is going to be unmounted from the DOM, you must disconnect it from any stores it is connected to within the `componentWillUnmount` lifecycle method. If you fail to do this, updating a store at a point in time after unmounting will cause React to throw errors because the connected component no longer exists.
 
 Since you set a `truxid` for your component when it mounted, disconnecting is as simple as just calling a single method from the store
 
@@ -107,6 +107,10 @@ class Profile extends Component {
 
   componentWillUnmount() {
     this.props.userStore.disconnect(this);
+  }
+  
+  storeDidUpdate() {
+    this.forceUpdate();
   }
 
   render() {
