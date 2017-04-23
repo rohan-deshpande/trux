@@ -112,7 +112,7 @@ class Profile extends Component {
   }
 
   render() {
-    if (!this.props.ready) return null;
+    if (!this.state.ready) return null;
 
     const user = this.props.userStore;
 
