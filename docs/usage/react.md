@@ -95,7 +95,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.truxid = 'Profile';
+    this.truxid = 'PROFILE';
 
     this.props.userStore.connect(this);
     this.props.userStore.fetch()
