@@ -4,11 +4,11 @@ Trux was designed with [React](https://facebook.github.io/react/) in mind, so wo
 
 ## Connecting
 
-Connecting a React component to a Trux store must occur within the `componentDidMount` lifecycle method. Within this method there are two things you are required to do, and some optional things you may need to perform.
+Connecting a React component to a Trux store must occur within the `componentDidMount` lifecycle method. Within this method there are two things you are required to do in order to wire up your component correctly; set a `truxid` and `connect` the component to the store.
 
-### Setting a `truxid` for your component
+### Set a `truxid` for your component
 
-You must set a `truxid` for your component. This must be a **unique** identifier and will be how the component will be found for disconnection later.
+You must set a `truxid` for your component. This must be a **unique** **identifier** and will be how the component will be found for disconnection later. I recommend simply using the name of your component.
 
 ```js
 componentDidMount() {
@@ -16,7 +16,7 @@ componentDidMount() {
 }
 ```
 
-### Connecting your component to a store
+### `connect` your component to a store
 
 Likewise you also need to `connect` the component to the store to ensure it receives updates
 
