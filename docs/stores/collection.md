@@ -62,7 +62,7 @@ class PostsList extends Component {
   }
 
   componentDidMount() {
-    this.truxid = 'PostsList';
+    this.truxid = 'POSTS_LIST';
     this.props.posts.connect(this);
   }
 
@@ -136,3 +136,6 @@ class Posts extends Collection {
 
 * [Collection properties](/api/collection/properties.md)
 * [Collection methods](/api/collection/methods.md)
+
+
+
