@@ -104,6 +104,16 @@ describe(`${test} methods`, () => {
 
     done();
   });
+
+  it('the prepend method should be able to prepend models', (done) => {
+    const collection = new Collection(User);
+    const qux = new User({ id: 4, name: 'qux'});
+    collection.fill(users);
+    collection.prepend(qux);
+
+    assert.isTrue(collection.models[0].data.id === 4);
+    done();
+  });
 });
 
 describe(`${test} requests`, () => {
@@ -127,6 +137,18 @@ describe(`${test} requests`, () => {
       })
       .catch(() => {
         done('fetch failed');
+      });
+  });
+
+  it('should catch the error when fetch fails', (done) => {
+    const posts = new Collection(Post);
+
+    posts.GET = endpoints.notfound;
+
+    posts.fetch()
+      .catch((error) => {
+        assert.isTrue(error.status === 404);
+        done();
       });
   });
 });
@@ -185,6 +207,11 @@ describe(`${test} statics`, () => {
     const modified = new Collection(Post);
 
     assert.isTrue(typeof modified.findById === 'function');
+    done();
+  });
+
+  it('static modify method should throw a TypeError if no props passed', (done) => {
+    assert.throws(() => Collection.modify(), TypeError, 'You must modify Collection with a properties object');
     done();
   });
 });

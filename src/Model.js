@@ -148,7 +148,7 @@ export default class Model extends Store {
    * @param {boolean} [options.collection] - collection argument for the persist method
    * @return {object} Promise
    */
-  update(options) {
+  update(options = {}) {
     const data = options.data || this.data;
     const method = options.method || 'PUT';
     const optimistic = options.optimistic || false;
@@ -318,8 +318,10 @@ export default class Model extends Store {
       }
     };
 
+    /* istanbul ignore else */
     if (typeof props === 'object') {
       for (let prop in props) {
+        /* istanbul ignore else */
         if (props.hasOwnProperty(prop)) {
           Extension.prototype[prop] = props[prop];
         }
@@ -339,9 +341,12 @@ export default class Model extends Store {
    * @return void
    */
   static modify(props) {
-    if (typeof props !== 'object') return;
+    if (typeof props !== 'object') {
+      throw new TypeError('You must modify Model with a properties object');
+    }
 
     for (let prop in props) {
+      /* istanbul ignore else */
       if (props.hasOwnProperty(prop)) {
         Model.prototype[prop] = props[prop];
       }

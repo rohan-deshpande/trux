@@ -92,11 +92,17 @@ export default class Collection extends Store {
   }
 
   /**
-   * Purges the collection of its models.
+   * Purges the collection of its models and removes the collection property from each model.
    *
    * @return void
    */
   purge() {
+    const length = this.models.length;
+
+    for (let i = 0; i < length; i++) {
+      this.models[i].collection = false;
+    }
+
     this.models = [];
   }
 
@@ -128,7 +134,7 @@ export default class Collection extends Store {
       return Promise.resolve(response);
     }).catch((error) => {
       this.wasFetched = false;
-      
+
       return Promise.reject(error);
     });
   }
@@ -145,6 +151,7 @@ export default class Collection extends Store {
   static extend(props, setup) {
     const Extension = class extends Collection {
       constructor(model) {
+        /* istanbul ignore else */
         super(model);
 
         if (typeof setup === 'function') {
@@ -153,8 +160,10 @@ export default class Collection extends Store {
       }
     };
 
+    /* istanbul ignore else */
     if (typeof props === 'object') {
       for (let prop in props) {
+        /* istanbul ignore else */
         if (props.hasOwnProperty(prop)) {
           Extension.prototype[prop] = props[prop];
         }
@@ -174,9 +183,12 @@ export default class Collection extends Store {
    * @return void
    */
   static modify(props) {
-    if (typeof props !== 'object') return;
+    if (typeof props !== 'object') {
+      throw new TypeError('You must modify Collection with a properties object');
+    }
 
     for (let prop in props) {
+      /* istanbul ignore else */
       if (props.hasOwnProperty(prop)) {
         Collection.prototype[prop] = props[prop];
       }

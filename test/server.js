@@ -38,7 +38,8 @@ export const endpoints = {
   'profile': `${endpoint}/profile`,
   'posts': `${endpoint}/posts`,
   'comments': `${endpoint}/comments`,
-  'auth': `${endpoint}/profile/auth`
+  'auth': `${endpoint}/profile/auth`,
+  'notfound': `${endpoint}/notfound`
 };
 
 export function startServer() {

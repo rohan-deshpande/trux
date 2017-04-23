@@ -11,7 +11,9 @@
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
-    "lint": "eslint src test build"
+    "lint": "eslint src test build",
+    "coverage:generate": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js -- --require babel-register",
+    "coverage:publish": "./node_modules/.bin/istanbul-coveralls"
   },
   "files": [
     "dist"
@@ -37,12 +39,14 @@
     "chai": "^3.5.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
+    "istanbul": "1.1.0-alpha.1",
+    "istanbul-coveralls": "^1.0.3",
     "jsdoc": "~3.4.0",
     "json-server": "^0.9.6",
     "minami": "~1.1.1",
     "mocha": "^3.2.0",
-    "sinon": "^2.1.0",
     "node-fetch": "^1.6.3",
+    "sinon": "^2.1.0",
     "webpack": "^2.3.3",
     "yargs": "^7.0.2"
   },

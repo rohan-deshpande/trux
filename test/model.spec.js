@@ -1,7 +1,7 @@
 /*global describe, it, beforeEach, afterEach */
 
 import chai from 'chai';
-import { Model } from '../src/index.js';
+import { Model, Collection } from '../src/index.js';
 import { startServer, stopServer, endpoints, token } from './server.js';
 import fetch from 'node-fetch';
 
@@ -79,40 +79,36 @@ describe(`${test} protoype`, () => {
   });
 });
 
-describe(`${test} statics`, () => {
-  it('should have a static extend method', (done) => {
-    assert.isTrue(typeof Model.extend === 'function');
+describe(`${test} methods`, () => {
+  it('should persist changes to its collection\'s connected components only', (done) => {
+    const collection = new Collection(Model);
+
+    collection.append(model);
+    model.data.name = 'baz';
+    model.persist();
+
+    assert.isFalse(model.wasBroadcast);
+    assert.isTrue(collection.wasBroadcast);
     done();
   });
 
-  it('static extend method should generate a constructor which is an extension of Model', (done) => {
-    let baz = 1;
-    const Extension = Model.extend({
-      'foo': 'bar',
-      'baz': function() {
-        return 'qux';
-      }
-    },
-    () => { baz = 2; });
-    const extended = new Extension(data);
+  it('should persist changes to its connected components even when it belongs to a collection if false is passed to persist', (done) => {
+    const collection = new Collection(Model);
 
-    assert.isTrue(extended.data.id === 1);
-    assert.isTrue(extended.foo === 'bar');
-    assert.isTrue(extended.baz() === 'qux');
-    assert.isTrue(baz === 2);
+    collection.append(model);
+    model.data.name = 'baz';
+    model.persist(false);
+
+    assert.isTrue(model.wasBroadcast);
+    assert.isFalse(collection.wasBroadcast);
     done();
   });
 
-  it('should have a static modify method', (done) => {
-    assert.isTrue(typeof Model.modify === 'function');
-    done();
-  });
+  it('should restore the data to its previous state', (done) => {
+    model.data.name = 'baz';
+    model.restore();
 
-  it('static modify method should modify the Model class', (done) => {
-    Model.modify({ 'foo': 'bar' });
-    const modified = new Model();
-
-    assert.isTrue(modified.foo === 'bar');
+    assert.isTrue(model.data.name === 'foobar');
     done();
   });
 });
@@ -152,6 +148,18 @@ describe(`${test} requests`, () => {
       })
       .catch(() => {
         done('fetch failed');
+      });
+  });
+
+  it('model.fetch should set wasFetched to false if an error occurs', (done) => {
+    const profile = new Model();
+    profile.GET = endpoints.notfound;
+
+    profile.fetch()
+      .catch(() => {
+        assert.isFalse(profile.wasFetched);
+        assert.isTrue(typeof profile.wasFetchedAt === 'undefined');
+        done();
       });
   });
 
@@ -210,6 +218,19 @@ describe(`${test} requests`, () => {
       done();
     }).catch(() => {
       done('post failed');
+    });
+  });
+
+  it('model.create should set wasCreated to false if an error occurs', (done) => {
+    const profile = new Model();
+    profile.POST = endpoints.notfound;
+
+    profile.create({
+      body: 'bar',
+      postId: 1
+    }).catch(() => {
+      assert.isFalse(profile.wasCreated);
+      done();
     });
   });
 
@@ -277,6 +298,32 @@ describe(`${test} requests`, () => {
       });
   });
 
+  it('model.update should update the component optimistically if desired', (done) => {
+    const post = new Model();
+    const component = {
+      broadcastCount: 0,
+      truxid: 'POST',
+      storeDidUpdate: () => {
+        component.broadcastCount++;
+      }
+    };
+
+    post.connect(component);
+    post.PUT = `${endpoints.posts}/1`;
+
+    post.update({
+      data: { title: 'qux' },
+      optimistic: true
+    })
+      .then(() => {
+        assert.isTrue(component.broadcastCount === 2);
+        done();
+      })
+      .catch((error) => {
+        done(error);
+      });
+  });
+
   it('model.delete should delete the remote record and nullify trux model data', (done) => {
     const comment = new Model();
 
@@ -330,5 +377,78 @@ describe(`${test} requests`, () => {
       .catch(() => {
         done('delete failed');
       });
+  });
+
+  it('model.delete should set wasDestroyed to false if an error occurs', (done) => {
+    const profile = new Model();
+    profile.DELETE = endpoints.notfound;
+
+    profile.destroy()
+      .catch(() => {
+        assert.isFalse(profile.wasDestroyed);
+        done();
+      });
+  });
+
+  it('should restore the model data if a request failed', (done) => {
+    const comment = new Model({
+      id: 5,
+      body: 'fooqux',
+      postId: 1
+    });
+
+    comment.PUT = endpoints.notfound;
+    comment.data.body = 'quux';
+
+    assert.isTrue(comment.data.body === 'quux');
+
+    comment.update()
+      .catch(() => {
+        assert.isTrue(comment.data.body === 'fooqux');
+        done();
+      });
+  });
+});
+
+describe(`${test} statics`, () => {
+  it('should have a static extend method', (done) => {
+    assert.isTrue(typeof Model.extend === 'function');
+    done();
+  });
+
+  it('static extend method should generate a constructor which is an extension of Model', (done) => {
+    let baz = 1;
+    const Extension = Model.extend({
+      'foo': 'bar',
+      'baz': function() {
+        return 'qux';
+      }
+    },
+    () => { baz = 2; });
+    const extended = new Extension(data);
+
+    assert.isTrue(extended.data.id === 1);
+    assert.isTrue(extended.foo === 'bar');
+    assert.isTrue(extended.baz() === 'qux');
+    assert.isTrue(baz === 2);
+    done();
+  });
+
+  it('should have a static modify method', (done) => {
+    assert.isTrue(typeof Model.modify === 'function');
+    done();
+  });
+
+  it('static modify method should modify the Model class', (done) => {
+    Model.modify({ 'foo': 'bar' });
+    const modified = new Model();
+
+    assert.isTrue(modified.foo === 'bar');
+    done();
+  });
+
+  it('static modify method should throw a TypeError if no props passed', (done) => {
+    assert.throws(() => Model.modify(), TypeError, 'You must modify Model with a properties object');
+    done();
   });
 });
