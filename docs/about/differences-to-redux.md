@@ -19,7 +19,7 @@ Trux stores are mutable, but there's a catch - any time you mutate a store, it i
 ```js
 console.log(User.name) // logs Frodo
 
-Component.truxid = 'Profile'; // set the truxid for the component
+Component.truxid = 'PROFILE'; // set the truxid for the component
 Component.connect(User); // connect a component to the User store
 
 User.name = 'Sam';
