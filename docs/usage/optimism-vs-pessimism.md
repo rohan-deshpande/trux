@@ -35,7 +35,7 @@ class Character extends Model {
 
 const character = new Character({ name: 'Frodo' });
 const hobbit = {
-  truxid: 'Hobbit',
+  truxid: 'HOBBIT',
   storeDidUpdate: () => {
     document.getElementById('app').innerHTML = character.name;
   }
