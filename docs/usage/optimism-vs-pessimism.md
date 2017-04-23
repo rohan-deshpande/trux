@@ -46,19 +46,23 @@ character.connect(hobbit);
 // optimistic:
 
 character.name = 'Sam';
-character.update({ optimistic: true }).catch(console.warn);
+character
+  .update({ optimistic: true })
+  .catch(console.warn);
 
 // pessimistic:
 
 character.name = 'Pippin';
-character.update().catch(console.warn);
+character
+  .update()
+  .catch(console.warn);
 ```
 
 In this very simple example, the optimistic change will immediately update the `innerHTML` of `#app` to `Sam`, then send a request to the API to update the character's name remotely.
 
 In this case, if the request fails, `character` will be restored to its previous state and will in turn revert `#app` back to displaying `Frodo`.
 
-On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful. 
+On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful.
 
-Since `update` always returns a `Promise` you are free to chain `then` or `catch` methods off it to do custom success or error handling when needed. 
+Since `update` always returns a `Promise` you are free to chain `then` or `catch` methods off it to do custom success or error handling when needed.
 
