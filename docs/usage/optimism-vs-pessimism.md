@@ -6,7 +6,7 @@ An **optimistic change** is a state change that you apply immediately after trig
 
 In contrast to this, a **pessimistic change** is a state change you apply only after you learn that the the change has succeeded.
 
-Both types of changes have their uses and their drawbacks.
+Both types of changes have their uses and drawbacks.
 
 Optimistic changes are incredibly handy for enhancing the user experience of your app. Why should you make users wait if we know that the state will be identical in the end anyway?
 
@@ -59,3 +59,4 @@ In this very simple example, the optimistic change will immediately update the `
 In this case, if the request fails, `character` will be restored to its previous state and will in turn revert `#app` back to displaying `Frodo`.
 
 On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful. It will also catch the error if the request fails, preventing `#app` from getting the new `innerHTML`.
+
