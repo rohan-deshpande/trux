@@ -12,7 +12,7 @@ You must set a `truxid` for your component. This must be a **unique** identifier
 
 ```js
 mounted() {
-  this.truxid = 'MyComponent'
+  this.truxid = 'MY_COMPONENT'
 }
 ```
 
@@ -55,3 +55,6 @@ destroyed() {
     this.store.disconnect(this);
 }
 ```
+
+
+
