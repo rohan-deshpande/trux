@@ -42,7 +42,7 @@ Here's the basic gist, without considering requests to an API
 import { Model } from 'trux';
 
 // First we're going to create a Counter model with some starting data.
-// By extending the Trux Model class, we get all the functionality we need plus we can add custom methods,
+// By extending the Model class, we get all the functionality we need plus we can add custom methods,
 // like the increment and decrement methods which mutate the state of the model.
 class Counter extends Model {
   constructor() {
