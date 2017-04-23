@@ -32,7 +32,7 @@ In order to support older browsers you'll need some polyfills
 * [fetch](https://github.com/github/fetch)
 * [Promise](https://github.com/taylorhakes/promise-polyfill)
 
-## Quickstart
+## Basics
 
 In Trux, your client side data is kept in **stores** called **models** or **collections**. You `connect` components to these stores and ask the stores to perform data changes. Your stores can `persist` these changes to their connected components. You can choose to make these updates either [**optimistic** or **pessimistic**](/usage/optimism-vs-pessimism.md).
 
