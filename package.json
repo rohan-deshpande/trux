@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "rd-fetch": "^1.0.1",
-    "wolfy87-eventemitter": "^4.3.0"
+    "wolfy87-eventemitter": "^5.1.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
