@@ -4,7 +4,7 @@ Trux was designed with [React](https://facebook.github.io/react/) in mind, so wo
 
 ## Connecting
 
-Connecting a React component to a Trux must occur within the `componentDidMount` lifecycle method. Within this method there are two things you are required to do, and some optional things you may need to perform.
+Connecting a React component to a Trux store must occur within the `componentDidMount` lifecycle method. Within this method there are two things you are required to do, and some optional things you may need to perform.
 
 ### Setting a `truxid` for your component
 
@@ -49,7 +49,7 @@ Another way of doing it would be to set the relevant properties in the state of 
 class Example extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       some: 'thing'
     }
