@@ -1,6 +1,6 @@
 {
   "name": "trux",
-  "description": "A unidirectional data layer for reactive user interfaces\"",
+  "description": "Unidirectional data layer for reactive user interfaces\"",
   "version": "3.0.0",
   "homepage": "https://github.com/rohan-deshpande/trux",
   "repository": "git://github.com/rohan-deshpande/trux",
