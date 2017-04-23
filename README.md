@@ -69,7 +69,7 @@ const store = new Counter();
 // Now we are going to create a mock component to connect to our store.
 // We need to declare a unique truxid and a storeDidUpdate method to receive updates from the store.
 const component = {
-  truxid: 'ticker',
+  truxid: 'TICKER',
   storeDidUpdate: () => {
     console.log(model.data.value);
   }
