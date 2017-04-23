@@ -8,7 +8,7 @@ In contrast to this, a **pessimistic change** is a state change you apply only a
 
 Both types of changes have their uses and drawbacks.
 
-Optimistic changes are incredibly handy for enhancing the user experience of your app. Why should you make users wait if we know that the state will be identical in the end anyway?
+Optimistic changes are incredibly handy for enhancing the user experience of your app. Why should we make users wait when we know that the state will be identical in the end anyway?
 
 On the other hand, there may be times where continuing in the app would be foolish without confirmation that a change has actually been successful.
 
@@ -46,7 +46,7 @@ character.connect(hobbit);
 // optimistic:
 
 character.name = 'Sam';
-character.update({ optimistic: true });
+character.update({ optimistic: true }).catch(console.warn);
 
 // pessimistic:
 
@@ -58,5 +58,7 @@ In this very simple example, the optimistic change will immediately update the `
 
 In this case, if the request fails, `character` will be restored to its previous state and will in turn revert `#app` back to displaying `Frodo`.
 
-On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful. It will also catch the error if the request fails, preventing `#app` from getting the new `innerHTML`.
+On the other hand, the pessimistic change will first attempt to send the request to the API and only broadcast the change when the request is successful. 
+
+Since `update` always returns a `Promise` you are free to chain `then` or `catch` methods off it to do custom success or error handling when needed. 
 
