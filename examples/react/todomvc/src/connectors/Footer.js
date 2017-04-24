@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { TodoList } from '../nodes';
 
-export default class Main extends Component {
+export default class Footer extends Component {
 
   static propTypes = {
     todos: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    this.truxid = 'MAIN';
+    this.truxid = 'FOOTER';
     this.props.todos.connect(this);
   }
 
@@ -21,16 +20,17 @@ export default class Main extends Component {
   }
 
   render() {
+    const todos = this.props.todos;
+    const items = (this.props.todos.count !== 1) ? 'items' : 'item';
+
     if (this.props.todos.isEmpty) {
       return null;
     }
 
     return (
-      <section className="main">
-        <input className="toggle-all" type="checkbox" />
-        <label htmlFor="toggle-all">Mark all as complete</label>
-        <TodoList todos={this.props.todos} />
-      </section>
+      <footer className="footer">
+        <span className="todo-count"><strong>{todos.count}</strong> {items} left</span>
+      </footer>
     );
   }
 }
