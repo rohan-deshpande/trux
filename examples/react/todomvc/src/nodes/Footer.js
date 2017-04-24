@@ -1,23 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class Footer extends Component {
+export default function Footer({ completedCount = 0 }) {
+  const items = (completedCount === 1) ? 'item' : 'items';
 
-  static propTypes = {
-    count: PropTypes.number.isRequired,
-    completedCount: PropTypes.number.isRequired
-  }
-
-  render() {
-    const items = (this.props.completedCount === 1) ? 'item' : 'items';
-
-    if (!this.props.count) {
-      return null;
-    }
-
-    return (
-      <footer className="footer">
-        <span className="todo-count"><strong>{this.props.completedCount}</strong> {items} left</span>
-      </footer>
-    );
-  }
+  return (
+    <footer className="footer">
+      <span className="todo-count"><strong>{completedCount}</strong> {items} left</span>
+    </footer>
+  );
 }
+
+Footer.propTypes = {
+  completedCount: PropTypes.number.isRequired,
+};
