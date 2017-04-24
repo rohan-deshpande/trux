@@ -22,11 +22,11 @@ export default class TodoAdder extends Component {
   }
 
   handleKeyDown = (e) => {
+    const title = this.state.title;
+
     if (e.which === ESCAPE) {
       this.setState({ title: '' });
     } else if (e.which === ENTER) {
-      const title = this.state.title;
-
       this.setState({ title: '' }, () => {
         this.props.todos.add(title).persist();
       });
