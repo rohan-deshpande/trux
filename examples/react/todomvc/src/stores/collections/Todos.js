@@ -26,6 +26,13 @@ export default class Todos extends Collection {
     return this.models.length;
   }
 
+  get completedCount() {
+    const total = this.count;
+    const completed = this.models.filter(todo => todo.complete).length;
+
+    return total - completed;
+  }
+
   get isEmpty() {
     return this.models.length === 0;
   }

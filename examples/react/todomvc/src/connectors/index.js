@@ -1,7 +1,5 @@
-import Main from './Main';
-import Footer from './Footer';
+import TodoApp from './TodoApp';
 
 export {
-  Main,
-  Footer,
+  TodoApp,
 };
