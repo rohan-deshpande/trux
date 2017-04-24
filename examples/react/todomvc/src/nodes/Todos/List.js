@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
-import TodoListItem from './TodoListItem';
+import Item from './Item';
 
-export default function TodoList({ todos }) {
+export default function List({ todos }) {
   return (
     <ul className="todo-list">
       {
         todos.models.map((todo) => {
-          return <TodoListItem todo={todo} todos={todos} key={todo.id} />;
+          return <Item todo={todo} todos={todos} key={todo.id} />;
         })
       }
     </ul>
   );
 }
 
-TodoList.propTypes = {
+List.propTypes = {
   todos: PropTypes.object.isRequired,
 };

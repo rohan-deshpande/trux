@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { ESCAPE, ENTER } from '../utils';
+import { ESCAPE, ENTER } from '../../utils';
 
-export default class TodoNew extends Component {
+export default class New extends Component {
 
   static propTypes = {
     todos: PropTypes.object.isRequired,
