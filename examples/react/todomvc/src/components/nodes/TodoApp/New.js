@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { ESCAPE, ENTER } from '../../utils';
+import { ESCAPE, ENTER } from '../../../utils';
 
 export default class New extends Component {
 
