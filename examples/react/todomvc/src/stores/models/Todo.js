@@ -14,19 +14,15 @@ export default class Todo extends Model {
     return this.data.title;
   }
 
+  get complete() {
+    return this.data.complete;
+  }
+
   set complete(complete) {
     if (typeof complete !== 'boolean') {
       throw new TypeError();
     }
 
     this.data.complete = complete;
-  }
-
-  get complete() {
-    return this.data.complete;
-  }
-
-  destroy() {
-    
   }
 }

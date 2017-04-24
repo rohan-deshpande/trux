@@ -19,7 +19,8 @@ export default class Todos extends Collection {
 
   remove(id) {
     this.models = this.models.filter(todo => todo.id !== id);
-    this.persist();
+
+    return this.persist();
   }
 
   get count() {
