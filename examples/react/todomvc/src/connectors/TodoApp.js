@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Main, Footer, TodoAdder, TodoList } from '../nodes';
+import { Main, Footer, TodoNew, TodoList } from '../nodes';
 
 export default class TodoApp extends Component {
 
@@ -27,7 +27,7 @@ export default class TodoApp extends Component {
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <TodoAdder todos={todos} />
+          <TodoNew todos={todos} />
         </header>
         <Main count={todos.count}>
           <TodoList todos={todos} />

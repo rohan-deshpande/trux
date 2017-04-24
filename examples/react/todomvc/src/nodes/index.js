@@ -1,13 +1,13 @@
 import Main from './Main';
 import Footer from './Footer';
-import TodoItem from './TodoItem';
 import TodoList from './TodoList';
-import TodoAdder from './TodoAdder';
+import TodoListItem from './TodoListItem';
+import TodoNew from './TodoNew';
 
 export {
   Main,
   Footer,
-  TodoItem,
   TodoList,
-  TodoAdder,
+  TodoListItem,
+  TodoNew,
 };

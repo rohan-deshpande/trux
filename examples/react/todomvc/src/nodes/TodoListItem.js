@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class TodoItem extends Component {
+export default class TodoListItem extends Component {
 
   static propTypes = {
     todo: PropTypes.object.isRequired,
