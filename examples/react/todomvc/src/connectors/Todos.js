@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Main, Footer, New, List } from '../../nodes/';
+import { Main, Footer, New, List } from '../nodes/';
 
-export default class TodoApp extends Component {
+export default class Todos extends Component {
 
   static propTypes = {
     store: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    this.truxid = 'TODO_APP';
+    this.truxid = 'TODOS';
     this.props.store.connect(this);
   }
 

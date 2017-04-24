@@ -1,5 +1,5 @@
-import TodoApp from './Todos/TodoApp';
+import Todos from './Todos';
 
 export {
-  TodoApp,
+  Todos,
 };

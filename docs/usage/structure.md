@@ -16,27 +16,32 @@ stores/
     index.js
   index.js
 connectors/
-  user/
-    User.js
-    Users.js
-  post/
-    Post.js
-    Posts.js
-  comment/
-    Comments.js
+  index.js
+  User.js
+  Users.js
+  Post.js
+  Posts.js
+  Comment.js
+  Comments.js
 nodes/
-  user/
-    UserName.js
-    UserBio.js
-  post/
-    PostTitle.js
-    PostBody.js
-    PostDate.js
-    PostForm.js
-  comment/
-    CommentBody.js
-    CommentDate.js
-    CommentForm.js
+  User/
+    Name.js
+    Bio.js
+  Users/
+    List.js
+  Post/
+    Title.js
+    Body.js
+    Date.js
+    Form.js
+  Posts/
+    List.js
+  Comment/
+    Body.js
+    Date.js
+    Form.js
+  Comments/
+    List.js
   ProfilePic.js
   Header.js
   Footer.js
@@ -49,6 +54,3 @@ Some notes about this structure:
 * `stores/models/index.js` is your `models` module and should export all model classes
 * `stores/collections/index.js` is your `collections` module and should export all collection classes
 * `stores/index.js` is your [stores module](/usage/stores-module.md) it should export instantiated stores
-
-
-

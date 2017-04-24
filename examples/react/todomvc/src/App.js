@@ -1,7 +1,7 @@
 import React from 'react';
 import stores from './stores';
-import { TodoApp } from './connectors';
+import { Todos } from './connectors';
 
 export default function App() {
-  return <TodoApp store={stores.todos} />;
+  return <Todos store={stores.todos} />;
 }
