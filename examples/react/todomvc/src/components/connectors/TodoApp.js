@@ -24,17 +24,21 @@ export default class TodoApp extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <New todos={todos} />
+          <New addTodo={title => todos.add(title)} />
         </header>
         <Main count={todos.count}>
           <List todos={todos} filter={this.props.match.path} />
         </Main>
-        <Footer count={todos.count} completedCount={todos.completedCount} />
+        <Footer
+          count={todos.count}
+          completedCount={todos.completedCount}
+          remainingCount={todos.remainingCount}
+          clearCompleted={() => todos.clearCompleted()}
+        />
       </section>
     );
   }

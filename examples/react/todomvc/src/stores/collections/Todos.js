@@ -14,7 +14,7 @@ export default class Todos extends Collection {
       complete: false,
     }));
 
-    return this;
+    return this.persist();
   }
 
   remove(id) {
@@ -28,12 +28,18 @@ export default class Todos extends Collection {
       case '/':
         return this.models;
       case '/active':
-        return this.models.filter(todo => todo.complete);
-      case '/completed':
         return this.models.filter(todo => !todo.complete);
+      case '/completed':
+        return this.models.filter(todo => todo.complete);
       default:
         return this.models;
     }
+  }
+
+  clearCompleted() {
+    this.models = this.models.filter(todo => !todo.complete);
+
+    return this.persist();
   }
 
   get count() {
@@ -41,10 +47,11 @@ export default class Todos extends Collection {
   }
 
   get completedCount() {
-    const total = this.count;
-    const completed = this.models.filter(todo => todo.complete).length;
+    return this.models.filter(todo => todo.complete).length;
+  }
 
-    return total - completed;
+  get remainingCount() {
+    return this.count - this.completedCount;
   }
 
   get isEmpty() {

@@ -14,7 +14,6 @@ export default class Item extends Component {
 
   handleDestroy = (e) => {
     e.preventDefault();
-
     this.props.todos.remove(this.props.todo.id);
   }
 

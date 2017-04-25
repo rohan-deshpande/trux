@@ -4,7 +4,7 @@ import { ESCAPE, ENTER } from '../../../utils';
 export default class New extends Component {
 
   static propTypes = {
-    todos: PropTypes.object.isRequired,
+    addTodo: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -28,7 +28,7 @@ export default class New extends Component {
       this.setState({ title: '' });
     } else if (e.which === ENTER) {
       this.setState({ title: '' }, () => {
-        this.props.todos.add(title).persist();
+        this.props.addTodo(title);
       });
     }
   }
