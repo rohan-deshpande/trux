@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-// import { ESCAPE, ENTER } from '../../../utils';
+import { ESCAPE, ENTER } from '../../../utils';
 
 export default class Edit extends Component {
 
@@ -26,6 +26,14 @@ export default class Edit extends Component {
     this.setState({ value: e.target.value });
   }
 
+  handleKeyDown = (e) => {
+    if (e.which === ESCAPE) {
+      this.setState({ value: this.props.todo.title }, this.props.onBlur);
+    } else if (e.which === ENTER) {
+      this.handleBlur();
+    }
+  }
+
   save() {
     this.props.todo.title = this.state.value;
     this.props.todo.persist();
@@ -35,11 +43,12 @@ export default class Edit extends Component {
     return (!this.props.show) ? null : (
       <input
         autoFocus
+        className="edit"
+        value={this.state.value}
         onBlur={this.handleBlur}
         onClick={this.handleClick}
         onChange={this.handleChange}
-        className="edit"
-        value={this.state.value}
+        onKeyDown={this.handleKeyDown}
       />
     );
   }
