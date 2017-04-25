@@ -1,10 +1,19 @@
 import React, { Component, PropTypes } from 'react';
+import Edit from './Edit';
 
 export default class Item extends Component {
 
   static propTypes = {
     todo: PropTypes.object.isRequired,
     todos: PropTypes.object.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editing: false,
+    };
   }
 
   handleComplete = (e) => {
@@ -17,11 +26,35 @@ export default class Item extends Component {
     this.props.todos.remove(this.props.todo.id);
   }
 
+  handleEdit = (e) => {
+    e.preventDefault();
+    this.setState({ editing: true });
+  }
+
+  handleEditBlur = () => {
+    console.log('blur');
+    this.setState({ editing: false });
+  }
+
+  get className() {
+    const classes = [];
+
+    if (this.state.editing) {
+      classes.push('editing');
+    }
+
+    if (this.props.todo.complete) {
+      classes.push('completed');
+    }
+
+    return classes.join(' ');
+  }
+
   render() {
     const todo = this.props.todo;
 
     return (
-      <li className={(todo.complete) ? 'completed' : ''}>
+      <li onBlur={this.handleEditBlur} className={this.className}>
         <div className="view">
           <input
             name={todo.id}
@@ -30,11 +63,12 @@ export default class Item extends Component {
             defaultChecked={todo.complete}
             onChange={this.handleComplete}
           />
-          <label htmlFor={todo.id}>
+          <label htmlFor={todo.id} onDoubleClick={this.handleEdit}>
             {todo.title}
           </label>
           <button className="destroy" onClick={this.handleDestroy} />
         </div>
+        <Edit onBlur={this.handleEditBlur} todo={todo} />
       </li>
     );
   }
