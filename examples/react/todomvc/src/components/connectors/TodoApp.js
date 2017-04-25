@@ -1,19 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { Main, Footer, New, List } from '../nodes/';
+import stores from '../../stores';
+
+const todos = stores.todos;
 
 export default class TodoApp extends Component {
 
   static propTypes = {
-    store: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
     this.truxid = 'TODO_APP';
-    this.props.store.connect(this);
+    todos.connect(this);
   }
 
   componentWillUnmount() {
-    this.props.store.disconnect(this);
+    todos.disconnect(this);
   }
 
   storeDidUpdate() {
@@ -21,8 +24,7 @@ export default class TodoApp extends Component {
   }
 
   render() {
-    const todos = this.props.store;
-
+    console.log(this.props);
     return (
       <section className="todoapp">
         <header className="header">
@@ -30,7 +32,7 @@ export default class TodoApp extends Component {
           <New todos={todos} />
         </header>
         <Main count={todos.count}>
-          <List todos={todos} />
+          <List todos={todos} filter={this.props.match.path} />
         </Main>
         <Footer count={todos.count} completedCount={todos.completedCount} />
       </section>

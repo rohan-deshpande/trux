@@ -1,4 +1,4 @@
-import TodoApp from './Todos';
+import TodoApp from './TodoApp';
 
 export {
   TodoApp,

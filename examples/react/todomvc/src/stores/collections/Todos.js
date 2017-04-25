@@ -23,6 +23,19 @@ export default class Todos extends Collection {
     return this.persist();
   }
 
+  filter(filter) {
+    switch (filter) {
+      case '/':
+        return this.models;
+      case '/active':
+        return this.models.filter(todo => todo.complete);
+      case '/completed':
+        return this.models.filter(todo => !todo.complete);
+      default:
+        return this.models;
+    }
+  }
+
   get count() {
     return this.models.length;
   }
