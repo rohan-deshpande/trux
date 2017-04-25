@@ -1,10 +1,20 @@
 import { Collection } from 'trux';
 import { Todo } from '../models';
 import { uuid } from '../../utils';
+import { STORAGE_KEY } from './';
 
 export default class Todos extends Collection {
   constructor() {
     super(Todo);
+
+    this.emitter.addListener('change', () => this.store());
+  }
+
+  store() {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(this.models.map(todo => todo.data),
+    ));
   }
 
   add(title) {

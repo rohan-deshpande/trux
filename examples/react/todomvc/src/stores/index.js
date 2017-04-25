@@ -1,10 +1,14 @@
 import { Todo } from './models';
-import { Todos } from './collections';
+import { Todos, STORAGE_KEY } from './collections';
 
 const todos = new Todos();
+const stored = localStorage.getItem(STORAGE_KEY);
 
-todos.add('Task one')
-  .add('Task two');
+if (stored) {
+  todos.fill(JSON.parse(stored));
+} else {
+  todos.add('Task one').add('Task two');
+}
 
 export default {
   todo: new Todo(),
