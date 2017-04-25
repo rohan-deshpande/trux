@@ -1,12 +1,18 @@
 import React, { PropTypes } from 'react';
 import Item from './Item';
 
-export default function List({ todos, filter }) {
+export default function List({ todos, onDestroy }) {
   return (
     <ul className="todo-list">
       {
-        todos.filter(filter).map((todo) => {
-          return <Item todo={todo} todos={todos} key={todo.id} />;
+        todos.map((todo) => {
+          return (
+            <Item
+              todo={todo}
+              onDestroy={onDestroy}
+              key={todo.id}
+            />
+          );
         })
       }
     </ul>
@@ -14,6 +20,6 @@ export default function List({ todos, filter }) {
 }
 
 List.propTypes = {
-  todos: PropTypes.object.isRequired,
-  filter: PropTypes.string.isRequired,
+  todos: PropTypes.array.isRequired,
+  onDestroy: PropTypes.func.isRequired,
 };
