@@ -1,7 +1,9 @@
-import { ESCAPE, ENTER } from './keys';
+export { ESCAPE, ENTER } from './keys';
 
-function uuid() {
+export function uuid() {
   return performance.now();
 }
 
-export { uuid, ESCAPE, ENTER };
+export function objectIsEmpty(obj) {
+  return Object.getOwnPropertyNames(obj).length > 0;
+}

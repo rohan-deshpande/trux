@@ -32,7 +32,6 @@ export default class Item extends Component {
   }
 
   handleEditBlur = () => {
-    console.log('blur');
     this.setState({ editing: false });
   }
 
@@ -54,7 +53,7 @@ export default class Item extends Component {
     const todo = this.props.todo;
 
     return (
-      <li onBlur={this.handleEditBlur} className={this.className}>
+      <li className={this.className}>
         <div className="view">
           <input
             name={todo.id}
@@ -68,7 +67,11 @@ export default class Item extends Component {
           </label>
           <button className="destroy" onClick={this.handleDestroy} />
         </div>
-        <Edit onBlur={this.handleEditBlur} todo={todo} />
+        <Edit
+          onBlur={this.handleEditBlur}
+          show={this.state.editing}
+          todo={todo}
+        />
       </li>
     );
   }
