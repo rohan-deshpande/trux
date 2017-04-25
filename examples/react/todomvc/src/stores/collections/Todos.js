@@ -7,9 +7,15 @@ export default class Todos extends Collection {
   constructor() {
     super(Todo);
 
+    // ensure that whenever a change event is fired, the collection is stored in localStorage.
     this.emitter.addListener('change', () => this.store());
   }
 
+  /**
+   * Stores the collection's models' data in local storage.
+   *
+   * @return void
+   */
   store() {
     localStorage.setItem(
       STORAGE_KEY,
@@ -17,6 +23,12 @@ export default class Todos extends Collection {
     ));
   }
 
+  /**
+   * Adds a model to the collection and persists the collection.
+   *
+   * @param {string} title - the title of the todo
+   * @return {object} Todos
+   */
   add(title) {
     this.prepend(new Todo({
       id: uuid(),
@@ -27,12 +39,35 @@ export default class Todos extends Collection {
     return this.persist();
   }
 
+  /**
+   * Removes a model by its id from the collection and persists the collection.
+   *
+   * @param {number} id - the id of the model to remove
+   * @return {object} Todos
+   */
   remove(id) {
     this.models = this.models.filter(todo => todo.id !== id);
 
     return this.persist();
   }
 
+  /**
+   * Clears completed todos from the collection and persists the collection.
+   *
+   * @return {object} Todos
+   */
+  clear() {
+    this.models = this.models.filter(todo => !todo.complete);
+
+    return this.persist();
+  }
+
+  /**
+   * Filters the collection's models based on the filter passed and returns the filtered models.
+   *
+   * @param {string} filter - the filter
+   * @return {array}
+   */
   filter(filter) {
     switch (filter) {
       case '/':
@@ -46,24 +81,38 @@ export default class Todos extends Collection {
     }
   }
 
-  clearCompleted() {
-    this.models = this.models.filter(todo => !todo.complete);
-
-    return this.persist();
-  }
-
+  /**
+   * Gets the current models count.
+   *
+   * @return {integer}
+   */
   get count() {
     return this.models.length;
   }
 
-  get completedCount() {
+  /**
+   * Gets the current completed todos count.
+   *
+   * @return {integer}
+   */
+  get countComplete() {
     return this.models.filter(todo => todo.complete).length;
   }
 
-  get remainingCount() {
-    return this.count - this.completedCount;
+  /**
+   * Gets the incomplete todos count.
+   *
+   * @return {integer}
+   */
+  get countActive() {
+    return this.count - this.countComplete;
   }
 
+  /**
+   * Returns a boolean to define if the collection is empty or not.
+   *
+   * @return {boolean}
+   */
   get isEmpty() {
     return this.models.length === 0;
   }

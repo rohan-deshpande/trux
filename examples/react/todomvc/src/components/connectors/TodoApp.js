@@ -31,13 +31,16 @@ export default class TodoApp extends Component {
           <New addTodo={title => todos.add(title)} />
         </header>
         <Main count={todos.count}>
-          <List todos={todos} filter={this.props.match.path} />
+          <List
+            todos={todos}
+            filter={this.props.match.path}
+          />
         </Main>
         <Footer
           count={todos.count}
-          completedCount={todos.completedCount}
-          remainingCount={todos.remainingCount}
-          clearCompleted={() => todos.clearCompleted()}
+          countComplete={todos.countComplete}
+          countActive={todos.countActive}
+          clearComplete={() => todos.clear()}
         />
       </section>
     );

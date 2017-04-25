@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
-import Button from './ClearCompleted';
+import Button from './Clear';
 
 export default function Footer({
   count = 0,
-  completedCount = 0,
-  remainingCount = 0,
-  clearCompleted = () => {},
+  countComplete = 0,
+  countActive = 0,
+  clearComplete = () => {},
 }) {
-  const items = (completedCount === 1) ? 'item' : 'items';
+  const items = (countComplete === 1) ? 'item' : 'items';
 
   return (!count) ? null : (
     <footer className="footer">
-      <span className="todo-count"><strong>{remainingCount}</strong> {items} left</span>
+      <span className="todo-count"><strong>{countActive}</strong> {items} left</span>
       <ul className="filters">
         <li>
           <NavLink exact to="/" activeClassName="selected">All</NavLink>
@@ -25,8 +25,8 @@ export default function Footer({
         </li>
       </ul>
       <Button
-        completedCount={completedCount}
-        clearCompleted={clearCompleted}
+        countComplete={countComplete}
+        clearComplete={clearComplete}
       />
     </footer>
   );
@@ -34,7 +34,7 @@ export default function Footer({
 
 Footer.propTypes = {
   count: PropTypes.number.isRequired,
-  completedCount: PropTypes.number.isRequired,
-  remainingCount: PropTypes.number.isRequired,
-  clearCompleted: PropTypes.func.isRequired,
+  countComplete: PropTypes.number.isRequired,
+  countActive: PropTypes.number.isRequired,
+  clearComplete: PropTypes.func.isRequired,
 };
