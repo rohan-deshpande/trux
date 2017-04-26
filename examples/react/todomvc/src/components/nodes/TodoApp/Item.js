@@ -58,7 +58,7 @@ export default class Item extends Component {
             name={todo.id}
             className="toggle"
             type="checkbox"
-            defaultChecked={todo.complete}
+            checked={todo.complete}
             onChange={this.handleComplete}
           />
           <label htmlFor={todo.id} onDoubleClick={this.handleEdit}>

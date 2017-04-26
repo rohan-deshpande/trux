@@ -63,6 +63,20 @@ export default class Todos extends Collection {
   }
 
   /**
+   * Toggles the completion of todos.
+   *
+   * @param {boolean} [complete]
+   */
+  toggle(complete = true) {
+    this.models = this.models.map((todo) => {
+      todo.complete = complete;
+      return todo;
+    });
+
+    return this.persist();
+  }
+
+  /**
    * Filters the collection's models based on the filter passed and returns the filtered models.
    *
    * @param {string} filter - the filter
@@ -106,6 +120,15 @@ export default class Todos extends Collection {
    */
   get countActive() {
     return this.count - this.countComplete;
+  }
+
+  /**
+   * Boolean to determine if all todos are complete or not.
+   *
+   * @return {boolean}
+   */
+  get areComplete() {
+    return this.count === this.countComplete;
   }
 
   /**
