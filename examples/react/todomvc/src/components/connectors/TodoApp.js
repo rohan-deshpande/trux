@@ -30,7 +30,11 @@ export default class TodoApp extends Component {
           <h1>todos</h1>
           <New addTodo={title => todos.add(title)} />
         </header>
-        <Main count={todos.count} toggle={complete => todos.toggle(complete)}>
+        <Main
+          count={todos.count}
+          areComplete={todos.areComplete}
+          toggle={complete => todos.toggle(complete)}
+        >
           <List
             todos={todos.filter(this.props.match.path)}
           />

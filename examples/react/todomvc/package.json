@@ -16,6 +16,7 @@
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
     "todomvc-app-css": "^2.1.0",
+    "todomvc-common": "^1.0.3",
     "trux": "^3.0.3"
   },
   "scripts": {

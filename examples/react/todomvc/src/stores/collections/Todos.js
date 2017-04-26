@@ -32,7 +32,7 @@ export default class Todos extends Collection {
   add(title) {
     this.prepend(new Todo({
       id: uuid(),
-      title: title,
+      title: title.trim(),
       complete: false,
     }));
 

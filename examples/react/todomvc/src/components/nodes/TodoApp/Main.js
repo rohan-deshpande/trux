@@ -4,6 +4,7 @@ export default class Main extends Component {
 
   static propTypes = {
     count: PropTypes.number.isRequired,
+    areComplete: PropTypes.bool.isRequired,
     children: PropTypes.object.isRequired,
     toggle: PropTypes.func.isRequired,
   }
@@ -12,23 +13,32 @@ export default class Main extends Component {
     super(props);
 
     this.state = {
-      complete: false,
+      checked: props.areComplete,
     };
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      checked: props.areComplete,
+    });
+  }
+
   handleToggle = (e) => {
-    this.props.toggle(e.target.checked);
+    const checked = e.target.checked;
+
+    this.setState({ checked: checked }, () => this.props.toggle(checked));
   }
 
   render() {
     return (!this.props.count) ? null : (
       <section className="main">
         <input
-          onClick={this.handleToggle}
+          onChange={this.handleToggle}
           className="toggle-all"
           id="toggle-all"
           name="toggle-all"
           type="checkbox"
+          checked={this.state.checked}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
         {this.props.children}

@@ -11,7 +11,7 @@ export default class Todo extends Model {
   }
 
   set title(title) {
-    this.data.title = title;
+    this.data.title = title.trim();
   }
 
   get title() {
