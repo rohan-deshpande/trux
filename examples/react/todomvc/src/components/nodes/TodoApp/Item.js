@@ -5,7 +5,6 @@ export default class Item extends Component {
 
   static propTypes = {
     todo: PropTypes.object.isRequired,
-    onDestroy: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -23,7 +22,7 @@ export default class Item extends Component {
 
   handleDestroy = (e) => {
     e.preventDefault();
-    this.props.onDestroy(this.props.todo.id);
+    this.props.todo.destroy();
   }
 
   handleEdit = (e) => {

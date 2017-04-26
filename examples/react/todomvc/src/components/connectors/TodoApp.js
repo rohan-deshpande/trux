@@ -33,7 +33,6 @@ export default class TodoApp extends Component {
         <Main count={todos.count}>
           <List
             todos={todos.filter(this.props.match.path)}
-            onDestroy={id => todos.remove(id)}
           />
         </Main>
         <Footer

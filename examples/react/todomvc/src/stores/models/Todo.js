@@ -2,6 +2,10 @@ import { Model } from 'trux';
 
 export default class Todo extends Model {
 
+  destroy() {
+    this.collection.remove(this.id);
+  }
+
   get id() {
     return this.data.id;
   }

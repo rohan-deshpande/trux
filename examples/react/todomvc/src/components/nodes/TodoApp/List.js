@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Item from './Item';
 
-export default function List({ todos, onDestroy }) {
+export default function List({ todos }) {
   return (
     <ul className="todo-list">
       {
@@ -9,7 +9,6 @@ export default function List({ todos, onDestroy }) {
           return (
             <Item
               todo={todo}
-              onDestroy={onDestroy}
               key={todo.id}
             />
           );
@@ -21,5 +20,4 @@ export default function List({ todos, onDestroy }) {
 
 List.propTypes = {
   todos: PropTypes.array.isRequired,
-  onDestroy: PropTypes.func.isRequired,
 };
