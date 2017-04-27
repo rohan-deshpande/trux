@@ -8,7 +8,7 @@ Trux offers an alternative approach that is geared towards simplicity and speed.
 
 ## Multiple stores
 
-In Trux, you will typically have multiple stores for data. Usually these stores are a representation of remote data in the client side of your app. For example, for a blog, you may have a `User` model, a `Post` model and a `Comment` model. Likewise you may also have a `Users` collection, `Posts` collection and `Comments` collection. These stores could each have various components connected to them.
+In Trux, you will typically have multiple stores for data. Usually these stores are a representation of remote data in the client side of your app. For example, for a blog, you may have a `User` model, a `Post` model and a `Comment` model. Likewise you may also have a `Users` collection, `Posts` collection and `Comments` collection. These stores could each have various components connected to them. As mentioned in the [stores module](/usage/stores-module.md) docs, it's recommended that you instantiate and export your stores from a single module.
 
 **Stores** **are** **still the single source of truth** **for the data driven parts of your app**. However, Trux is fine with self managed state for certain components, such as forms.
 
@@ -53,4 +53,3 @@ class User extends Model {
 ```
 
 In this example, you may change the `name` property of a `User` anywhere in your app by calling `User.name = 'new name'` and this will call the internal `set name` method of the model. Notice that you have customisable, context aware ways of ensuring that bad data does get injected into your store. Again, your API should always perform validation on any mutations as well.
-
