@@ -3,7 +3,14 @@ import { Todo } from '../models';
 import { uuid } from '../../utils';
 import { STORAGE_KEY } from './';
 
+/**
+ * Todos collection.
+ *
+ * @class
+ * @extends Collection
+ */
 export default class Todos extends Collection {
+
   constructor() {
     super(Todo);
 
