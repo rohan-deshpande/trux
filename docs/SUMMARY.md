@@ -6,6 +6,7 @@
 * [Introduction](README.md)
 * [Origins](about/origins.md)
 * [Differences to Redux](about/differences-to-redux.md)
+* [Examples](about/examples.md)
 
 ## Stores
 
@@ -36,4 +37,3 @@
 * [Collection](api/collection/README.md)
   * [properties](api/collection/properties.md)
   * [methods](api/collection/methods.md)
-
