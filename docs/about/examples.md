@@ -11,6 +11,8 @@ Checkout the [Basics](https://github.com/rohan-deshpande/trux/tree/master/exampl
 ```
 git clone https://github.com/rohan-deshpande/trux.git
 cd examples/basics
+
+open connecting/index.html
 ```
 
 ## React
