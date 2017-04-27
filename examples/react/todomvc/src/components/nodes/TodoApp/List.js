@@ -7,6 +7,7 @@ import Item from './Item';
  * @function
  * @param {object} props
  * @param {array} props.todos - an array of todo models to render
+ * @return {function}
  */
 export default function List({ todos }) {
   return (

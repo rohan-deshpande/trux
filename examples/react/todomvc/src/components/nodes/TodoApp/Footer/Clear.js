@@ -2,11 +2,13 @@ import React, { PropTypes } from 'react';
 
 /**
  * Clear node - renders the button to clear all completed todos.
+ * Will not render if there are no completed todos.
  *
  * @function
  * @param {object} props
  * @param {integer} props.countComplete - the number of completed todos
  * @param {function} props.clearComplete - the function to clear all todos
+ * @return {object|null}
  */
 export default function Clear({
   countComplete = 0,

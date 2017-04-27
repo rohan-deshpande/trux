@@ -2,11 +2,22 @@ import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
 import Button from './Clear';
 
+/**
+ * Footer node - renders the footer component with route links for filters.
+ * Will not render if there are no todos.
+ *
+ * @param {object} props
+ * @param {integer} props.count - the total number of todos
+ * @param {integer} props.countComplete - the number of completed todos
+ * @param {integer} props.countActive - the number of active todos
+ * @param {function} props.clearComplete - function to clear completed todos
+ * @return {object|null}
+ */
 export default function Footer({
   count = 0,
   countComplete = 0,
   countActive = 0,
-  clearComplete = () => {},
+  clearComplete,
 }) {
   const items = (countComplete === 1) ? 'item' : 'items';
 
