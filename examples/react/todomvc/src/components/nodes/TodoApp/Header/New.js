@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ESCAPE, ENTER } from '../../../utils';
+import { ESCAPE, ENTER } from '../../../../utils';
 
 /**
  * New node - renders the input for creating new todos.

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Main, Footer, New, List } from '../nodes/';
+import { Header, Main, Footer } from '../nodes/TodoApp';
 import stores from '../../stores';
 
 /**
@@ -76,25 +76,23 @@ export default class TodoApp extends Component {
    * @return {object}
    */
   render() {
+    const state = this.state;
+
     return (
       <section className="todoapp">
-        <header className="header">
-          <h1>todos</h1>
-          <New addTodo={title => store.add(title)} />
-        </header>
+        <Header
+          addTodo={title => store.add(title)}
+        />
         <Main
-          count={this.state.count}
-          areComplete={this.state.areComplete}
+          count={state.count}
+          areComplete={state.areComplete}
           toggle={complete => store.toggle(complete)}
-        >
-          <List
-            todos={store.filter(this.props.match.path)}
-          />
-        </Main>
+          todos={store.filter(this.props.match.path)}
+        />
         <Footer
-          count={this.state.count}
-          countComplete={this.state.countComplete}
-          countActive={this.state.countActive}
+          count={state.count}
+          countComplete={state.countComplete}
+          countActive={state.countActive}
           clearComplete={() => store.clear()}
         />
       </section>

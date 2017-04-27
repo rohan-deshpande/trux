@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import List from './List';
 
 /**
  * Main node - renders the main section of the app.
@@ -12,7 +13,7 @@ export default class Main extends Component {
   static propTypes = {
     count: PropTypes.number.isRequired,
     areComplete: PropTypes.bool.isRequired,
-    children: PropTypes.object.isRequired,
+    todos: PropTypes.array.isRequired,
     toggle: PropTypes.func.isRequired,
   }
 
@@ -74,7 +75,7 @@ export default class Main extends Component {
           checked={this.state.checked}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
-        {this.props.children}
+        <List todos={this.props.todos} />
       </section>
     );
   }
