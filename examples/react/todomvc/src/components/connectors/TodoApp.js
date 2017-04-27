@@ -4,9 +4,9 @@ import { Main, Footer, New, List } from '../nodes/';
 import stores from '../../stores';
 
 /**
- * @const {object} todos - the store for this connector.
+ * @const {object} store - the store for this connector.
  */
-const todos = stores.todos;
+const store = stores.todos;
 
 /**
  * TodoApp connector component.
@@ -30,30 +30,30 @@ export default class TodoApp extends Component {
     super(props);
 
     this.state = {
-      count: todos.count,
-      countComplete: todos.countComplete,
-      countActive: todos.countActive,
-      areComplete: todos.areComplete,
+      count: store.count,
+      countComplete: store.countComplete,
+      countActive: store.countActive,
+      areComplete: store.areComplete,
     };
   }
 
   /**
-   * Connect TodoApp to the todos store.
+   * Connect TodoApp to the store.
    *
    * @return void
    */
   componentDidMount() {
     this.truxid = 'TODO_APP';
-    todos.connect(this);
+    store.connect(this);
   }
 
   /**
-   * Disconnect TodoApp from the todos store.
+   * Disconnect TodoApp from the store.
    *
    * @return void
    */
   componentWillUnmount() {
-    todos.disconnect(this);
+    store.disconnect(this);
   }
 
   /**
@@ -63,10 +63,10 @@ export default class TodoApp extends Component {
    */
   storeDidUpdate() {
     this.setState({
-      count: todos.count,
-      countComplete: todos.countComplete,
-      countActive: todos.countActive,
-      areComplete: todos.areComplete,
+      count: store.count,
+      countComplete: store.countComplete,
+      countActive: store.countActive,
+      areComplete: store.areComplete,
     });
   }
 
@@ -80,22 +80,22 @@ export default class TodoApp extends Component {
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <New addTodo={title => todos.add(title)} />
+          <New addTodo={title => store.add(title)} />
         </header>
         <Main
           count={this.state.count}
           areComplete={this.state.areComplete}
-          toggle={complete => todos.toggle(complete)}
+          toggle={complete => store.toggle(complete)}
         >
           <List
-            todos={todos.filter(this.props.match.path)}
+            todos={store.filter(this.props.match.path)}
           />
         </Main>
         <Footer
           count={this.state.count}
           countComplete={this.state.countComplete}
           countActive={this.state.countActive}
-          clearComplete={() => todos.clear()}
+          clearComplete={() => store.clear()}
         />
       </section>
     );
