@@ -6,6 +6,7 @@
 * [Introduction](README.md)
 * [Origins](about/origins.md)
 * [Differences to Redux](about/differences-to-redux.md)
+* [Differences to Backbone](about/differences-to-backbone.md)
 * [Examples](about/examples.md)
 
 ## Stores
