@@ -1,6 +1,6 @@
 # Stores Module
 
-A stores module is basically a store for your stores. It's a good idea to have this so that you have a centralised place where all your models and collections live. Your stores module should live at `stores/index.js` and might look something like this
+A stores module is basically a store for your stores. Technically speaking, you could think of it as your **super** store, or your _single source of truth_. It's a good idea to have this so that you have a centralised place where all your models and collections live. Your stores module should live at `stores/index.js` and might look something like this
 
 ```js
 import { User, Post, Comment } from './models';
@@ -41,6 +41,3 @@ stores.posts.fill([
   },
 ]);
 ```
-
-
-
