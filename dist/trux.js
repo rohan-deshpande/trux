@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -435,11 +435,11 @@ module.exports = exports['default'];
 	if(true)
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("rd-fetch", [], factory);
+		define("Fetch", [], factory);
 	else if(typeof exports === 'object')
-		exports["rd-fetch"] = factory();
+		exports["Fetch"] = factory();
 	else
-		root["rd-fetch"] = factory();
+		root["Fetch"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -539,12 +539,6 @@ function json(url, options) {
     headers: options.headers || DEFAULTS.headers,
     body: options.body ? JSON.stringify(options.body) : DEFAULTS.body
   }).then(function (response) {
-    var contentType = response.headers.get('Content-Type');
-
-    if (contentType && contentType.indexOf('application/json') < 0) {
-      throw new TypeError('Content-Type of response is not application/json');
-    }
-
     if (response.ok) {
       return response.text().then(function (text) {
         response.json = (0, _utils.isJson)(text) ? JSON.parse(text) : null;
@@ -1397,13 +1391,13 @@ exports.Collection = _Collection2.default;
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * EventEmitter v4.2.11 - git.io/ee
+ * EventEmitter v5.1.0 - git.io/ee
  * Unlicense - http://unlicense.org/
  * Oliver Caldwell - http://oli.me.uk/
  * @preserve
  */
 
-;(function () {
+;(function (exports) {
     'use strict';
 
     /**
@@ -1416,7 +1410,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
     // Shortcuts to improve speed and size
     var proto = EventEmitter.prototype;
-    var exports = this;
     var originalGlobalValue = exports.EventEmitter;
 
     /**
@@ -1517,6 +1510,16 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
         return response || listeners;
     };
 
+    function isValidListener (listener) {
+        if (typeof listener === 'function' || listener instanceof RegExp) {
+            return true
+        } else if (listener && typeof listener === 'object') {
+            return isValidListener(listener.listener)
+        } else {
+            return false
+        }
+    }
+
     /**
      * Adds a listener function to the specified event.
      * The listener will not be added if it is a duplicate.
@@ -1528,6 +1531,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
      * @return {Object} Current instance of EventEmitter for chaining.
      */
     proto.addListener = function addListener(evt, listener) {
+        if (!isValidListener(listener)) {
+            throw new TypeError('listener must be a function');
+        }
+
         var listeners = this.getListenersAsObject(evt);
         var listenerIsWrapped = typeof listener === 'object';
         var key;
@@ -1766,9 +1773,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
         for (key in listenersMap) {
             if (listenersMap.hasOwnProperty(key)) {
                 listeners = listenersMap[key].slice(0);
-                i = listeners.length;
 
-                while (i--) {
+                for (i = 0; i < listeners.length; i++) {
                     // If the listener returns true then it shall be removed from the event
                     // The function is executed either with a basic call or an apply if there is an args array
                     listener = listeners[i];
@@ -1870,7 +1876,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
     else {
         exports.EventEmitter = EventEmitter;
     }
-}.call(this));
+}(this || {}));
 
 
 /***/ })
