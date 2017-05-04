@@ -77,18 +77,18 @@ export default class Model extends Store {
 
   /**
    * Persits the model's data throughout its connected components. If this model belongs to a collection,
-   * the collection's connected components are updated instead by default.
+   * the collection's connected components are updated by default.
    *
-   * @param {boolean} [collection] - optionally ensure that if the model belongs to a collection,
-   * it is persisted instead. Defaults to true.
+   * @param {boolean} [collection] - optionally ensure that even the model belongs to a collection,
+   * the collection is not persisted.
    * @return {object} Model
    */
   persist(collection = true) {
     if (collection && this.collection) {
       this.collection.emitChangeEvent();
-    } else {
-      this.emitChangeEvent();
     }
+
+    this.emitChangeEvent();
 
     return this;
   }

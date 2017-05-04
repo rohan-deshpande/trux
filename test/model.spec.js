@@ -80,14 +80,14 @@ describe(`${test} protoype`, () => {
 });
 
 describe(`${test} methods`, () => {
-  it('should persist changes to its collection\'s connected components only', (done) => {
+  it('should persist changes to both its collection\'s connected components and its connected components', (done) => {
     const collection = new Collection(Model);
 
     collection.append(model);
     model.data.name = 'baz';
     model.persist();
 
-    assert.isFalse(model.wasBroadcast);
+    assert.isTrue(model.wasBroadcast);
     assert.isTrue(collection.wasBroadcast);
     done();
   });

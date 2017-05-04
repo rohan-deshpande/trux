@@ -168,18 +168,18 @@ var Store = function () {
     this.DELETE = '';
 
     /**
-     * Boolean to determine if the store has been fetched from the remote resource.
-     *
-     * @prop {boolean}
-     */
-    this.wasFetched = false;
-
-    /**
      * Boolean to determine if changes to the store has been broadcast.
      *
      * @prop {boolean}
      */
     this.wasBroadcast = false;
+
+    /**
+     * Boolean to determine if the store has been fetched from the remote resource.
+     *
+     * @prop {boolean}
+     */
+    this.wasFetched = false;
 
     /**
      * Broadcast changes to all connected components.
@@ -349,7 +349,7 @@ var Store = function () {
     }
 
     /**
-     * Sets the wasBroadcast boolean and wasFetchedAt timestamp properties.
+     * Sets the wasBroadcast boolean and wasBroadcastAt timestamp properties.
      *
      * @param {boolean} wasBroadcast
      * @return void
@@ -769,7 +769,7 @@ var Collection = function (_Store) {
     }
 
     /**
-     * Purges the collection of its models.
+     * Purges the collection of its models and removes the collection property from each model.
      *
      * @return void
      */
@@ -777,6 +777,12 @@ var Collection = function (_Store) {
   }, {
     key: 'purge',
     value: function purge() {
+      var length = this.models.length;
+
+      for (var i = 0; i < length; i++) {
+        this.models[i].collection = false;
+      }
+
       this.models = [];
     }
 
@@ -843,6 +849,8 @@ var Collection = function (_Store) {
           _classCallCheck(this, Extension);
 
           var _this3 = _possibleConstructorReturn(this, (Extension.__proto__ || Object.getPrototypeOf(Extension)).call(this, model));
+          /* istanbul ignore else */
+
 
           if (typeof setup === 'function') {
             setup(_this3);
@@ -853,8 +861,10 @@ var Collection = function (_Store) {
         return Extension;
       }(Collection);
 
+      /* istanbul ignore else */
       if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) === 'object') {
         for (var prop in props) {
+          /* istanbul ignore else */
           if (props.hasOwnProperty(prop)) {
             Extension.prototype[prop] = props[prop];
           }
@@ -877,9 +887,12 @@ var Collection = function (_Store) {
   }, {
     key: 'modify',
     value: function modify(props) {
-      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') return;
+      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') {
+        throw new TypeError('You must modify Collection with a properties object');
+      }
 
       for (var prop in props) {
+        /* istanbul ignore else */
         if (props.hasOwnProperty(prop)) {
           Collection.prototype[prop] = props[prop];
         }
@@ -1004,10 +1017,10 @@ var Model = function (_Store) {
 
   /**
    * Persits the model's data throughout its connected components. If this model belongs to a collection,
-   * the collection's connected components are updated instead by default.
+   * the collection's connected components are updated by default.
    *
-   * @param {boolean} [collection] - optionally ensure that if the model belongs to a collection,
-   * it is persisted instead. Defaults to true.
+   * @param {boolean} [collection] - optionally ensure that even the model belongs to a collection,
+   * the collection is not persisted.
    * @return {object} Model
    */
 
@@ -1019,9 +1032,9 @@ var Model = function (_Store) {
 
       if (collection && this.collection) {
         this.collection.emitChangeEvent();
-      } else {
-        this.emitChangeEvent();
       }
+
+      this.emitChangeEvent();
 
       return this;
     }
@@ -1096,8 +1109,10 @@ var Model = function (_Store) {
 
   }, {
     key: 'update',
-    value: function update(options) {
+    value: function update() {
       var _this4 = this;
+
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var data = options.data || this.data;
       var method = options.method || 'PUT';
@@ -1307,8 +1322,10 @@ var Model = function (_Store) {
         return Extension;
       }(Model);
 
+      /* istanbul ignore else */
       if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) === 'object') {
         for (var prop in props) {
+          /* istanbul ignore else */
           if (props.hasOwnProperty(prop)) {
             Extension.prototype[prop] = props[prop];
           }
@@ -1331,9 +1348,12 @@ var Model = function (_Store) {
   }, {
     key: 'modify',
     value: function modify(props) {
-      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') return;
+      if ((typeof props === 'undefined' ? 'undefined' : _typeof(props)) !== 'object') {
+        throw new TypeError('You must modify Model with a properties object');
+      }
 
       for (var prop in props) {
+        /* istanbul ignore else */
         if (props.hasOwnProperty(prop)) {
           Model.prototype[prop] = props[prop];
         }
